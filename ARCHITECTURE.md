@@ -14,6 +14,12 @@ A repository-scoped Forge app follows a release regression from a pair of immuta
 
 Shared types live in `shared/types.ts`. The single resolver `history` accepts `{op, ...parameters}`. Bootstrap returns repository information and revisions. Compare resolves revisions and returns file changes. Detail returns diff, historical paths and source links. Graph returns commits and labels. Replay returns recorded events and coverage. Tree returns directory entries. The local example and live resolver return identical shapes.
 
-## Verification
+## Storage and retrieval
+
+The first repository visit snapshots up to 100 branches and 100 tags, plus the default branch if it falls outside that window. The UI labels partial coverage and accepts additional refs by name or hash. Git parents, trees and file history are loaded from Bitbucket as the viewer requests them. This keeps the initial visit independent of the total number of commits.
+
+Replay stores one record per observed pointer change. Snapshot initialization is resumable. Push delivery retries use the same storage key, and repository-scoped continuation tokens expire after one hour. Each replay page carries pointer state forward to detect gaps across page boundaries. Selecting a recorded event can load the actual Git ancestry on either side of the change, including the last known tip of a deleted branch.
+
+## Acceptance checks
 
 Use asymmetric file changes for revision ordering, a renamed configuration file for lineage, a squash merge and regular merge for ancestry, and force-push and deletion events for replay. Browser tests exercise the visible investigation and share workflow. An authenticated install in a separate team workspace is the live acceptance gate.

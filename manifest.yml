@@ -1,0 +1,33 @@
+modules:
+  bitbucket:repoMainMenuPage:
+    - key: repository-history
+      title: Repository History
+      resource: history-ui
+      resolver:
+        function: history
+  trigger:
+    - key: observe-push
+      function: record-push
+      events:
+        - avi:bitbucket:push:repository
+  function:
+    - key: history
+      handler: index.handler
+    - key: record-push
+      handler: index.onPush
+resources:
+  - key: history-ui
+    path: web/dist
+permissions:
+  scopes:
+    - read:repository:bitbucket
+    - read:pullrequest:bitbucket
+    - storage:app
+  content:
+    styles:
+      - unsafe-inline
+app:
+  # Replace this placeholder with your own app ID using forge register.
+  id: ari:cloud:ecosystem::app/00000000-0000-4000-8000-000000000000
+  runtime:
+    name: nodejs24.x
