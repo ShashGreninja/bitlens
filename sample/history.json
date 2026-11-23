@@ -1,0 +1,1333 @@
+{
+  "commits": {
+    "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a": {
+      "hash": "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+      "parents": [],
+      "message": "Initialize payment service configuration",
+      "author": "Maya Chen",
+      "date": "2026-11-16T09:17:00Z"
+    },
+    "30c3e7885ea58c57108b746148b821ba5c74d903": {
+      "hash": "30c3e7885ea58c57108b746148b821ba5c74d903",
+      "parents": [
+        "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a"
+      ],
+      "message": "Allow the gateway 1800 ms to respond",
+      "author": "Maya Chen",
+      "date": "2026-11-16T09:34:00Z"
+    },
+    "dbb6c49872211c73c85e617f859f877d790b180e": {
+      "hash": "dbb6c49872211c73c85e617f859f877d790b180e",
+      "parents": [
+        "30c3e7885ea58c57108b746148b821ba5c74d903"
+      ],
+      "message": "Move the payment configuration into services",
+      "author": "Maya Chen",
+      "date": "2026-11-16T10:42:00Z"
+    },
+    "0c0dd7a4436ae2359b4d8dd0911b11c5acbbb39f": {
+      "hash": "0c0dd7a4436ae2359b4d8dd0911b11c5acbbb39f",
+      "parents": [
+        "dbb6c49872211c73c85e617f859f877d790b180e"
+      ],
+      "message": "Reduce the gateway timeout to 600 ms",
+      "author": "Maya Chen",
+      "date": "2026-11-16T11:16:00Z"
+    },
+    "054419d865b9261b5f32cf104228e8e9529fc12b": {
+      "hash": "054419d865b9261b5f32cf104228e8e9529fc12b",
+      "parents": [
+        "30c3e7885ea58c57108b746148b821ba5c74d903"
+      ],
+      "message": "Document payment incident triage",
+      "author": "Sam Rivera",
+      "date": "2026-11-16T12:07:00Z"
+    },
+    "2b372a863d3c4e1619b7d7da10872d14176b6947": {
+      "hash": "2b372a863d3c4e1619b7d7da10872d14176b6947",
+      "parents": [
+        "30c3e7885ea58c57108b746148b821ba5c74d903"
+      ],
+      "message": "Prepare the 1.5 release",
+      "author": "Nora Patel",
+      "date": "2026-11-16T12:41:00Z"
+    },
+    "6d5cf4741b105c50b0e81cebe73bf798ae6ae6b2": {
+      "hash": "6d5cf4741b105c50b0e81cebe73bf798ae6ae6b2",
+      "parents": [
+        "2b372a863d3c4e1619b7d7da10872d14176b6947",
+        "054419d865b9261b5f32cf104228e8e9529fc12b"
+      ],
+      "message": "Merge the payment incident runbook",
+      "author": "Nora Patel",
+      "date": "2026-11-16T13:15:00Z"
+    },
+    "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b": {
+      "hash": "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b",
+      "parents": [
+        "6d5cf4741b105c50b0e81cebe73bf798ae6ae6b2"
+      ],
+      "message": "Relocate payment configuration and shorten the timeout",
+      "author": "Nora Patel",
+      "date": "2026-11-16T13:49:00Z"
+    },
+    "14a992d22c61a63001b52cea04a43dbc20edc4ff": {
+      "hash": "14a992d22c61a63001b52cea04a43dbc20edc4ff",
+      "parents": [
+        "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b"
+      ],
+      "message": "Capture initial gateway observations",
+      "author": "Sam Rivera",
+      "date": "2026-11-16T14:57:00Z"
+    },
+    "74ab3b4c0c4fc47f514f2a4ed12197be86b44be8": {
+      "hash": "74ab3b4c0c4fc47f514f2a4ed12197be86b44be8",
+      "parents": [
+        "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b"
+      ],
+      "message": "Revise gateway investigation notes",
+      "author": "Sam Rivera",
+      "date": "2026-11-16T15:31:00Z"
+    }
+  },
+  "trees": {
+    "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a": {
+      "VERSION": "1.4\n",
+      "payments/config.yml": "service: payments\nregion: eu-west-1\nprovider: card-gateway\ntimeout_ms: 1200\nretries: 2\ncurrency: USD\nlog_level: info\n",
+      "payments/legacy.env": "PAYMENTS_TIMEOUT_MS=1800\n"
+    },
+    "30c3e7885ea58c57108b746148b821ba5c74d903": {
+      "VERSION": "1.4\n",
+      "payments/config.yml": "service: payments\nregion: eu-west-1\nprovider: card-gateway\ntimeout_ms: 1800\nretries: 2\ncurrency: USD\nlog_level: info\n",
+      "payments/legacy.env": "PAYMENTS_TIMEOUT_MS=1800\n"
+    },
+    "dbb6c49872211c73c85e617f859f877d790b180e": {
+      "VERSION": "1.4\n",
+      "payments/legacy.env": "PAYMENTS_TIMEOUT_MS=1800\n",
+      "services/payments/config.yml": "service: payments\nregion: eu-west-1\nprovider: card-gateway\ntimeout_ms: 1800\nretries: 2\ncurrency: USD\nlog_level: info\n"
+    },
+    "0c0dd7a4436ae2359b4d8dd0911b11c5acbbb39f": {
+      "VERSION": "1.4\n",
+      "services/payments/config.yml": "service: payments\nregion: eu-west-1\nprovider: card-gateway\ntimeout_ms: 600\nretries: 2\ncurrency: USD\nlog_level: info\n"
+    },
+    "054419d865b9261b5f32cf104228e8e9529fc12b": {
+      "VERSION": "1.4\n",
+      "docs/payment-runbook.md": "# Payment incident runbook\n\nInspect gateway latency and the configured timeout.\n",
+      "payments/config.yml": "service: payments\nregion: eu-west-1\nprovider: card-gateway\ntimeout_ms: 1800\nretries: 2\ncurrency: USD\nlog_level: info\n",
+      "payments/legacy.env": "PAYMENTS_TIMEOUT_MS=1800\n"
+    },
+    "2b372a863d3c4e1619b7d7da10872d14176b6947": {
+      "VERSION": "1.5\n",
+      "payments/config.yml": "service: payments\nregion: eu-west-1\nprovider: card-gateway\ntimeout_ms: 1800\nretries: 2\ncurrency: USD\nlog_level: info\n",
+      "payments/legacy.env": "PAYMENTS_TIMEOUT_MS=1800\n"
+    },
+    "6d5cf4741b105c50b0e81cebe73bf798ae6ae6b2": {
+      "VERSION": "1.5\n",
+      "docs/payment-runbook.md": "# Payment incident runbook\n\nInspect gateway latency and the configured timeout.\n",
+      "payments/config.yml": "service: payments\nregion: eu-west-1\nprovider: card-gateway\ntimeout_ms: 1800\nretries: 2\ncurrency: USD\nlog_level: info\n",
+      "payments/legacy.env": "PAYMENTS_TIMEOUT_MS=1800\n"
+    },
+    "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b": {
+      "VERSION": "1.5\n",
+      "docs/payment-runbook.md": "# Payment incident runbook\n\nInspect gateway latency and the configured timeout.\n",
+      "services/payments/config.yml": "service: payments\nregion: eu-west-1\nprovider: card-gateway\ntimeout_ms: 600\nretries: 2\ncurrency: USD\nlog_level: info\n"
+    },
+    "14a992d22c61a63001b52cea04a43dbc20edc4ff": {
+      "VERSION": "1.5\n",
+      "docs/payment-runbook.md": "# Payment incident runbook\n\nInspect gateway latency and the configured timeout.\n",
+      "notes/incident.md": "Review gateway retry telemetry.\n",
+      "services/payments/config.yml": "service: payments\nregion: eu-west-1\nprovider: card-gateway\ntimeout_ms: 600\nretries: 2\ncurrency: USD\nlog_level: info\n"
+    },
+    "74ab3b4c0c4fc47f514f2a4ed12197be86b44be8": {
+      "VERSION": "1.5\n",
+      "docs/payment-runbook.md": "# Payment incident runbook\n\nInspect gateway latency and the configured timeout.\n",
+      "notes/incident.md": "Compare gateway latency against the release timeout.\n",
+      "services/payments/config.yml": "service: payments\nregion: eu-west-1\nprovider: card-gateway\ntimeout_ms: 600\nretries: 2\ncurrency: USD\nlog_level: info\n"
+    }
+  },
+  "history": {
+    "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a": {
+      "VERSION": [
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "VERSION"
+        ]
+      ],
+      "payments/config.yml": [
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "payments/config.yml"
+        ]
+      ],
+      "payments/legacy.env": [
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "payments/legacy.env"
+        ]
+      ]
+    },
+    "30c3e7885ea58c57108b746148b821ba5c74d903": {
+      "VERSION": [
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "VERSION"
+        ]
+      ],
+      "payments/config.yml": [
+        [
+          "30c3e7885ea58c57108b746148b821ba5c74d903",
+          "payments/config.yml"
+        ],
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "payments/config.yml"
+        ]
+      ],
+      "payments/legacy.env": [
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "payments/legacy.env"
+        ]
+      ]
+    },
+    "dbb6c49872211c73c85e617f859f877d790b180e": {
+      "VERSION": [
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "VERSION"
+        ]
+      ],
+      "payments/legacy.env": [
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "payments/legacy.env"
+        ]
+      ],
+      "services/payments/config.yml": [
+        [
+          "dbb6c49872211c73c85e617f859f877d790b180e",
+          "services/payments/config.yml"
+        ],
+        [
+          "30c3e7885ea58c57108b746148b821ba5c74d903",
+          "payments/config.yml"
+        ],
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "payments/config.yml"
+        ]
+      ]
+    },
+    "0c0dd7a4436ae2359b4d8dd0911b11c5acbbb39f": {
+      "VERSION": [
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "VERSION"
+        ]
+      ],
+      "services/payments/config.yml": [
+        [
+          "0c0dd7a4436ae2359b4d8dd0911b11c5acbbb39f",
+          "services/payments/config.yml"
+        ],
+        [
+          "dbb6c49872211c73c85e617f859f877d790b180e",
+          "services/payments/config.yml"
+        ],
+        [
+          "30c3e7885ea58c57108b746148b821ba5c74d903",
+          "payments/config.yml"
+        ],
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "payments/config.yml"
+        ]
+      ]
+    },
+    "054419d865b9261b5f32cf104228e8e9529fc12b": {
+      "VERSION": [
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "VERSION"
+        ]
+      ],
+      "docs/payment-runbook.md": [
+        [
+          "054419d865b9261b5f32cf104228e8e9529fc12b",
+          "docs/payment-runbook.md"
+        ]
+      ],
+      "payments/config.yml": [
+        [
+          "30c3e7885ea58c57108b746148b821ba5c74d903",
+          "payments/config.yml"
+        ],
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "payments/config.yml"
+        ]
+      ],
+      "payments/legacy.env": [
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "payments/legacy.env"
+        ]
+      ]
+    },
+    "2b372a863d3c4e1619b7d7da10872d14176b6947": {
+      "VERSION": [
+        [
+          "2b372a863d3c4e1619b7d7da10872d14176b6947",
+          "VERSION"
+        ],
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "VERSION"
+        ]
+      ],
+      "payments/config.yml": [
+        [
+          "30c3e7885ea58c57108b746148b821ba5c74d903",
+          "payments/config.yml"
+        ],
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "payments/config.yml"
+        ]
+      ],
+      "payments/legacy.env": [
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "payments/legacy.env"
+        ]
+      ]
+    },
+    "6d5cf4741b105c50b0e81cebe73bf798ae6ae6b2": {
+      "VERSION": [
+        [
+          "2b372a863d3c4e1619b7d7da10872d14176b6947",
+          "VERSION"
+        ],
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "VERSION"
+        ]
+      ],
+      "docs/payment-runbook.md": [
+        [
+          "054419d865b9261b5f32cf104228e8e9529fc12b",
+          "docs/payment-runbook.md"
+        ]
+      ],
+      "payments/config.yml": [
+        [
+          "30c3e7885ea58c57108b746148b821ba5c74d903",
+          "payments/config.yml"
+        ],
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "payments/config.yml"
+        ]
+      ],
+      "payments/legacy.env": [
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "payments/legacy.env"
+        ]
+      ]
+    },
+    "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b": {
+      "VERSION": [
+        [
+          "2b372a863d3c4e1619b7d7da10872d14176b6947",
+          "VERSION"
+        ],
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "VERSION"
+        ]
+      ],
+      "docs/payment-runbook.md": [
+        [
+          "054419d865b9261b5f32cf104228e8e9529fc12b",
+          "docs/payment-runbook.md"
+        ]
+      ],
+      "services/payments/config.yml": [
+        [
+          "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b",
+          "services/payments/config.yml"
+        ],
+        [
+          "30c3e7885ea58c57108b746148b821ba5c74d903",
+          "payments/config.yml"
+        ],
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "payments/config.yml"
+        ]
+      ]
+    },
+    "14a992d22c61a63001b52cea04a43dbc20edc4ff": {
+      "VERSION": [
+        [
+          "2b372a863d3c4e1619b7d7da10872d14176b6947",
+          "VERSION"
+        ],
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "VERSION"
+        ]
+      ],
+      "docs/payment-runbook.md": [
+        [
+          "054419d865b9261b5f32cf104228e8e9529fc12b",
+          "docs/payment-runbook.md"
+        ]
+      ],
+      "notes/incident.md": [
+        [
+          "14a992d22c61a63001b52cea04a43dbc20edc4ff",
+          "notes/incident.md"
+        ]
+      ],
+      "services/payments/config.yml": [
+        [
+          "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b",
+          "services/payments/config.yml"
+        ],
+        [
+          "30c3e7885ea58c57108b746148b821ba5c74d903",
+          "payments/config.yml"
+        ],
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "payments/config.yml"
+        ]
+      ]
+    },
+    "74ab3b4c0c4fc47f514f2a4ed12197be86b44be8": {
+      "VERSION": [
+        [
+          "2b372a863d3c4e1619b7d7da10872d14176b6947",
+          "VERSION"
+        ],
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "VERSION"
+        ]
+      ],
+      "docs/payment-runbook.md": [
+        [
+          "054419d865b9261b5f32cf104228e8e9529fc12b",
+          "docs/payment-runbook.md"
+        ]
+      ],
+      "notes/incident.md": [
+        [
+          "74ab3b4c0c4fc47f514f2a4ed12197be86b44be8",
+          "notes/incident.md"
+        ]
+      ],
+      "services/payments/config.yml": [
+        [
+          "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b",
+          "services/payments/config.yml"
+        ],
+        [
+          "30c3e7885ea58c57108b746148b821ba5c74d903",
+          "payments/config.yml"
+        ],
+        [
+          "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a",
+          "payments/config.yml"
+        ]
+      ]
+    }
+  },
+  "patches": [
+    {
+      "change": {
+        "status": "modified",
+        "oldPath": "payments/config.yml",
+        "newPath": "payments/config.yml",
+        "added": 1,
+        "removed": 1
+      },
+      "diff": "diff --git a/payments/config.yml b/payments/config.yml\nindex d60320a..b6dba6b 100644\n--- a/payments/config.yml\n+++ b/payments/config.yml\n@@ -1,7 +1,7 @@\n service: payments\n region: eu-west-1\n provider: card-gateway\n-timeout_ms: 1200\n+timeout_ms: 1800\n retries: 2\n currency: USD\n log_level: info\n"
+    },
+    {
+      "change": {
+        "status": "renamed",
+        "oldPath": "payments/config.yml",
+        "newPath": "services/payments/config.yml",
+        "added": 1,
+        "removed": 1
+      },
+      "diff": "diff --git a/payments/config.yml b/services/payments/config.yml\nsimilarity index 85%\nrename from payments/config.yml\nrename to services/payments/config.yml\nindex d60320a..b6dba6b 100644\n--- a/payments/config.yml\n+++ b/services/payments/config.yml\n@@ -1,7 +1,7 @@\n service: payments\n region: eu-west-1\n provider: card-gateway\n-timeout_ms: 1200\n+timeout_ms: 1800\n retries: 2\n currency: USD\n log_level: info\n"
+    },
+    {
+      "change": {
+        "status": "removed",
+        "oldPath": "payments/legacy.env",
+        "newPath": null,
+        "added": 0,
+        "removed": 1
+      },
+      "diff": "diff --git a/payments/legacy.env b/payments/legacy.env\ndeleted file mode 100644\nindex 7642b0b..0000000\n--- a/payments/legacy.env\n+++ /dev/null\n@@ -1 +0,0 @@\n-PAYMENTS_TIMEOUT_MS=1800\n"
+    },
+    {
+      "change": {
+        "status": "renamed",
+        "oldPath": "payments/config.yml",
+        "newPath": "services/payments/config.yml",
+        "added": 1,
+        "removed": 1
+      },
+      "diff": "diff --git a/payments/config.yml b/services/payments/config.yml\nsimilarity index 85%\nrename from payments/config.yml\nrename to services/payments/config.yml\nindex d60320a..0c0d2f7 100644\n--- a/payments/config.yml\n+++ b/services/payments/config.yml\n@@ -1,7 +1,7 @@\n service: payments\n region: eu-west-1\n provider: card-gateway\n-timeout_ms: 1200\n+timeout_ms: 600\n retries: 2\n currency: USD\n log_level: info\n"
+    },
+    {
+      "change": {
+        "status": "added",
+        "oldPath": null,
+        "newPath": "docs/payment-runbook.md",
+        "added": 3,
+        "removed": 0
+      },
+      "diff": "diff --git a/docs/payment-runbook.md b/docs/payment-runbook.md\nnew file mode 100644\nindex 0000000..18701d0\n--- /dev/null\n+++ b/docs/payment-runbook.md\n@@ -0,0 +1,3 @@\n+# Payment incident runbook\n+\n+Inspect gateway latency and the configured timeout.\n"
+    },
+    {
+      "change": {
+        "status": "modified",
+        "oldPath": "VERSION",
+        "newPath": "VERSION",
+        "added": 1,
+        "removed": 1
+      },
+      "diff": "diff --git a/VERSION b/VERSION\nindex c068b24..c239c60 100644\n--- a/VERSION\n+++ b/VERSION\n@@ -1 +1 @@\n-1.4\n+1.5\n"
+    },
+    {
+      "change": {
+        "status": "added",
+        "oldPath": null,
+        "newPath": "notes/incident.md",
+        "added": 1,
+        "removed": 0
+      },
+      "diff": "diff --git a/notes/incident.md b/notes/incident.md\nnew file mode 100644\nindex 0000000..2c95315\n--- /dev/null\n+++ b/notes/incident.md\n@@ -0,0 +1 @@\n+Review gateway retry telemetry.\n"
+    },
+    {
+      "change": {
+        "status": "added",
+        "oldPath": null,
+        "newPath": "notes/incident.md",
+        "added": 1,
+        "removed": 0
+      },
+      "diff": "diff --git a/notes/incident.md b/notes/incident.md\nnew file mode 100644\nindex 0000000..f9197dc\n--- /dev/null\n+++ b/notes/incident.md\n@@ -0,0 +1 @@\n+Compare gateway latency against the release timeout.\n"
+    },
+    {
+      "change": {
+        "status": "modified",
+        "oldPath": "payments/config.yml",
+        "newPath": "payments/config.yml",
+        "added": 1,
+        "removed": 1
+      },
+      "diff": "diff --git a/payments/config.yml b/payments/config.yml\nindex b6dba6b..d60320a 100644\n--- a/payments/config.yml\n+++ b/payments/config.yml\n@@ -1,7 +1,7 @@\n service: payments\n region: eu-west-1\n provider: card-gateway\n-timeout_ms: 1800\n+timeout_ms: 1200\n retries: 2\n currency: USD\n log_level: info\n"
+    },
+    {
+      "change": {
+        "status": "renamed",
+        "oldPath": "payments/config.yml",
+        "newPath": "services/payments/config.yml",
+        "added": 0,
+        "removed": 0
+      },
+      "diff": "diff --git a/payments/config.yml b/services/payments/config.yml\nsimilarity index 100%\nrename from payments/config.yml\nrename to services/payments/config.yml\n"
+    },
+    {
+      "change": {
+        "status": "renamed",
+        "oldPath": "payments/config.yml",
+        "newPath": "services/payments/config.yml",
+        "added": 1,
+        "removed": 1
+      },
+      "diff": "diff --git a/payments/config.yml b/services/payments/config.yml\nsimilarity index 85%\nrename from payments/config.yml\nrename to services/payments/config.yml\nindex b6dba6b..0c0d2f7 100644\n--- a/payments/config.yml\n+++ b/services/payments/config.yml\n@@ -1,7 +1,7 @@\n service: payments\n region: eu-west-1\n provider: card-gateway\n-timeout_ms: 1800\n+timeout_ms: 600\n retries: 2\n currency: USD\n log_level: info\n"
+    },
+    {
+      "change": {
+        "status": "renamed",
+        "oldPath": "services/payments/config.yml",
+        "newPath": "payments/config.yml",
+        "added": 1,
+        "removed": 1
+      },
+      "diff": "diff --git a/services/payments/config.yml b/payments/config.yml\nsimilarity index 85%\nrename from services/payments/config.yml\nrename to payments/config.yml\nindex b6dba6b..d60320a 100644\n--- a/services/payments/config.yml\n+++ b/payments/config.yml\n@@ -1,7 +1,7 @@\n service: payments\n region: eu-west-1\n provider: card-gateway\n-timeout_ms: 1800\n+timeout_ms: 1200\n retries: 2\n currency: USD\n log_level: info\n"
+    },
+    {
+      "change": {
+        "status": "renamed",
+        "oldPath": "services/payments/config.yml",
+        "newPath": "payments/config.yml",
+        "added": 0,
+        "removed": 0
+      },
+      "diff": "diff --git a/services/payments/config.yml b/payments/config.yml\nsimilarity index 100%\nrename from services/payments/config.yml\nrename to payments/config.yml\n"
+    },
+    {
+      "change": {
+        "status": "modified",
+        "oldPath": "services/payments/config.yml",
+        "newPath": "services/payments/config.yml",
+        "added": 1,
+        "removed": 1
+      },
+      "diff": "diff --git a/services/payments/config.yml b/services/payments/config.yml\nindex b6dba6b..0c0d2f7 100644\n--- a/services/payments/config.yml\n+++ b/services/payments/config.yml\n@@ -1,7 +1,7 @@\n service: payments\n region: eu-west-1\n provider: card-gateway\n-timeout_ms: 1800\n+timeout_ms: 600\n retries: 2\n currency: USD\n log_level: info\n"
+    },
+    {
+      "change": {
+        "status": "renamed",
+        "oldPath": "services/payments/config.yml",
+        "newPath": "payments/config.yml",
+        "added": 1,
+        "removed": 1
+      },
+      "diff": "diff --git a/services/payments/config.yml b/payments/config.yml\nsimilarity index 85%\nrename from services/payments/config.yml\nrename to payments/config.yml\nindex 0c0d2f7..d60320a 100644\n--- a/services/payments/config.yml\n+++ b/payments/config.yml\n@@ -1,7 +1,7 @@\n service: payments\n region: eu-west-1\n provider: card-gateway\n-timeout_ms: 600\n+timeout_ms: 1200\n retries: 2\n currency: USD\n log_level: info\n"
+    },
+    {
+      "change": {
+        "status": "added",
+        "oldPath": null,
+        "newPath": "payments/legacy.env",
+        "added": 1,
+        "removed": 0
+      },
+      "diff": "diff --git a/payments/legacy.env b/payments/legacy.env\nnew file mode 100644\nindex 0000000..7642b0b\n--- /dev/null\n+++ b/payments/legacy.env\n@@ -0,0 +1 @@\n+PAYMENTS_TIMEOUT_MS=1800\n"
+    },
+    {
+      "change": {
+        "status": "renamed",
+        "oldPath": "services/payments/config.yml",
+        "newPath": "payments/config.yml",
+        "added": 1,
+        "removed": 1
+      },
+      "diff": "diff --git a/services/payments/config.yml b/payments/config.yml\nsimilarity index 85%\nrename from services/payments/config.yml\nrename to payments/config.yml\nindex 0c0d2f7..b6dba6b 100644\n--- a/services/payments/config.yml\n+++ b/payments/config.yml\n@@ -1,7 +1,7 @@\n service: payments\n region: eu-west-1\n provider: card-gateway\n-timeout_ms: 600\n+timeout_ms: 1800\n retries: 2\n currency: USD\n log_level: info\n"
+    },
+    {
+      "change": {
+        "status": "modified",
+        "oldPath": "services/payments/config.yml",
+        "newPath": "services/payments/config.yml",
+        "added": 1,
+        "removed": 1
+      },
+      "diff": "diff --git a/services/payments/config.yml b/services/payments/config.yml\nindex 0c0d2f7..b6dba6b 100644\n--- a/services/payments/config.yml\n+++ b/services/payments/config.yml\n@@ -1,7 +1,7 @@\n service: payments\n region: eu-west-1\n provider: card-gateway\n-timeout_ms: 600\n+timeout_ms: 1800\n retries: 2\n currency: USD\n log_level: info\n"
+    },
+    {
+      "change": {
+        "status": "removed",
+        "oldPath": "docs/payment-runbook.md",
+        "newPath": null,
+        "added": 0,
+        "removed": 3
+      },
+      "diff": "diff --git a/docs/payment-runbook.md b/docs/payment-runbook.md\ndeleted file mode 100644\nindex 18701d0..0000000\n--- a/docs/payment-runbook.md\n+++ /dev/null\n@@ -1,3 +0,0 @@\n-# Payment incident runbook\n-\n-Inspect gateway latency and the configured timeout.\n"
+    },
+    {
+      "change": {
+        "status": "modified",
+        "oldPath": "VERSION",
+        "newPath": "VERSION",
+        "added": 1,
+        "removed": 1
+      },
+      "diff": "diff --git a/VERSION b/VERSION\nindex c239c60..c068b24 100644\n--- a/VERSION\n+++ b/VERSION\n@@ -1 +1 @@\n-1.5\n+1.4\n"
+    },
+    {
+      "change": {
+        "status": "removed",
+        "oldPath": "notes/incident.md",
+        "newPath": null,
+        "added": 0,
+        "removed": 1
+      },
+      "diff": "diff --git a/notes/incident.md b/notes/incident.md\ndeleted file mode 100644\nindex 2c95315..0000000\n--- a/notes/incident.md\n+++ /dev/null\n@@ -1 +0,0 @@\n-Review gateway retry telemetry.\n"
+    },
+    {
+      "change": {
+        "status": "modified",
+        "oldPath": "notes/incident.md",
+        "newPath": "notes/incident.md",
+        "added": 1,
+        "removed": 1
+      },
+      "diff": "diff --git a/notes/incident.md b/notes/incident.md\nindex 2c95315..f9197dc 100644\n--- a/notes/incident.md\n+++ b/notes/incident.md\n@@ -1 +1 @@\n-Review gateway retry telemetry.\n+Compare gateway latency against the release timeout.\n"
+    },
+    {
+      "change": {
+        "status": "removed",
+        "oldPath": "notes/incident.md",
+        "newPath": null,
+        "added": 0,
+        "removed": 1
+      },
+      "diff": "diff --git a/notes/incident.md b/notes/incident.md\ndeleted file mode 100644\nindex f9197dc..0000000\n--- a/notes/incident.md\n+++ /dev/null\n@@ -1 +0,0 @@\n-Compare gateway latency against the release timeout.\n"
+    },
+    {
+      "change": {
+        "status": "modified",
+        "oldPath": "notes/incident.md",
+        "newPath": "notes/incident.md",
+        "added": 1,
+        "removed": 1
+      },
+      "diff": "diff --git a/notes/incident.md b/notes/incident.md\nindex f9197dc..2c95315 100644\n--- a/notes/incident.md\n+++ b/notes/incident.md\n@@ -1 +1 @@\n-Compare gateway latency against the release timeout.\n+Review gateway retry telemetry.\n"
+    }
+  ],
+  "comparisons": {
+    "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a": {
+      "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a": [],
+      "30c3e7885ea58c57108b746148b821ba5c74d903": [
+        0
+      ],
+      "dbb6c49872211c73c85e617f859f877d790b180e": [
+        1
+      ],
+      "0c0dd7a4436ae2359b4d8dd0911b11c5acbbb39f": [
+        2,
+        3
+      ],
+      "054419d865b9261b5f32cf104228e8e9529fc12b": [
+        4,
+        0
+      ],
+      "2b372a863d3c4e1619b7d7da10872d14176b6947": [
+        5,
+        0
+      ],
+      "6d5cf4741b105c50b0e81cebe73bf798ae6ae6b2": [
+        5,
+        4,
+        0
+      ],
+      "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b": [
+        5,
+        4,
+        2,
+        3
+      ],
+      "14a992d22c61a63001b52cea04a43dbc20edc4ff": [
+        5,
+        4,
+        6,
+        2,
+        3
+      ],
+      "74ab3b4c0c4fc47f514f2a4ed12197be86b44be8": [
+        5,
+        4,
+        7,
+        2,
+        3
+      ]
+    },
+    "30c3e7885ea58c57108b746148b821ba5c74d903": {
+      "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a": [
+        8
+      ],
+      "30c3e7885ea58c57108b746148b821ba5c74d903": [],
+      "dbb6c49872211c73c85e617f859f877d790b180e": [
+        9
+      ],
+      "0c0dd7a4436ae2359b4d8dd0911b11c5acbbb39f": [
+        2,
+        10
+      ],
+      "054419d865b9261b5f32cf104228e8e9529fc12b": [
+        4
+      ],
+      "2b372a863d3c4e1619b7d7da10872d14176b6947": [
+        5
+      ],
+      "6d5cf4741b105c50b0e81cebe73bf798ae6ae6b2": [
+        5,
+        4
+      ],
+      "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b": [
+        5,
+        4,
+        2,
+        10
+      ],
+      "14a992d22c61a63001b52cea04a43dbc20edc4ff": [
+        5,
+        4,
+        6,
+        2,
+        10
+      ],
+      "74ab3b4c0c4fc47f514f2a4ed12197be86b44be8": [
+        5,
+        4,
+        7,
+        2,
+        10
+      ]
+    },
+    "dbb6c49872211c73c85e617f859f877d790b180e": {
+      "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a": [
+        11
+      ],
+      "30c3e7885ea58c57108b746148b821ba5c74d903": [
+        12
+      ],
+      "dbb6c49872211c73c85e617f859f877d790b180e": [],
+      "0c0dd7a4436ae2359b4d8dd0911b11c5acbbb39f": [
+        2,
+        13
+      ],
+      "054419d865b9261b5f32cf104228e8e9529fc12b": [
+        4,
+        12
+      ],
+      "2b372a863d3c4e1619b7d7da10872d14176b6947": [
+        5,
+        12
+      ],
+      "6d5cf4741b105c50b0e81cebe73bf798ae6ae6b2": [
+        5,
+        4,
+        12
+      ],
+      "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b": [
+        5,
+        4,
+        2,
+        13
+      ],
+      "14a992d22c61a63001b52cea04a43dbc20edc4ff": [
+        5,
+        4,
+        6,
+        2,
+        13
+      ],
+      "74ab3b4c0c4fc47f514f2a4ed12197be86b44be8": [
+        5,
+        4,
+        7,
+        2,
+        13
+      ]
+    },
+    "0c0dd7a4436ae2359b4d8dd0911b11c5acbbb39f": {
+      "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a": [
+        14,
+        15
+      ],
+      "30c3e7885ea58c57108b746148b821ba5c74d903": [
+        16,
+        15
+      ],
+      "dbb6c49872211c73c85e617f859f877d790b180e": [
+        15,
+        17
+      ],
+      "0c0dd7a4436ae2359b4d8dd0911b11c5acbbb39f": [],
+      "054419d865b9261b5f32cf104228e8e9529fc12b": [
+        4,
+        16,
+        15
+      ],
+      "2b372a863d3c4e1619b7d7da10872d14176b6947": [
+        5,
+        16,
+        15
+      ],
+      "6d5cf4741b105c50b0e81cebe73bf798ae6ae6b2": [
+        5,
+        4,
+        16,
+        15
+      ],
+      "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b": [
+        5,
+        4
+      ],
+      "14a992d22c61a63001b52cea04a43dbc20edc4ff": [
+        5,
+        4,
+        6
+      ],
+      "74ab3b4c0c4fc47f514f2a4ed12197be86b44be8": [
+        5,
+        4,
+        7
+      ]
+    },
+    "054419d865b9261b5f32cf104228e8e9529fc12b": {
+      "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a": [
+        18,
+        8
+      ],
+      "30c3e7885ea58c57108b746148b821ba5c74d903": [
+        18
+      ],
+      "dbb6c49872211c73c85e617f859f877d790b180e": [
+        18,
+        9
+      ],
+      "0c0dd7a4436ae2359b4d8dd0911b11c5acbbb39f": [
+        18,
+        2,
+        10
+      ],
+      "054419d865b9261b5f32cf104228e8e9529fc12b": [],
+      "2b372a863d3c4e1619b7d7da10872d14176b6947": [
+        5,
+        18
+      ],
+      "6d5cf4741b105c50b0e81cebe73bf798ae6ae6b2": [
+        5
+      ],
+      "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b": [
+        5,
+        2,
+        10
+      ],
+      "14a992d22c61a63001b52cea04a43dbc20edc4ff": [
+        5,
+        6,
+        2,
+        10
+      ],
+      "74ab3b4c0c4fc47f514f2a4ed12197be86b44be8": [
+        5,
+        7,
+        2,
+        10
+      ]
+    },
+    "2b372a863d3c4e1619b7d7da10872d14176b6947": {
+      "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a": [
+        19,
+        8
+      ],
+      "30c3e7885ea58c57108b746148b821ba5c74d903": [
+        19
+      ],
+      "dbb6c49872211c73c85e617f859f877d790b180e": [
+        19,
+        9
+      ],
+      "0c0dd7a4436ae2359b4d8dd0911b11c5acbbb39f": [
+        19,
+        2,
+        10
+      ],
+      "054419d865b9261b5f32cf104228e8e9529fc12b": [
+        19,
+        4
+      ],
+      "2b372a863d3c4e1619b7d7da10872d14176b6947": [],
+      "6d5cf4741b105c50b0e81cebe73bf798ae6ae6b2": [
+        4
+      ],
+      "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b": [
+        4,
+        2,
+        10
+      ],
+      "14a992d22c61a63001b52cea04a43dbc20edc4ff": [
+        4,
+        6,
+        2,
+        10
+      ],
+      "74ab3b4c0c4fc47f514f2a4ed12197be86b44be8": [
+        4,
+        7,
+        2,
+        10
+      ]
+    },
+    "6d5cf4741b105c50b0e81cebe73bf798ae6ae6b2": {
+      "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a": [
+        19,
+        18,
+        8
+      ],
+      "30c3e7885ea58c57108b746148b821ba5c74d903": [
+        19,
+        18
+      ],
+      "dbb6c49872211c73c85e617f859f877d790b180e": [
+        19,
+        18,
+        9
+      ],
+      "0c0dd7a4436ae2359b4d8dd0911b11c5acbbb39f": [
+        19,
+        18,
+        2,
+        10
+      ],
+      "054419d865b9261b5f32cf104228e8e9529fc12b": [
+        19
+      ],
+      "2b372a863d3c4e1619b7d7da10872d14176b6947": [
+        18
+      ],
+      "6d5cf4741b105c50b0e81cebe73bf798ae6ae6b2": [],
+      "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b": [
+        2,
+        10
+      ],
+      "14a992d22c61a63001b52cea04a43dbc20edc4ff": [
+        6,
+        2,
+        10
+      ],
+      "74ab3b4c0c4fc47f514f2a4ed12197be86b44be8": [
+        7,
+        2,
+        10
+      ]
+    },
+    "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b": {
+      "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a": [
+        19,
+        18,
+        14,
+        15
+      ],
+      "30c3e7885ea58c57108b746148b821ba5c74d903": [
+        19,
+        18,
+        16,
+        15
+      ],
+      "dbb6c49872211c73c85e617f859f877d790b180e": [
+        19,
+        18,
+        15,
+        17
+      ],
+      "0c0dd7a4436ae2359b4d8dd0911b11c5acbbb39f": [
+        19,
+        18
+      ],
+      "054419d865b9261b5f32cf104228e8e9529fc12b": [
+        19,
+        16,
+        15
+      ],
+      "2b372a863d3c4e1619b7d7da10872d14176b6947": [
+        18,
+        16,
+        15
+      ],
+      "6d5cf4741b105c50b0e81cebe73bf798ae6ae6b2": [
+        16,
+        15
+      ],
+      "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b": [],
+      "14a992d22c61a63001b52cea04a43dbc20edc4ff": [
+        6
+      ],
+      "74ab3b4c0c4fc47f514f2a4ed12197be86b44be8": [
+        7
+      ]
+    },
+    "14a992d22c61a63001b52cea04a43dbc20edc4ff": {
+      "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a": [
+        19,
+        18,
+        20,
+        14,
+        15
+      ],
+      "30c3e7885ea58c57108b746148b821ba5c74d903": [
+        19,
+        18,
+        20,
+        16,
+        15
+      ],
+      "dbb6c49872211c73c85e617f859f877d790b180e": [
+        19,
+        18,
+        20,
+        15,
+        17
+      ],
+      "0c0dd7a4436ae2359b4d8dd0911b11c5acbbb39f": [
+        19,
+        18,
+        20
+      ],
+      "054419d865b9261b5f32cf104228e8e9529fc12b": [
+        19,
+        20,
+        16,
+        15
+      ],
+      "2b372a863d3c4e1619b7d7da10872d14176b6947": [
+        18,
+        20,
+        16,
+        15
+      ],
+      "6d5cf4741b105c50b0e81cebe73bf798ae6ae6b2": [
+        20,
+        16,
+        15
+      ],
+      "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b": [
+        20
+      ],
+      "14a992d22c61a63001b52cea04a43dbc20edc4ff": [],
+      "74ab3b4c0c4fc47f514f2a4ed12197be86b44be8": [
+        21
+      ]
+    },
+    "74ab3b4c0c4fc47f514f2a4ed12197be86b44be8": {
+      "e1e394e5a73f6fd3bcc4e7199e99870dfb6dfe9a": [
+        19,
+        18,
+        22,
+        14,
+        15
+      ],
+      "30c3e7885ea58c57108b746148b821ba5c74d903": [
+        19,
+        18,
+        22,
+        16,
+        15
+      ],
+      "dbb6c49872211c73c85e617f859f877d790b180e": [
+        19,
+        18,
+        22,
+        15,
+        17
+      ],
+      "0c0dd7a4436ae2359b4d8dd0911b11c5acbbb39f": [
+        19,
+        18,
+        22
+      ],
+      "054419d865b9261b5f32cf104228e8e9529fc12b": [
+        19,
+        22,
+        16,
+        15
+      ],
+      "2b372a863d3c4e1619b7d7da10872d14176b6947": [
+        18,
+        22,
+        16,
+        15
+      ],
+      "6d5cf4741b105c50b0e81cebe73bf798ae6ae6b2": [
+        22,
+        16,
+        15
+      ],
+      "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b": [
+        22
+      ],
+      "14a992d22c61a63001b52cea04a43dbc20edc4ff": [
+        23
+      ],
+      "74ab3b4c0c4fc47f514f2a4ed12197be86b44be8": []
+    }
+  },
+  "refs": [
+    {
+      "name": "docs/payment-runbook",
+      "hash": "054419d865b9261b5f32cf104228e8e9529fc12b",
+      "kind": "branch"
+    },
+    {
+      "name": "investigate/gateway-latency",
+      "hash": "74ab3b4c0c4fc47f514f2a4ed12197be86b44be8",
+      "kind": "branch"
+    },
+    {
+      "name": "main",
+      "hash": "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b",
+      "kind": "branch"
+    },
+    {
+      "name": "v1.4",
+      "hash": "30c3e7885ea58c57108b746148b821ba5c74d903",
+      "kind": "tag"
+    },
+    {
+      "name": "v1.5",
+      "hash": "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b",
+      "kind": "tag"
+    }
+  ],
+  "events": [
+    {
+      "id": "example-event-01",
+      "ref": "main",
+      "kind": "snapshot",
+      "before": null,
+      "after": "30c3e7885ea58c57108b746148b821ba5c74d903",
+      "refType": "branch",
+      "actor": "Example recorder",
+      "date": "2026-11-16T09:51:00+00:00"
+    },
+    {
+      "id": "example-event-02",
+      "ref": "v1.4",
+      "kind": "snapshot",
+      "before": null,
+      "after": "30c3e7885ea58c57108b746148b821ba5c74d903",
+      "refType": "tag",
+      "actor": "Example recorder",
+      "date": "2026-11-16T10:08:00+00:00"
+    },
+    {
+      "id": "example-event-03",
+      "ref": "feature/payment-timeout",
+      "kind": "create",
+      "before": null,
+      "after": "30c3e7885ea58c57108b746148b821ba5c74d903",
+      "refType": "branch",
+      "actor": "Maya Chen",
+      "date": "2026-11-16T10:25:00+00:00"
+    },
+    {
+      "id": "example-event-04",
+      "ref": "feature/payment-timeout",
+      "kind": "push",
+      "before": "30c3e7885ea58c57108b746148b821ba5c74d903",
+      "after": "dbb6c49872211c73c85e617f859f877d790b180e",
+      "refType": "branch",
+      "actor": "Maya Chen",
+      "date": "2026-11-16T10:59:00+00:00"
+    },
+    {
+      "id": "example-event-05",
+      "ref": "feature/payment-timeout",
+      "kind": "push",
+      "before": "dbb6c49872211c73c85e617f859f877d790b180e",
+      "after": "0c0dd7a4436ae2359b4d8dd0911b11c5acbbb39f",
+      "refType": "branch",
+      "actor": "Maya Chen",
+      "date": "2026-11-16T11:33:00+00:00"
+    },
+    {
+      "id": "example-event-06",
+      "ref": "docs/payment-runbook",
+      "kind": "create",
+      "before": null,
+      "after": "30c3e7885ea58c57108b746148b821ba5c74d903",
+      "refType": "branch",
+      "actor": "Sam Rivera",
+      "date": "2026-11-16T11:50:00+00:00"
+    },
+    {
+      "id": "example-event-07",
+      "ref": "docs/payment-runbook",
+      "kind": "push",
+      "before": "30c3e7885ea58c57108b746148b821ba5c74d903",
+      "after": "054419d865b9261b5f32cf104228e8e9529fc12b",
+      "refType": "branch",
+      "actor": "Sam Rivera",
+      "date": "2026-11-16T12:24:00+00:00"
+    },
+    {
+      "id": "example-event-08",
+      "ref": "main",
+      "kind": "push",
+      "before": "30c3e7885ea58c57108b746148b821ba5c74d903",
+      "after": "2b372a863d3c4e1619b7d7da10872d14176b6947",
+      "refType": "branch",
+      "actor": "Release Engineering",
+      "date": "2026-11-16T12:58:00+00:00"
+    },
+    {
+      "id": "example-event-09",
+      "ref": "main",
+      "kind": "push",
+      "before": "2b372a863d3c4e1619b7d7da10872d14176b6947",
+      "after": "6d5cf4741b105c50b0e81cebe73bf798ae6ae6b2",
+      "refType": "branch",
+      "actor": "Nora Patel",
+      "date": "2026-11-16T13:32:00+00:00"
+    },
+    {
+      "id": "example-event-10",
+      "ref": "main",
+      "kind": "push",
+      "before": "6d5cf4741b105c50b0e81cebe73bf798ae6ae6b2",
+      "after": "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b",
+      "refType": "branch",
+      "actor": "Nora Patel",
+      "date": "2026-11-16T14:06:00+00:00"
+    },
+    {
+      "id": "example-event-11",
+      "ref": "feature/payment-timeout",
+      "kind": "delete",
+      "before": "0c0dd7a4436ae2359b4d8dd0911b11c5acbbb39f",
+      "after": null,
+      "refType": "branch",
+      "actor": "Nora Patel",
+      "date": "2026-11-16T14:23:00+00:00"
+    },
+    {
+      "id": "example-event-12",
+      "ref": "v1.5",
+      "kind": "tag",
+      "before": null,
+      "after": "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b",
+      "refType": "tag",
+      "actor": "Release Engineering",
+      "date": "2026-11-16T14:40:00+00:00"
+    },
+    {
+      "id": "example-event-13",
+      "ref": "investigate/gateway-latency",
+      "kind": "create",
+      "before": null,
+      "after": "14a992d22c61a63001b52cea04a43dbc20edc4ff",
+      "refType": "branch",
+      "actor": "Sam Rivera",
+      "date": "2026-11-16T15:14:00+00:00"
+    },
+    {
+      "id": "example-event-14",
+      "ref": "investigate/gateway-latency",
+      "kind": "force-push",
+      "before": "14a992d22c61a63001b52cea04a43dbc20edc4ff",
+      "after": "74ab3b4c0c4fc47f514f2a4ed12197be86b44be8",
+      "refType": "branch",
+      "actor": "Sam Rivera",
+      "date": "2026-11-16T15:48:00+00:00"
+    }
+  ],
+  "prs": {
+    "6d5cf4741b105c50b0e81cebe73bf798ae6ae6b2": {
+      "id": 41,
+      "title": "Illustrative PR · Document payment incident triage",
+      "strategy": "Merge commit",
+      "source": "054419d865b9261b5f32cf104228e8e9529fc12b"
+    },
+    "41bc3e5580847fa7ea8504a25a5dc320f8d91d1b": {
+      "id": 42,
+      "title": "Illustrative PR · Relocate payment configuration",
+      "strategy": "Squash",
+      "source": "0c0dd7a4436ae2359b4d8dd0911b11c5acbbb39f"
+    }
+  }
+}
