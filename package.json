@@ -1,0 +1,43 @@
+{
+  "name": "bitbucket-repository-history",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite web --config web/vite.config.ts --mode example",
+    "preview:example": "vite preview web --config web/vite.config.ts --outDir dist-example --host 127.0.0.1",
+    "build": "npm run typecheck && vite build web --config web/vite.config.ts",
+    "build:example": "vite build web --config web/vite.config.ts --mode example --outDir dist-example",
+    "check:manifest": "node scripts/check-manifest.cjs",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.*",
+    "test:browser": "npm run build:example && playwright test"
+  },
+  "dependencies": {
+    "@forge/api": "8.5.1",
+    "@forge/bridge": "7.4.0",
+    "@forge/kvs": "2.1.3",
+    "@forge/resolver": "2.0.2",
+    "cytoscape": "3.35.0",
+    "lucide-react": "1.78.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@forge/manifest": "13.9.1",
+    "@playwright/test": "1.65.1",
+    "@types/cytoscape": "3.21.9",
+    "@types/node": "24.19.2",
+    "@types/react": "18.3.31",
+    "@types/react-dom": "18.3.7",
+    "@vitejs/plugin-react": "5.2.0",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "vite": "7.3.8"
+  },
+  "overrides": {
+    "@forge/manifest": {
+      "glob": "14.0.2"
+    },
+    "prosemirror-view": "1.42.3"
+  }
+}

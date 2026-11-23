@@ -1,0 +1,7 @@
+node_modules/
+web/dist/
+web/dist-example/
+playwright-report/
+test-results/
+.env
+.env.local
