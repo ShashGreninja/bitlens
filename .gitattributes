@@ -1,0 +1,2 @@
+# The fixture generator writes LF so a fresh checkout compares byte for byte.
+sample/history.json text eol=lf
