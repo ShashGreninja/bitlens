@@ -1609,3 +1609,9 @@ dialog textarea {
 .step-controls {border-top:1px solid var(--line);padding-top:16px;gap:12px;margin-top:24px}
 .evidence-links,.graph-tools,.tree-controls,.copy-action {gap:12px}
 @media(max-width:700px){.main-content{width:100%;margin:0;border-radius:0;padding:20px 14px}.hero-copy{max-width:100%}.nav-item{min-height:44px}.ref-movement .pointer{align-items:flex-start;flex-direction:column;gap:5px}.file-row,.button,.text-button{min-height:44px}}
+button,.button,.revision-trigger,.workspace-switch,.file-row.selected {box-shadow:none}
+.file-mark,.brand-mark,.workspace-avatar {background:transparent;color:#245c48;border:0;box-shadow:none}
+.revision-hash,.status,.status.compact,.top-context,.side-ref,.file-row,.directory,.panel-label,.micro-label,.sidebar-label,.crumb,.file-title code,.diff pre,.revision-label,.revision-trigger code {font-size:13px}
+.crumb,.sidebar-label,.file-title code,.diff .hunk pre,.revision-hash {color:#45594d}
+@media(max-width:560px){.main-content,.topbar{padding-inline:18px}.status,.top-context,.revision-hash,.revision-label{font-size:12px}}
+button.nav-item.active,button.record-row.selected,button.button.primary {box-shadow:none}
