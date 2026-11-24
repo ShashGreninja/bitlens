@@ -5,6 +5,7 @@ import { Source } from './components/Common'
 import './desk.css'
 
 export const deskViews = [
+  ['home', 'Home'],
   ['graph', 'Graph'],
   ['compare', 'Compare'],
   ['history', 'File history'],

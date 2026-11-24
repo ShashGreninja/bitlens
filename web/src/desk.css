@@ -96,21 +96,21 @@
   width: 100%;
   max-width: none;
   margin: 24px 0 0;
-  background: #fbfbf9;
-  color: #232326;
+  background: var(--desk-ground);
+  color: var(--desk-ink);
   padding: clamp(12px, 2.6vw, 32px);
   border: 0;
   border-radius: 0;
-  color-scheme: light;
+  color-scheme: dark;
 }
 .desk-workspace .main-content a {
-  color: #146451;
+  color: var(--desk-accent);
 }
 .desk-workspace .main-content h1 {
   font-size: 26px;
 }
 .desk-workspace dialog {
-  color-scheme: light;
+  color-scheme: dark;
 }
 @media (max-width: 600px) {
   .desk-header {
@@ -128,10 +128,11 @@
 }
 
 .desk-workspace .main-content {
-  --line: #dedee2;
-  --green: #295e8c;
-  --muted: #555862;
-  --ink: #232326;
+  --line: var(--desk-line);
+  --green: var(--desk-accent);
+  --muted: var(--desk-muted);
+  --ink: var(--desk-ink);
+  --paper: var(--desk-sheet);
 }
 .desk-workspace .revision-trigger,
 .desk-workspace .revisions,
@@ -143,11 +144,254 @@
 .desk-workspace .revision-trigger,
 .desk-workspace .revisions,
 .desk-workspace .panel-label {
-  background: #f3f3f5;
+  background: var(--desk-hover);
 }
 .desk-workspace .button.primary {
-  background: #21242a;
+  background: #243c53;
+  border-color: #52708f;
+  color: var(--desk-ink);
 }
 .desk-workspace .file-row.selected {
-  background: #e4edf5;
+  background: #26394b;
+  color: var(--desk-ink);
+}
+
+.desk-home {
+  max-width: 850px;
+  padding-block: clamp(28px, 6vw, 76px);
+}
+.desk-home header {
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--desk-line);
+}
+.desk-home h1 {
+  font-size: clamp(30px, 5vw, 54px);
+  letter-spacing: -0.045em;
+  line-height: 1.06;
+  margin: 0 0 12px;
+}
+.desk-home h2 {
+  font-size: 20px;
+  margin: 24px 0 6px;
+}
+.desk-home h3 {
+  font-size: 16px;
+  margin: 0;
+}
+.desk-home p,
+.home-extra span {
+  color: var(--desk-muted);
+  margin: 4px 0 0;
+}
+.desk-home header p {
+  font-size: 16px;
+}
+.desk-home button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 10px;
+  text-align: left;
+}
+.desk-home button:hover {
+  background: var(--desk-hover);
+}
+.desk-home .home-primary {
+  margin-top: 20px;
+  background: #263e57;
+  border: 1px solid #54718d;
+  border-radius: 3px;
+}
+.desk-home li {
+  display: list-item;
+  border-bottom: 1px solid var(--desk-line);
+  padding: 16px 0;
+}
+.desk-home li::marker {
+  color: var(--desk-accent);
+  font-variant-numeric: tabular-nums;
+}
+.desk-home ol {
+  padding-left: 1.5em;
+}
+.desk-home li button {
+  padding-left: 0;
+  color: var(--desk-accent);
+}
+.home-extra {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 4px 12px;
+}
+.home-extra button {
+  padding-left: 0;
+  color: var(--desk-accent);
+}
+.desk-workspace {
+  --ink: var(--desk-ink);
+  --muted: var(--desk-muted);
+  --line: var(--desk-line);
+  --green: var(--desk-accent);
+  --paper: var(--desk-sheet);
+}
+.desk-workspace
+  :is(
+    .hero p,
+    .revision-label,
+    .revision-hash,
+    .revision-trigger svg,
+    .panel-label,
+    .micro-label,
+    .metadata,
+    .file-title code,
+    .directory,
+    .tree-path,
+    .path-form label,
+    .pointer span,
+    .replay-scrubber,
+    .field-label,
+    .diff td:nth-child(-n + 2),
+    .panel-note,
+    .picker-options code
+  ) {
+  color: var(--desk-muted);
+}
+.desk-workspace
+  :is(
+    .button,
+    .icon-button,
+    .swap,
+    .segmented,
+    .ref-pill,
+    .hash-pill,
+    .count,
+    .file-mark,
+    .pointer,
+    .path-evidence,
+    .diff-toolbar,
+    .diff-footer,
+    .file-panel,
+    .search-field,
+    .picker-search input,
+    .segmented button.active
+  ) {
+  background: var(--desk-hover);
+  color: var(--desk-ink);
+  border-color: var(--desk-line);
+}
+.desk-workspace
+  :is(
+    .change-workbench,
+    .evidence-split,
+    .record-list,
+    .history-list,
+    .diff-panel,
+    .diff-scroll,
+    .picker,
+    .path-form input,
+    .share-url,
+    dialog,
+    dialog textarea,
+    .graph-canvas
+  ) {
+  background: var(--desk-sheet);
+  color: var(--desk-ink);
+  border-color: var(--desk-line);
+}
+.desk-workspace .graph-canvas {
+  background-image: none;
+}
+.desk-workspace .graph-drawing {
+  filter: invert(0.86) hue-rotate(155deg);
+}
+.desk-workspace :is(.file-row, .tree-entry, .commit-title) {
+  color: var(--desk-ink);
+}
+.desk-workspace
+  :is(
+    .revision-trigger,
+    .directory,
+    .file-row,
+    .record-row,
+    .tree-entry,
+    .picker-options button,
+    .swap,
+    .icon-button,
+    .segmented button
+  ):hover {
+  background: #303036;
+  color: var(--desk-ink);
+  border-color: var(--desk-rule);
+}
+.desk-workspace
+  :is(
+    .file-row.selected,
+    .record-row.selected,
+    .history-row.chosen,
+    .segmented button.active
+  ) {
+  background: #243449;
+  color: var(--desk-ink);
+  border-color: var(--desk-accent);
+}
+.desk-workspace :is(.status, .diff .meta, .diff .hunk) {
+  background: #252a30;
+  color: #c2cad4;
+}
+.desk-workspace :is(.status-added, .diff .plus) {
+  background: #19362c;
+  color: #a8e3c0;
+}
+.desk-workspace :is(.status-deleted, .diff .minus) {
+  background: #402626;
+  color: #ffb9ad;
+}
+.desk-workspace :is(.status-renamed, .rename-note) {
+  background: #253247;
+  color: #b9d8fd;
+  border-color: #38495b;
+}
+.desk-workspace .rename-note code {
+  color: inherit;
+}
+.desk-workspace .status-modified {
+  background: #342f23;
+  color: #efd099;
+}
+.desk-workspace .line-stats b {
+  color: #a8e3c0;
+}
+.desk-workspace .line-stats i {
+  color: #ffb9ad;
+}
+.desk-workspace .notice {
+  background: #322b1e;
+  color: #eed4a4;
+  border-color: #625438;
+}
+.desk-workspace .notice.problem {
+  background: #402626;
+  color: #ffb9ad;
+  border-color: #775049;
+}
+.desk-workspace .loading,
+.desk-workspace .empty {
+  color: var(--desk-muted);
+}
+
+.desk-workspace .text-button,
+.desk-workspace .source-link {
+  color: var(--desk-accent);
+}
+.desk-workspace :is(.text-button, .source-link):hover {
+  background: var(--desk-hover);
+}
+.desk-workspace .revision-trigger {
+  border-color: var(--desk-rule);
+}
+.desk-workspace .button.primary {
+  background: #243c53;
+  border-color: #52708f;
 }

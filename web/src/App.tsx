@@ -42,6 +42,7 @@ import {
   useLocateRecord,
 } from './components/data'
 import './app.css'
+import { RepositoryHome } from './RepositoryHome'
 import { RepositoryDesk, deskViews, type DeskView } from './RepositoryDesk'
 
 const Atlas = lazy(() => import('./Atlas'))
@@ -654,16 +655,26 @@ function LiveDesk({
   initial: Selection | null
 }) {
   const [view, setView] = useState<DeskView>(
-    () => deskViews.find(([key]) => key === initial?.view)?.[0] || 'graph',
+    () =>
+      deskViews.find(([key]) => key === initial?.view)?.[0] ||
+      (initial ? 'graph' : 'home'),
+  )
+  const [evidenceView, setEvidenceView] = useState<DeskView>(
+    view === 'home' || view === 'graph' ? 'compare' : view,
   )
   const [context, setContext] = useState<Selection>(
     () => initial || defaults(repo),
   )
   const [graph, setGraph] = useState({ initial, revision: 0 })
   const [investigation, setInvestigation] = useState(0)
-  const [opened, setOpened] = useState(view !== 'graph')
+  const [opened, setOpened] = useState(view !== 'graph' && view !== 'home')
+  const [graphOpened, setGraphOpened] = useState(view === 'graph')
   function navigate(next: DeskView) {
-    if (next !== 'graph') setOpened(true)
+    if (next === 'graph') setGraphOpened(true)
+    else if (next !== 'home') {
+      setOpened(true)
+      setEvidenceView(next)
+    }
     setView(next)
   }
   const openEvidence = (selection: Selection) => {
@@ -673,28 +684,31 @@ function LiveDesk({
   }
   const traceCommit = (selection: Selection) => {
     setGraph((old) => ({ initial: selection, revision: old.revision + 1 }))
-    setView('graph')
+    navigate('graph')
   }
   return (
     <RepositoryDesk repo={repo} view={view} navigate={navigate}>
-      <div hidden={view !== 'graph'}>
-        <Suspense fallback={<Loading text="Opening commit graph…" />}>
-          <Atlas
-            key={graph.revision}
-            repo={repo}
-            initial={graph.initial}
-            investigate={openEvidence}
-          />
-        </Suspense>
-      </div>
+      {view === 'home' && <RepositoryHome navigate={navigate} />}
+      {graphOpened && (
+        <div hidden={view !== 'graph'}>
+          <Suspense fallback={<Loading text="Opening commit graph…" />}>
+            <Atlas
+              key={graph.revision}
+              repo={repo}
+              initial={graph.initial}
+              investigate={openEvidence}
+            />
+          </Suspense>
+        </div>
+      )}
       {opened && (
-        <div hidden={view === 'graph'}>
+        <div hidden={view === 'graph' || view === 'home'}>
           <Workspace
             key={investigation}
             repo={repo}
-            initial={{ ...context, view }}
+            initial={{ ...context, view: evidenceView }}
             embedded
-            onView={setView}
+            onView={navigate}
             returnToMap={traceCommit}
           />
         </div>

@@ -143,7 +143,7 @@
   position: relative;
   min-width: 0;
   height: clamp(460px, 58vh, 690px);
-  overflow: auto;
+  overflow: clip;
   cursor: grab;
   touch-action: none;
   overscroll-behavior: contain;

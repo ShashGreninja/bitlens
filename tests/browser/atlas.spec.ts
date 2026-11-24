@@ -5,6 +5,7 @@ test('trace and move real Bitbucket commits on the primary graph', async ({
   page,
 }) => {
   await page.goto('/')
+  await page.getByRole('button', { name: 'Open graph', exact: true }).click()
   const tip = source.refs.find((r) => r.name === source.main)!.hash
   const head = source.commits.find((c) => c.hash === tip)!
   const node = page.locator('[data-hash="' + tip + '"]')
@@ -49,6 +50,7 @@ test('pin two real commits, trace their paths, and return from Replay without lo
   page,
 }) => {
   await page.goto('/')
+  await page.getByRole('button', { name: 'Open graph', exact: true }).click()
   const tip = source.refs.find((ref) => ref.name === source.main)!.hash
   const parent = source.commits.find((commit) => commit.hash === tip)!
     .parents[0]
@@ -75,4 +77,42 @@ test('pin two real commits, trace their paths, and return from Replay without lo
   await expect(page.locator('.pair-edge')).toHaveCount(1)
   await range.getByRole('button', { name: 'Clear', exact: true }).click()
   await expect(range).toHaveCount(0)
+})
+
+test('start from Home, pan the canvas, and zoom around the pointer', async ({
+  page,
+}) => {
+  await page.goto('/')
+  await expect(
+    page.getByRole('heading', { name: 'How to use it' }),
+  ).toBeVisible()
+  await page.getByRole('button', { name: 'Open graph', exact: true }).click()
+  const viewport = page.getByLabel('Draggable commit map')
+  const tip = source.refs.find((ref) => ref.name === source.main)!.hash
+  const node = page.locator('[data-hash="' + tip + '"]')
+  await expect(node).toBeVisible()
+  const before = (await node.boundingBox())!
+  const bounds = (await viewport.boundingBox())!
+  // Drag away from the initial graph origin, where scroll-based panning cannot move.
+  const anchor = { x: bounds.x + 12, y: bounds.y + 14 }
+  await page.mouse.move(anchor.x, anchor.y)
+  await page.mouse.down()
+  await page.mouse.move(anchor.x + 60, anchor.y + 42, { steps: 6 })
+  await page.mouse.up()
+  const moved = (await node.boundingBox())!
+  expect(moved.x - before.x).toBeCloseTo(60)
+  expect(moved.y - before.y).toBeCloseTo(42)
+  await page.mouse.move(anchor.x, anchor.y)
+  await page.mouse.wheel(0, -150)
+  await expect
+    .poll(async () => (await node.boundingBox())!.width)
+    .toBeGreaterThan(moved.width)
+  const zoomed = (await node.boundingBox())!
+  expect((zoomed.x - anchor.x) / zoomed.width).toBeCloseTo(
+    (moved.x - anchor.x) / moved.width,
+    2,
+  )
+  await viewport.focus()
+  await page.keyboard.press('0')
+  await expect(node).toBeInViewport()
 })

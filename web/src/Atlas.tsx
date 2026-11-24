@@ -28,7 +28,7 @@ import { CommitLedger } from './CommitLedger'
 import { BranchComparison } from './BranchComparison'
 import { pathToAncestor, tracePair } from '../../shared/ancestry'
 
-type Point = { x: number; y: number }
+import { useMapCamera, type Point } from './useMapCamera'
 const W = 244,
   H = 124
 const short = (s: string) => s.slice(0, 8)
@@ -159,15 +159,17 @@ function Canvas({
   const [selected, select] = useState(initialCommit || tip)
   const [expanded, setExpanded] = useState<Set<string>>(new Set())
   const [offsets, setOffsets] = useState<Record<string, Point>>({})
-  const [scale, zoom] = useState(1)
   const [author, setAuthor] = useState('')
   const [query, search] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const [share, setShare] = useState('')
   const port = useRef<HTMLDivElement>(null)
+  const { camera, panTo, zoomBy, fit, reset } = useMapCamera(port)
+  const { scale } = camera
   const drag = useRef<{
     id: string
+    pointer: number
     start: Point
     origin: Point
     moved: boolean
@@ -218,9 +220,8 @@ function Canvas({
       setRoot(hash)
       select(hash)
       setOffsets({})
-      zoom(1)
+      reset()
       search('')
-      port.current?.scrollTo(0, 0)
     } catch (e) {
       if (version === generation.current) setError(errorText(e))
     } finally {
@@ -380,11 +381,16 @@ function Canvas({
         .slice(0, 8)
     : []
   function startDrag(e: PointerEvent<HTMLElement>, id: string, origin: Point) {
-    if (e.button !== 0 || (e.target as HTMLElement).closest('button,a,input'))
+    if (
+      drag.current ||
+      e.button !== 0 ||
+      (e.target as HTMLElement).closest('button,a,input')
+    )
       return
     e.currentTarget.setPointerCapture(e.pointerId)
     drag.current = {
       id,
+      pointer: e.pointerId,
       start: { x: e.clientX, y: e.clientY },
       origin,
       moved: false,
@@ -393,12 +399,12 @@ function Canvas({
   }
   function move(e: PointerEvent) {
     const d = drag.current
-    if (!d || !port.current) return
+    if (!d || d.pointer !== e.pointerId) return
     const x = e.clientX - d.start.x,
       y = e.clientY - d.start.y
     if (Math.abs(x) + Math.abs(y) > 4) d.moved = true
     if (d.id === 'pan') {
-      port.current.scrollTo(d.origin.x - x, d.origin.y - y)
+      if (d.moved) panTo({ x: d.origin.x + x, y: d.origin.y + y })
       return
     }
     if (d.moved)
@@ -410,25 +416,14 @@ function Canvas({
         },
       }))
   }
-  function end() {
+  function end(event: PointerEvent) {
     const d = drag.current
+    if (d?.pointer !== event.pointerId) return
     if (d && d.id !== 'pan' && !d.moved) {
       select(d.id)
       setShare('')
     }
     drag.current = null
-  }
-  function fit() {
-    if (port.current) {
-      zoom(
-        Math.min(
-          1.35,
-          port.current.clientWidth / width,
-          port.current.clientHeight / height,
-        ),
-      )
-      port.current.scrollTo(0, 0)
-    }
   }
   return (
     <>
@@ -459,7 +454,7 @@ function Canvas({
           togglePaths={() => {
             setOffsets({})
             setShowPaths(!showPaths)
-            port.current?.scrollTo(0, 0)
+            reset()
           }}
           busy={busy}
         />
@@ -520,20 +515,14 @@ function Canvas({
             >
               {wide ? 'Exit focus' : 'Focus map'}
             </button>
-            <button
-              aria-label="Zoom out"
-              onClick={() => zoom(Math.max(0.25, scale - 0.15))}
-            >
+            <button aria-label="Zoom out" onClick={() => zoomBy(1 / 1.2)}>
               <Minus />
             </button>
             <span>{Math.round(scale * 100)}%</span>
-            <button
-              aria-label="Zoom in"
-              onClick={() => zoom(Math.min(2, scale + 0.15))}
-            >
+            <button aria-label="Zoom in" onClick={() => zoomBy(1.2)}>
               <Plus />
             </button>
-            <button aria-label="Fit map" onClick={fit}>
+            <button aria-label="Fit map" onClick={() => fit(width, height)}>
               <Maximize2 />
             </button>
             <button aria-label="Reset map" onClick={() => void openRoot(tip)}>
@@ -547,104 +536,110 @@ function Canvas({
             ref={port}
             tabIndex={0}
             aria-label="Draggable commit map"
-            onPointerDown={(e) =>
-              startDrag(e, 'pan', {
-                x: e.currentTarget.scrollLeft,
-                y: e.currentTarget.scrollTop,
-              })
-            }
+            aria-describedby="graph-gestures"
+            onPointerDown={(e) => startDrag(e, 'pan', camera)}
             onPointerMove={move}
             onPointerUp={end}
-            onPointerCancel={() => (drag.current = null)}
+            onPointerCancel={(e) => {
+              if (drag.current?.pointer === e.pointerId) drag.current = null
+            }}
+            onKeyDown={(e) => {
+              if (e.target !== e.currentTarget) return
+              const offsets: Record<string, Point> = {
+                ArrowLeft: { x: 48, y: 0 },
+                ArrowRight: { x: -48, y: 0 },
+                ArrowUp: { x: 0, y: 48 },
+                ArrowDown: { x: 0, y: -48 },
+              }
+              const delta = offsets[e.key]
+              if (delta) panTo({ x: camera.x + delta.x, y: camera.y + delta.y })
+              else if (e.key === '+' || e.key === '=') zoomBy(1.2)
+              else if (e.key === '-') zoomBy(1 / 1.2)
+              else if (e.key === '0') fit(width, height)
+              else return
+              e.preventDefault()
+            }}
           >
             <div
+              className="atlas-plane"
               style={{
-                width: width * scale,
-                height: height * scale,
-                position: 'relative',
+                width,
+                height,
+                transform: `translate(${camera.x}px, ${camera.y}px) scale(${scale})`,
               }}
             >
-              <div
-                className="atlas-plane"
-                style={{ width, height, transform: 'scale(' + scale + ')' }}
-              >
-                <svg width={width} height={height} aria-hidden="true">
-                  {layout.flatMap((n) =>
-                    diagramParents(n.c).flatMap((p, i) => {
-                      const dest = byId.get(p)
-                      if (!dest) return []
-                      const x = n.x + W,
-                        y = n.y + H / 2,
-                        to = dest.y + H / 2,
-                        mid = (x + dest.x) / 2
-                      return (
-                        <path
-                          key={n.c.hash + p}
-                          d={`M ${x} ${y} C ${mid} ${y}, ${mid} ${to}, ${dest.x} ${to}`}
-                          className={
-                            paths.length ? 'pair-edge' : i ? 'merge-edge' : ''
-                          }
-                        />
-                      )
-                    }),
-                  )}
-                </svg>
-                {layout.map(({ c, x, y }) => (
-                  <article
-                    key={c.hash}
-                    className={
-                      'atlas-node ' + (selected === c.hash ? 'chosen' : '')
-                    }
-                    data-hash={c.hash}
-                    data-muted={Boolean(author && author !== c.author)}
-                    data-pair={pairStatus(c.hash)}
-                    style={{ left: x, top: y, width: W, height: H }}
-                    onPointerDown={(e) => startDrag(e, c.hash, { x, y })}
+              <svg width={width} height={height} aria-hidden="true">
+                {layout.flatMap((n) =>
+                  diagramParents(n.c).flatMap((p, i) => {
+                    const dest = byId.get(p)
+                    if (!dest) return []
+                    const x = n.x + W,
+                      y = n.y + H / 2,
+                      to = dest.y + H / 2,
+                      mid = (x + dest.x) / 2
+                    return (
+                      <path
+                        key={n.c.hash + p}
+                        d={`M ${x} ${y} C ${mid} ${y}, ${mid} ${to}, ${dest.x} ${to}`}
+                        className={
+                          paths.length ? 'pair-edge' : i ? 'merge-edge' : ''
+                        }
+                      />
+                    )
+                  }),
+                )}
+              </svg>
+              {layout.map(({ c, x, y }) => (
+                <article
+                  key={c.hash}
+                  className={
+                    'atlas-node ' + (selected === c.hash ? 'chosen' : '')
+                  }
+                  data-hash={c.hash}
+                  data-muted={Boolean(author && author !== c.author)}
+                  data-pair={pairStatus(c.hash)}
+                  style={{ left: x, top: y, width: W, height: H }}
+                  onPointerDown={(e) => startDrag(e, c.hash, { x, y })}
+                >
+                  <div className="node-id">
+                    {c.parents.length > 1 ? (
+                      <GitMerge size={14} />
+                    ) : (
+                      <GitCommitHorizontal size={14} />
+                    )}
+                    <code>{short(c.hash)}</code>
+                    <span>
+                      {repo.refs.find((r) => r.hash === c.hash)?.name}
+                    </span>
+                  </div>
+                  <button
+                    title={label(c)}
+                    className="node-title"
+                    onClick={() => {
+                      select(c.hash)
+                      setShare('')
+                    }}
                   >
-                    <div className="node-id">
-                      {c.parents.length > 1 ? (
-                        <GitMerge size={14} />
-                      ) : (
-                        <GitCommitHorizontal size={14} />
-                      )}
-                      <code>{short(c.hash)}</code>
-                      <span>
-                        {repo.refs.find((r) => r.hash === c.hash)?.name}
-                      </span>
-                    </div>
-                    <button
-                      title={label(c)}
-                      className="node-title"
-                      onClick={() => {
-                        select(c.hash)
-                        setShare('')
-                      }}
-                    >
-                      {label(c)}
-                    </button>
-                    <small className="node-author">
-                      {pairStatus(c.hash) || c.author}
-                    </small>
-                    <button
-                      className="node-expand"
-                      disabled={busy}
-                      aria-expanded={!paths.length && expanded.has(c.hash)}
-                      onClick={() => void toggle(c)}
-                    >
-                      {expanded.has(c.hash) ? (
-                        <ChevronDown />
-                      ) : (
-                        <ChevronRight />
-                      )}
-                      {c.parents.length
-                        ? parents(c).length +
-                          ' parent' +
-                          (parents(c).length === 1 ? '' : 's')
-                        : 'Root details'}
-                    </button>
-                  </article>
-                ))}
-              </div>
+                    {label(c)}
+                  </button>
+                  <small className="node-author">
+                    {pairStatus(c.hash) || c.author}
+                  </small>
+                  <button
+                    className="node-expand"
+                    disabled={busy}
+                    aria-expanded={!paths.length && expanded.has(c.hash)}
+                    onClick={() => void toggle(c)}
+                  >
+                    {expanded.has(c.hash) ? <ChevronDown /> : <ChevronRight />}
+                    {c.parents.length
+                      ? parents(c).length +
+                        ' parent' +
+                        (parents(c).length === 1 ? '' : 's')
+                      : 'Root details'}
+                  </button>
+                </article>
+              ))}
             </div>
           </div>
           <aside className="atlas-inspector">
@@ -801,9 +796,9 @@ function Canvas({
           <span>
             {layout.length} visible commits · {records.size} loaded
           </span>
-          <span>
-            Dashed edges mark merge parents. Drag cards to move them. Expand its
-            parents to trace history.
+          <span id="graph-gestures">
+            Drag the background to pan. Scroll to zoom. Dashed edges mark merge
+            parents.
           </span>
         </footer>
       </div>
@@ -814,11 +809,11 @@ function Canvas({
           select(id)
           setShare('')
           const position = byId.get(id)
-          if (position)
-            port.current?.scrollTo(
-              Math.max(0, position.x * scale - 24),
-              Math.max(0, position.y * scale - 24),
-            )
+          if (position && port.current)
+            panTo({
+              x: port.current.clientWidth / 2 - (position.x + W / 2) * scale,
+              y: port.current.clientHeight / 2 - (position.y + H / 2) * scale,
+            })
         }}
       />
       {busy && <p role="status">Loading commits…</p>}

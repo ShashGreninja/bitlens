@@ -11,7 +11,7 @@ npm ci
 npm run dev
 ```
 
-The explorer opens on Atlassian's public [atlassian-connect-express](https://bitbucket.org/atlassian/atlassian-connect-express) repository. Choose a branch or tag and trace all parents or only the first parent. Drag cards to rearrange the map. Expand parents, search by author, message or hash, or select a commit to open its Bitbucket record and inspect its file changes.
+Choose **Open graph** on Home to explore Atlassian's public [atlassian-connect-express](https://bitbucket.org/atlassian/atlassian-connect-express) repository. Choose a branch or tag and trace all parents or only the first parent. Drag cards to rearrange the map. Drag the background to pan or scroll over it to zoom. Expand parents, search by author, message or hash, or select a commit to open its Bitbucket record and inspect its file changes.
 
 The local graph starts from a dated snapshot of public Bitbucket REST records. Older ancestry and file investigations request the public API and need network access. An installed Forge app reads its own repository as the current viewer. Push replay requires the installed event recorder. The deterministic regression fixture remains available for tests at `/?fixture=1`. See the [judge walkthrough](JUDGE.md) for hosted installation.
 
