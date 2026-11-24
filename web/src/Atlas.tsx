@@ -3,7 +3,6 @@ import {
   GitBranch,
   GitMerge,
   GitCommitHorizontal,
-  Network,
   Search,
   Plus,
   Minus,
@@ -12,6 +11,7 @@ import {
   ChevronRight,
   Link2,
   ArrowUpRight,
+  Pin,
   RotateCcw,
 } from 'lucide-react'
 import type { Commit, Results } from '../../shared/types'
@@ -24,6 +24,9 @@ import {
 } from './service'
 import './atlas.css'
 import { CommitFiles } from './CommitFiles'
+import { CommitLedger } from './CommitLedger'
+import { BranchComparison } from './BranchComparison'
+import { pathToAncestor, tracePair } from '../../shared/ancestry'
 
 type Point = { x: number; y: number }
 const W = 244,
@@ -55,6 +58,10 @@ export default function Atlas({
   )
   const [line, setLine] = useState(initial?.lineage === 'first')
   const [archive, setArchive] = useState<Map<string, Commit>>()
+  const [pinned, setPinned] = useState({
+    base: initial?.pinBase,
+    target: initial?.pinTarget,
+  })
   const [stamp, setStamp] = useState('')
   useEffect(() => {
     if (isExample)
@@ -64,20 +71,11 @@ export default function Atlas({
       })
   }, [])
   return (
-    <main className="atlas">
-      <header className="atlas-head">
-        <div>
-          <Network />
-          Repository History
-        </div>
-        <span>Bitbucket Cloud</span>
-      </header>
+    <section className="atlas">
       <div className="atlas-title">
         <div>
-          <span className="atlas-repo">
-            {repo.workspace} / {repo.repo}
-          </span>
-          <h1>History explorer</h1>
+          <h1>Commit graph</h1>
+          <p>Pin two commits to find where their histories meet.</p>
         </div>
         <div className="atlas-settings">
           <label>
@@ -115,6 +113,8 @@ export default function Atlas({
           key={tip + line}
           {...{ repo, tip, line, archive, stamp, investigate }}
           initialCommit={initial?.target === tip ? initial.commit : undefined}
+          pins={pinned}
+          setPinned={setPinned}
         />
       ) : (
         <p>
@@ -123,7 +123,7 @@ export default function Atlas({
             : 'This repository has no revisions yet.'}
         </p>
       )}
-    </main>
+    </section>
   )
 }
 
@@ -134,6 +134,8 @@ function Canvas({
   archive,
   stamp,
   initialCommit,
+  pins: pinned,
+  setPinned,
   investigate,
 }: {
   repo: Results['bootstrap']
@@ -142,9 +144,17 @@ function Canvas({
   archive?: Map<string, Commit>
   stamp: string
   initialCommit?: string
+  pins: { base: string | undefined; target: string | undefined }
+  setPinned: React.Dispatch<
+    React.SetStateAction<{
+      base: string | undefined
+      target: string | undefined
+    }>
+  >
   investigate: (s: Selection) => void
 }) {
   const [records, setRecords] = useState(() => new Map(archive))
+  const [showPaths, setShowPaths] = useState(false)
   const [root, setRoot] = useState(initialCommit || tip)
   const [selected, select] = useState(initialCommit || tip)
   const [expanded, setExpanded] = useState<Set<string>>(new Set())
@@ -203,6 +213,7 @@ function Canvas({
       }
       if (version !== generation.current) return
       setRecords((old) => new Map([...old, ...gathered]))
+      setShowPaths(false)
       setExpanded(opened)
       setRoot(hash)
       select(hash)
@@ -223,7 +234,12 @@ function Canvas({
     }
   }, [])
   async function toggle(c: Commit) {
+    if (showPaths) {
+      await openRoot(c.hash)
+      return
+    }
     select(c.hash)
+    setShowPaths(false)
     setShare('')
     if (expanded.has(c.hash)) {
       setExpanded((old) => {
@@ -249,10 +265,78 @@ function Canvas({
       if (version === generation.current) setBusy(false)
     }
   }
+  const pair = useMemo(
+    () =>
+      pinned.base && pinned.target
+        ? tracePair(records, pinned.base, pinned.target)
+        : null,
+    [records, pinned],
+  )
+  const pairStatus = (id: string) => {
+    if (id === pinned.base && id === pinned.target) return 'Both pins'
+    if (id === pinned.base) return 'Baseline'
+    if (id === pinned.target) return 'Target'
+    if (pair?.shared.has(id)) return 'Shared'
+    return undefined
+  }
+  async function loadAncestry() {
+    if (!pair || busy) return
+    const version = generation.current
+    setBusy(true)
+    setError('')
+    try {
+      const roots = pair.missing.slice(0, 3)
+      const results = await Promise.allSettled(roots.map(retrieve))
+      if (version !== generation.current) return
+      const rows = results.flatMap((result) =>
+        result.status === 'fulfilled' ? result.value : [],
+      )
+      setRecords(
+        (previous) =>
+          new Map([
+            ...previous,
+            ...rows.map((record) => [record.hash, record] as const),
+          ]),
+      )
+      if (results.some((result) => result.status === 'rejected'))
+        setError('Some older commits could not be loaded from Bitbucket.')
+    } finally {
+      if (version === generation.current) setBusy(false)
+    }
+  }
+  function pin(side: 'base' | 'target', id: string) {
+    setPinned((previous) => ({ ...previous, [side]: id }))
+    setShare('')
+  }
+  const paths = useMemo(() => {
+    if (!showPaths || !pinned.base || !pinned.target || !pair?.frontier.length)
+      return []
+    const shared = pair.frontier[0]
+    return [...new Set([pinned.base, pinned.target])].map((tip) =>
+      pathToAncestor(records, tip, shared),
+    )
+  }, [showPaths, pinned, pair, records])
+  const pathEdges = new Set(
+    paths.flatMap((path) => path.slice(1).map((id, index) => path[index] + id)),
+  )
+  const diagramParents = (commit: Commit) =>
+    paths.length
+      ? commit.parents.filter((id) => pathEdges.has(commit.hash + id))
+      : expanded.has(commit.hash)
+        ? parents(commit)
+        : []
   const layout = useMemo(() => {
     const depth = new Map<string, number>([[root, 0]]),
       ids = [root]
-    for (let i = 0; i < ids.length; i++) {
+    if (paths.length) {
+      ids.splice(0, ids.length, ...new Set(paths.flat()))
+      depth.clear()
+      for (const path of paths)
+        path.forEach((id, index) =>
+          depth.set(id, Math.max(depth.get(id) || 0, index)),
+        )
+    }
+    for (let i = 0; !paths.length && i < ids.length; i++) {
       const c = records.get(ids[i])
       if (!c || !expanded.has(c.hash)) continue
       for (const p of parents(c))
@@ -279,13 +363,13 @@ function Canvas({
       ]
     })
     return nodes
-  }, [root, records, expanded, offsets, line])
+  }, [root, records, expanded, offsets, line, paths])
   const byId = new Map(layout.map((n) => [n.c.hash, n]))
   const width = Math.max(550, ...layout.map((p) => p.x + W + 42)),
     height = Math.max(350, ...layout.map((p) => p.y + H + 60))
   const focus = records.get(selected)
   const [wide, setWide] = useState(false)
-  const [overview, setOverview] = useState(true)
+  const [overview, setOverview] = useState(false)
   const matches = query.trim()
     ? [...records.values()]
         .filter((c) =>
@@ -348,6 +432,57 @@ function Canvas({
   }
   return (
     <>
+      {pinned.base && pinned.target ? (
+        <BranchComparison
+          records={records}
+          baseline={pinned.base}
+          target={pinned.target}
+          trace={(hash) => void openRoot(hash)}
+          swap={() => {
+            setPinned({ base: pinned.target, target: pinned.base })
+            setShare('')
+          }}
+          clear={() => {
+            setPinned({ base: undefined, target: undefined })
+            setShowPaths(false)
+            setShare('')
+          }}
+          compare={() =>
+            investigate({
+              base: pinned.base!,
+              target: pinned.target!,
+              view: 'compare',
+            })
+          }
+          load={() => void loadAncestry()}
+          showPaths={showPaths}
+          togglePaths={() => {
+            setOffsets({})
+            setShowPaths(!showPaths)
+            port.current?.scrollTo(0, 0)
+          }}
+          busy={busy}
+        />
+      ) : (
+        (pinned.base || pinned.target) && (
+          <div className="pair-pending" role="status">
+            <span>
+              {pinned.base ? 'Baseline' : 'Target'}{' '}
+              <code>{short((pinned.base || pinned.target)!)}</code> pinned.
+              Select a second commit to complete the range.
+            </span>
+            <button
+              onClick={() => {
+                setPinned({ base: undefined, target: undefined })
+                setShowPaths(false)
+                setShare('')
+              }}
+            >
+              Clear pin
+            </button>
+          </div>
+        )
+      )}
       <div className={'atlas-board' + (wide ? ' atlas-wide' : '')}>
         <div className="atlas-bar">
           <h2>
@@ -435,23 +570,23 @@ function Canvas({
               >
                 <svg width={width} height={height} aria-hidden="true">
                   {layout.flatMap((n) =>
-                    expanded.has(n.c.hash)
-                      ? parents(n.c).flatMap((p, i) => {
-                          const dest = byId.get(p)
-                          if (!dest) return []
-                          const x = n.x + W,
-                            y = n.y + H / 2,
-                            to = dest.y + H / 2,
-                            mid = (x + dest.x) / 2
-                          return (
-                            <path
-                              key={n.c.hash + p}
-                              d={`M ${x} ${y} C ${mid} ${y}, ${mid} ${to}, ${dest.x} ${to}`}
-                              className={i ? 'merge-edge' : ''}
-                            />
-                          )
-                        })
-                      : [],
+                    diagramParents(n.c).flatMap((p, i) => {
+                      const dest = byId.get(p)
+                      if (!dest) return []
+                      const x = n.x + W,
+                        y = n.y + H / 2,
+                        to = dest.y + H / 2,
+                        mid = (x + dest.x) / 2
+                      return (
+                        <path
+                          key={n.c.hash + p}
+                          d={`M ${x} ${y} C ${mid} ${y}, ${mid} ${to}, ${dest.x} ${to}`}
+                          className={
+                            paths.length ? 'pair-edge' : i ? 'merge-edge' : ''
+                          }
+                        />
+                      )
+                    }),
                   )}
                 </svg>
                 {layout.map(({ c, x, y }) => (
@@ -462,6 +597,7 @@ function Canvas({
                     }
                     data-hash={c.hash}
                     data-muted={Boolean(author && author !== c.author)}
+                    data-pair={pairStatus(c.hash)}
                     style={{ left: x, top: y, width: W, height: H }}
                     onPointerDown={(e) => startDrag(e, c.hash, { x, y })}
                   >
@@ -486,11 +622,13 @@ function Canvas({
                     >
                       {label(c)}
                     </button>
-                    <small className="node-author">{c.author}</small>
+                    <small className="node-author">
+                      {pairStatus(c.hash) || c.author}
+                    </small>
                     <button
                       className="node-expand"
                       disabled={busy}
-                      aria-expanded={expanded.has(c.hash)}
+                      aria-expanded={!paths.length && expanded.has(c.hash)}
                       onClick={() => void toggle(c)}
                     >
                       {expanded.has(c.hash) ? (
@@ -510,6 +648,107 @@ function Canvas({
             </div>
           </div>
           <aside className="atlas-inspector">
+            <h2>Selected commit</h2>
+            {focus && (
+              <>
+                <code>{short(focus.hash)}</code>
+                <h3>{label(focus)}</h3>
+                <dl>
+                  <dt>Author</dt>
+                  <dd>
+                    <button
+                      className="author-focus"
+                      aria-pressed={author === focus.author}
+                      title="Highlight this author on the map"
+                      onClick={() =>
+                        setAuthor(author === focus.author ? '' : focus.author)
+                      }
+                    >
+                      {focus.author}
+                    </button>
+                  </dd>
+                  <dt>Committed</dt>
+                  <dd>{day(focus.date)}</dd>
+                  <dt>Parents</dt>
+                  <dd>{focus.parents.length || 'Root commit'}</dd>
+                </dl>
+                {focus.message.includes('\n') && (
+                  <details>
+                    <summary>Full message</summary>
+                    <pre>{focus.message}</pre>
+                  </details>
+                )}
+                <div className="pin-actions">
+                  <button
+                    aria-pressed={pinned.base === focus.hash}
+                    onClick={() => pin('base', focus.hash)}
+                  >
+                    <Pin size={14} /> Pin baseline
+                  </button>
+                  <button
+                    aria-pressed={pinned.target === focus.hash}
+                    onClick={() => pin('target', focus.hash)}
+                  >
+                    <Pin size={14} /> Pin target
+                  </button>
+                </div>
+                <CommitFiles
+                  key={focus.hash}
+                  commit={focus}
+                  inspect={investigate}
+                />
+                <button onClick={() => void openRoot(focus.hash)}>
+                  Trace from this commit
+                </button>
+                <button
+                  onClick={() =>
+                    investigate({
+                      base: focus.parents[0] || focus.hash,
+                      target: focus.hash,
+                      view: 'compare',
+                    })
+                  }
+                >
+                  Inspect changed files
+                </button>
+                <button
+                  onClick={() =>
+                    openSource(focus.url).catch((e) => setError(errorText(e)))
+                  }
+                >
+                  Open in Bitbucket <ArrowUpRight size={15} />
+                </button>
+                <button
+                  onClick={async () => {
+                    try {
+                      const url = await shareInvestigation({
+                        base: tip,
+                        target: tip,
+                        commit: focus.hash,
+                        view: 'graph',
+                        lineage: line ? 'first' : 'all',
+                        pinBase: pinned.base,
+                        pinTarget: pinned.target,
+                      })
+                      setShare(url)
+                      await navigator.clipboard?.writeText(url)
+                    } catch (e) {
+                      setError(errorText(e))
+                    }
+                  }}
+                >
+                  <Link2 size={15} /> Share graph
+                </button>
+                {share && (
+                  <input
+                    aria-label="Graph link"
+                    value={share}
+                    readOnly
+                    onFocus={(e) => e.target.select()}
+                  />
+                )}
+              </>
+            )}
             <button
               className="overview-toggle"
               aria-expanded={overview}
@@ -556,94 +795,9 @@ function Canvas({
                 ))}
               </svg>
             )}
-            <h2>Commit details</h2>
-            {focus && (
-              <>
-                <code>{short(focus.hash)}</code>
-                <h3>{label(focus)}</h3>
-                <dl>
-                  <dt>Author</dt>
-                  <dd>
-                    <button
-                      className="author-focus"
-                      aria-pressed={author === focus.author}
-                      title="Highlight this author on the map"
-                      onClick={() =>
-                        setAuthor(author === focus.author ? '' : focus.author)
-                      }
-                    >
-                      {focus.author}
-                    </button>
-                  </dd>
-                  <dt>Committed</dt>
-                  <dd>{day(focus.date)}</dd>
-                  <dt>Parents</dt>
-                  <dd>{focus.parents.length || 'Root commit'}</dd>
-                </dl>
-                {focus.message.includes('\n') && (
-                  <details>
-                    <summary>Full message</summary>
-                    <pre>{focus.message}</pre>
-                  </details>
-                )}
-                <CommitFiles
-                  key={focus.hash}
-                  commit={focus}
-                  inspect={investigate}
-                />
-                <button onClick={() => void openRoot(focus.hash)}>
-                  Trace from this commit
-                </button>
-                <button
-                  onClick={() =>
-                    investigate({
-                      base: focus.parents[0] || focus.hash,
-                      target: focus.hash,
-                      view: 'compare',
-                    })
-                  }
-                >
-                  Inspect changed files
-                </button>
-                <button
-                  onClick={() =>
-                    openSource(focus.url).catch((e) => setError(errorText(e)))
-                  }
-                >
-                  Open in Bitbucket <ArrowUpRight size={15} />
-                </button>
-                <button
-                  onClick={async () => {
-                    try {
-                      const url = await shareInvestigation({
-                        base: tip,
-                        target: tip,
-                        commit: focus.hash,
-                        view: 'graph',
-                        lineage: line ? 'first' : 'all',
-                      })
-                      setShare(url)
-                      await navigator.clipboard?.writeText(url)
-                    } catch (e) {
-                      setError(errorText(e))
-                    }
-                  }}
-                >
-                  <Link2 size={15} /> Share graph
-                </button>
-                {share && (
-                  <input
-                    aria-label="Graph link"
-                    value={share}
-                    readOnly
-                    onFocus={(e) => e.target.select()}
-                  />
-                )}
-              </>
-            )}
           </aside>
         </div>
-        <footer>
+        <footer className="atlas-footer">
           <span>
             {layout.length} visible commits · {records.size} loaded
           </span>
@@ -653,6 +807,20 @@ function Canvas({
           </span>
         </footer>
       </div>
+      <CommitLedger
+        commits={layout.map((node) => node.c)}
+        selected={selected}
+        reveal={(id) => {
+          select(id)
+          setShare('')
+          const position = byId.get(id)
+          if (position)
+            port.current?.scrollTo(
+              Math.max(0, position.x * scale - 24),
+              Math.max(0, position.y * scale - 24),
+            )
+        }}
+      />
       {busy && <p role="status">Loading commits…</p>}
       {error && (
         <p role="alert">

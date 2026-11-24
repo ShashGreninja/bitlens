@@ -1,0 +1,153 @@
+/* The same repository shell follows the investigation across every view. */
+.repo-desk {
+  --desk-ground: #171719;
+  --desk-sheet: #131315;
+  --desk-hover: #242427;
+  --desk-line: #353539;
+  --desk-ink: #f4f4f5;
+  --desk-muted: #a9acb1;
+  --desk-accent: #82bdf2;
+  --desk-rule: #70747b;
+  min-height: 100vh;
+  background: var(--desk-ground);
+  color: var(--desk-ink);
+  font:
+    14px/1.5 'Public Sans',
+    'Segoe UI',
+    sans-serif;
+  color-scheme: dark;
+}
+.repo-desk a {
+  color: var(--desk-accent);
+}
+.repo-desk button:focus-visible,
+.repo-desk input:focus-visible,
+.repo-desk select:focus-visible,
+.repo-desk [tabindex]:focus-visible {
+  outline: 2px solid var(--desk-accent);
+  outline-offset: 2px;
+}
+.desk-header,
+.desk-nav,
+.desk-content {
+  padding-inline: clamp(16px, 3vw, 44px);
+}
+.desk-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 56px;
+  padding-block: 8px;
+  border-bottom: 1px solid var(--desk-line);
+}
+.desk-brand,
+.desk-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.desk-brand svg,
+.desk-source svg {
+  flex: none;
+}
+.desk-brand {
+  font-size: 15px;
+}
+.desk-header .desk-source {
+  text-decoration: none;
+  color: var(--desk-muted);
+  overflow-wrap: anywhere;
+}
+.desk-nav {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  border-bottom: 1px solid var(--desk-line);
+  overflow: auto;
+}
+.desk-nav button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  min-height: 45px;
+  padding: 0;
+  border-bottom: 1px solid transparent;
+  color: var(--desk-muted);
+}
+.desk-nav button:hover,
+.desk-nav button[aria-current] {
+  color: var(--desk-ink);
+}
+.desk-nav button[aria-current] {
+  border-bottom-color: var(--desk-accent);
+}
+.desk-content {
+  padding-bottom: 32px;
+  max-width: 1740px;
+  margin-inline: auto;
+}
+.desk-content > [hidden] {
+  display: none;
+}
+.desk-workspace .main-panel {
+  background: transparent;
+}
+.desk-workspace .main-content {
+  width: 100%;
+  max-width: none;
+  margin: 24px 0 0;
+  background: #fbfbf9;
+  color: #232326;
+  padding: clamp(12px, 2.6vw, 32px);
+  border: 0;
+  border-radius: 0;
+  color-scheme: light;
+}
+.desk-workspace .main-content a {
+  color: #146451;
+}
+.desk-workspace .main-content h1 {
+  font-size: 26px;
+}
+.desk-workspace dialog {
+  color-scheme: light;
+}
+@media (max-width: 600px) {
+  .desk-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding-block: 12px;
+  }
+  .desk-nav {
+    gap: 18px;
+  }
+  .desk-workspace .main-content {
+    margin-top: 16px;
+  }
+}
+
+.desk-workspace .main-content {
+  --line: #dedee2;
+  --green: #295e8c;
+  --muted: #555862;
+  --ink: #232326;
+}
+.desk-workspace .revision-trigger,
+.desk-workspace .revisions,
+.desk-workspace .change-workbench,
+.desk-workspace .evidence-split {
+  border-radius: 3px;
+  box-shadow: none;
+}
+.desk-workspace .revision-trigger,
+.desk-workspace .revisions,
+.desk-workspace .panel-label {
+  background: #f3f3f5;
+}
+.desk-workspace .button.primary {
+  background: #21242a;
+}
+.desk-workspace .file-row.selected {
+  background: #e4edf5;
+}

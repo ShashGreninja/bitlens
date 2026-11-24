@@ -44,3 +44,35 @@ test('trace and move real Bitbucket commits on the primary graph', async ({
     await page.evaluate(() => document.documentElement.scrollWidth),
   ).toBeLessThanOrEqual(390)
 })
+
+test('pin two real commits, trace their paths, and return from Replay without losing the graph', async ({
+  page,
+}) => {
+  await page.goto('/')
+  const tip = source.refs.find((ref) => ref.name === source.main)!.hash
+  const parent = source.commits.find((commit) => commit.hash === tip)!
+    .parents[0]
+  await expect(page.locator('[data-hash="' + tip + '"]')).toBeVisible()
+  await page.getByRole('button', { name: 'Pin target', exact: true }).click()
+  await page.locator('[data-hash="' + parent + '"] .node-title').click()
+  await page.getByRole('button', { name: 'Pin baseline', exact: true }).click()
+
+  const range = page.getByRole('region', { name: 'Pinned range' })
+  await expect(range).toContainText(parent.slice(0, 8))
+  await expect(range).toContainText('Counts use loaded history')
+  await range.getByRole('button', { name: 'Show both paths' }).click()
+  await expect(page.locator('.pair-edge')).toHaveCount(1)
+
+  const views = page.getByRole('navigation', { name: 'Repository views' })
+  for (const name of ['Compare', 'File history', 'Source', 'Replay'])
+    await expect(views.getByRole('button', { name, exact: true })).toBeVisible()
+  await views.getByRole('button', { name: 'Replay', exact: true }).click()
+  await expect(
+    page.getByText(/Recording begins when Repository History is installed/),
+  ).toBeVisible()
+  await views.getByRole('button', { name: 'Graph', exact: true }).click()
+  await expect(range).toBeVisible()
+  await expect(page.locator('.pair-edge')).toHaveCount(1)
+  await range.getByRole('button', { name: 'Clear', exact: true }).click()
+  await expect(range).toHaveCount(0)
+})

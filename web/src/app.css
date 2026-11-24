@@ -1615,3 +1615,5 @@ button,.button,.revision-trigger,.workspace-switch,.file-row.selected {box-shado
 .crumb,.sidebar-label,.file-title code,.diff .hunk pre,.revision-hash {color:#45594d}
 @media(max-width:560px){.main-content,.topbar{padding-inline:18px}.status,.top-context,.revision-hash,.revision-label{font-size:12px}}
 button.nav-item.active,button.record-row.selected,button.button.primary {box-shadow:none}
+
+.replay-share { display: flex; justify-content: flex-end; margin-top: 12px; }

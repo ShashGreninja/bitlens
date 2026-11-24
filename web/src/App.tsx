@@ -17,7 +17,6 @@ import {
 } from 'lucide-react'
 import type { Ref, Results } from '../../shared/types'
 import {
-  isExample,
   fixtureMode,
   readInvestigation,
   service,
@@ -43,6 +42,7 @@ import {
   useLocateRecord,
 } from './components/data'
 import './app.css'
+import { RepositoryDesk, deskViews, type DeskView } from './RepositoryDesk'
 
 const Atlas = lazy(() => import('./Atlas'))
 const Graph = lazy(() => import('./components/Graph'))
@@ -76,8 +76,8 @@ const views = {
 }
 type View = keyof typeof views
 const viewKeys = Object.keys(views) as View[]
-const asView = (v?: string): View =>
-  viewKeys.includes(v as View) ? (v as View) : 'compare'
+const asView = (v?: string): View | 'tree' =>
+  v === 'tree' ? v : viewKeys.includes(v as View) ? (v as View) : 'compare'
 type Bootstrap = Results['bootstrap']
 function defaults(repo: Bootstrap) {
   const tags = repo.refs
@@ -100,22 +100,28 @@ function Workspace({
   repo,
   initial,
   returnToMap,
+  onView,
+  embedded = false,
 }: {
   repo: Bootstrap
   initial: Selection | null
   returnToMap?: (selection: Selection) => void
+  onView?: (view: DeskView) => void
+  embedded?: boolean
 }) {
   const [selection, setSelection] = useState<Selection>(
     initial || defaults(repo),
   )
-  const current = asView(selection.view)
+  const current = asView(embedded ? initial?.view : selection.view)
   const [dialog, setDialog] = useState<'share' | 'tree' | 'repo' | null>(null)
   const [share, setShare] = useState('')
   const [shareError, setShareError] = useState('')
   const [shareAttempt, setShareAttempt] = useState(0)
   const [refsExpanded, setRefsExpanded] = useState(false)
-  const changeSelection = (p: Partial<Selection>) =>
+  const changeSelection = (p: Partial<Selection>) => {
     setSelection((s) => ({ ...s, ...p }))
+    if (embedded && p.view) onView?.(p.view as DeskView)
+  }
   const navigate = (view: View) =>
     view === 'graph' && returnToMap
       ? returnToMap({
@@ -127,7 +133,9 @@ function Workspace({
   const compare = usePages(
     'compare',
     { base: selection.base, target: selection.target },
-    !!(selection.base && selection.target),
+    !!(selection.base && selection.target) &&
+      ((current !== 'replay' && !(embedded && current === 'graph')) ||
+        dialog === 'share'),
   )
   const fixed = compare.data
   const change =
@@ -170,7 +178,7 @@ function Workspace({
   const graph = usePages(
     'graph',
     { base: fixed?.base, target: fixed?.target },
-    !!fixed && current === 'graph',
+    !!fixed && current === 'graph' && !embedded,
   )
   const replay = usePages('replay', {}, current === 'replay')
   const activeCommit =
@@ -215,7 +223,15 @@ function Workspace({
       alive = false
     }
   }, [dialog, sharedSelection, shareAttempt])
-  const { title, description, name } = views[current]
+  const { title, description, name } =
+    current === 'tree'
+      ? {
+          title: 'Source tree',
+          description: 'Browse a repository snapshot at either revision.',
+          name: 'Source',
+        }
+      : views[current]
+  const Container = embedded ? 'section' : 'main'
   const evidence =
     detail.data?.history.find((c) => c.hash === activeCommit) ||
     (!activeCommit ? detail.data?.history[0] : undefined)
@@ -267,92 +283,96 @@ function Workspace({
     )
   }
   return (
-    <div className="app-shell">
-      <aside className="sidebar">
-        <div className="brand">
-          <span className="brand-mark">
-            <GitBranch size={22} strokeWidth={2.4} />
-          </span>
-          <span>
-            Repository
-            <br />
-            History
-          </span>
-        </div>
-        <div className="sidebar-inner">
-          <div className="sidebar-label">Workspace</div>
-          <button
-            className="workspace-switch"
-            onClick={() => setDialog('repo')}
-          >
-            <span className="workspace-avatar">
-              {repo.workspace.substring(0, 1).toUpperCase()}
+    <div className={embedded ? 'desk-workspace' : 'app-shell'}>
+      {!embedded && (
+        <aside className="sidebar">
+          <div className="brand">
+            <span className="brand-mark">
+              <GitBranch size={22} strokeWidth={2.4} />
             </span>
-            <span>{repo.workspace}</span>
-            <ChevronsUpDown size={13} />
-          </button>
-          <div className="sidebar-label nav-label">Investigation</div>
-          <nav aria-label="Investigation views">
-            {viewKeys.map((id) => {
-              const Icon = views[id].icon
-              return (
-                <button
-                  key={id}
-                  className={'nav-item ' + (id === current ? 'active' : '')}
-                  aria-current={id === current ? 'page' : undefined}
-                  onClick={() => navigate(id)}
-                >
-                  <Icon size={18} />
-                  <span>{views[id].name}</span>
-                  {id === current && <span className="nav-dot" />}
-                </button>
-              )
-            })}
-          </nav>
-          <div className="side-refs">
-            <div className="sidebar-label">Repository refs</div>
+            <span>
+              Repository
+              <br />
+              History
+            </span>
+          </div>
+          <div className="sidebar-inner">
+            <div className="sidebar-label">Workspace</div>
             <button
-              className="all-refs"
-              onClick={() => setRefsExpanded(!refsExpanded)}
-              aria-expanded={refsExpanded}
+              className="workspace-switch"
+              onClick={() => setDialog('repo')}
             >
-              <ChevronRight
-                className={refsExpanded ? 'rotate' : ''}
-                size={13}
-              />
-              {refsExpanded ? 'Hide all refs' : 'All branches & tags'}
+              <span className="workspace-avatar">
+                {repo.workspace.substring(0, 1).toUpperCase()}
+              </span>
+              <span>{repo.workspace}</span>
+              <ChevronsUpDown size={13} />
             </button>
-            {refsExpanded && (
-              <div className="expanded-refs">
-                {repo.refs.map(refButton)}
-                {!repo.refs.length && <small>No refs recorded.</small>}
-                {repo.partial && (
-                  <small>Only the first refs were returned.</small>
-                )}
-              </div>
-            )}
+            <div className="sidebar-label nav-label">Investigation</div>
+            <nav aria-label="Investigation views">
+              {viewKeys.map((id) => {
+                const Icon = views[id].icon
+                return (
+                  <button
+                    key={id}
+                    className={'nav-item ' + (id === current ? 'active' : '')}
+                    aria-current={id === current ? 'page' : undefined}
+                    onClick={() => navigate(id)}
+                  >
+                    <Icon size={18} />
+                    <span>{views[id].name}</span>
+                    {id === current && <span className="nav-dot" />}
+                  </button>
+                )
+              })}
+            </nav>
+            <div className="side-refs">
+              <div className="sidebar-label">Repository refs</div>
+              <button
+                className="all-refs"
+                onClick={() => setRefsExpanded(!refsExpanded)}
+                aria-expanded={refsExpanded}
+              >
+                <ChevronRight
+                  className={refsExpanded ? 'rotate' : ''}
+                  size={13}
+                />
+                {refsExpanded ? 'Hide all refs' : 'All branches & tags'}
+              </button>
+              {refsExpanded && (
+                <div className="expanded-refs">
+                  {repo.refs.map(refButton)}
+                  {!repo.refs.length && <small>No refs recorded.</small>}
+                  {repo.partial && current !== 'replay' && (
+                    <small>Only the first refs were returned.</small>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-        <div className="sidebar-bottom">
-          <span className="indicator" />
-          <span>{fixtureMode ? 'Test fixture' : 'Bitbucket Cloud'}</span>
-        </div>
-      </aside>
-      <main className="main-panel">
-        <header className="topbar">
-          <div className="crumb">
-            <FolderGit2 size={16} />
-            <button onClick={() => setDialog('repo')} className="crumb-repo">
-              {repo.repo}
-            </button>
-            <ChevronRight size={13} />
-            <span>{name}</span>
+          <div className="sidebar-bottom">
+            <span className="indicator" />
+            <span>{fixtureMode ? 'Test fixture' : 'Bitbucket Cloud'}</span>
           </div>
-          <span className="top-context">
-            <CircleDot size={13} />
-            {fixtureMode ? 'Test fixture' : 'Repository workspace'}
-          </span>
-        </header>
+        </aside>
+      )}
+      <Container className="main-panel">
+        {!embedded && (
+          <header className="topbar">
+            <div className="crumb">
+              <FolderGit2 size={16} />
+              <button onClick={() => setDialog('repo')} className="crumb-repo">
+                {repo.repo}
+              </button>
+              <ChevronRight size={13} />
+              <span>{name}</span>
+            </div>
+            <span className="top-context">
+              <CircleDot size={13} />
+              {fixtureMode ? 'Test fixture' : 'Repository workspace'}
+            </span>
+          </header>
+        )}
         <div className="main-content">
           <section className="hero">
             <div className="hero-copy">
@@ -367,27 +387,43 @@ function Workspace({
               </p>
             </div>
           </section>
-          <div className="section-heading revisions-heading">
-            <div className="heading-with-meta">
-              <Columns2 size={17} />
-              <h2>Revision range</h2>
+          {current === 'replay' && (
+            <div className="replay-share">
+              <button
+                className="button"
+                disabled={!selection.base || !selection.target}
+                onClick={() => setDialog('share')}
+              >
+                <Share2 size={15} />
+                Share investigation
+              </button>
             </div>
-            <button
-              className="button primary"
-              disabled={!fixed}
-              onClick={() => setDialog('share')}
-            >
-              <Share2 size={15} />
-              Share investigation
-            </button>
-          </div>
-          <Revisions
-            refs={repo.refs}
-            base={selection.base}
-            target={selection.target}
-            hashes={fixed}
-            setPair={selectPair}
-          />
+          )}
+          {current !== 'replay' && (
+            <div className="section-heading revisions-heading">
+              <div className="heading-with-meta">
+                <Columns2 size={17} />
+                <h2>Revision range</h2>
+              </div>
+              <button
+                className="button primary"
+                disabled={!fixed}
+                onClick={() => setDialog('share')}
+              >
+                <Share2 size={15} />
+                Share investigation
+              </button>
+            </div>
+          )}
+          {current !== 'replay' && (
+            <Revisions
+              refs={repo.refs}
+              base={selection.base}
+              target={selection.target}
+              hashes={fixed}
+              setPair={selectPair}
+            />
+          )}
           {repo.partial && (
             <div className="notice">
               Some repository refs are outside the loaded list. Enter a ref or
@@ -414,7 +450,7 @@ function Workspace({
               path={path}
               select={(path) => changeSelection({ path, commit: undefined })}
               history={() => changeSelection({ path, view: 'history' })}
-              tree={() => setDialog('tree')}
+              tree={() => (embedded ? onView?.('tree') : setDialog('tree'))}
             />
           )}
           {current === 'history' && fixed && (
@@ -451,6 +487,24 @@ function Workspace({
               />
             </Suspense>
           )}
+          {current === 'tree' && fixed && (
+            <section className="workspace-section">
+              <Tree
+                key={fixed.base + fixed.target}
+                base={fixed.base}
+                target={fixed.target}
+                initialPath=""
+                trace={(path, hash) =>
+                  changeSelection({
+                    path,
+                    target: hash,
+                    view: 'history',
+                    commit: undefined,
+                  })
+                }
+              />
+            </section>
+          )}
           {current === 'replay' && (
             <Replay
               page={replay}
@@ -459,7 +513,7 @@ function Workspace({
             />
           )}
         </div>
-      </main>
+      </Container>
       {dialog === 'share' && (
         <Dialog title="Share investigation" close={() => setDialog(null)}>
           <p className="dialog-description">
@@ -471,7 +525,13 @@ function Workspace({
               retry={() => setShareAttempt((x) => x + 1)}
             />
           )}
-          {!shareError && !share && <Loading text="Preparing link…" />}
+          {!shareError &&
+            !share &&
+            (compare.error ? (
+              <Problem text={compare.error} retry={compare.retry} />
+            ) : (
+              <Loading text="Preparing link…" />
+            ))}
           {share && (
             <>
               <label className="field-label" htmlFor="investigation-url">
@@ -579,17 +639,66 @@ export default function App() {
         )}
       </main>
     )
-  if (!fixtureMode && (!initial || initial.view === 'graph'))
-    return (
-      <Suspense fallback={<Loading text="Opening commit map…" />}>
-        <Atlas repo={repo} initial={initial} investigate={setInitial} />
-      </Suspense>
-    )
+  return fixtureMode ? (
+    <Workspace repo={repo} initial={initial} />
+  ) : (
+    <LiveDesk repo={repo} initial={initial} />
+  )
+}
+
+function LiveDesk({
+  repo,
+  initial,
+}: {
+  repo: Bootstrap
+  initial: Selection | null
+}) {
+  const [view, setView] = useState<DeskView>(
+    () => deskViews.find(([key]) => key === initial?.view)?.[0] || 'graph',
+  )
+  const [context, setContext] = useState<Selection>(
+    () => initial || defaults(repo),
+  )
+  const [graph, setGraph] = useState({ initial, revision: 0 })
+  const [investigation, setInvestigation] = useState(0)
+  const [opened, setOpened] = useState(view !== 'graph')
+  function navigate(next: DeskView) {
+    if (next !== 'graph') setOpened(true)
+    setView(next)
+  }
+  const openEvidence = (selection: Selection) => {
+    setContext(selection)
+    setInvestigation((value) => value + 1)
+    navigate(selection.view as DeskView)
+  }
+  const traceCommit = (selection: Selection) => {
+    setGraph((old) => ({ initial: selection, revision: old.revision + 1 }))
+    setView('graph')
+  }
   return (
-    <Workspace
-      repo={repo}
-      initial={initial}
-      returnToMap={fixtureMode ? undefined : setInitial}
-    />
+    <RepositoryDesk repo={repo} view={view} navigate={navigate}>
+      <div hidden={view !== 'graph'}>
+        <Suspense fallback={<Loading text="Opening commit graph…" />}>
+          <Atlas
+            key={graph.revision}
+            repo={repo}
+            initial={graph.initial}
+            investigate={openEvidence}
+          />
+        </Suspense>
+      </div>
+      {opened && (
+        <div hidden={view === 'graph'}>
+          <Workspace
+            key={investigation}
+            repo={repo}
+            initial={{ ...context, view }}
+            embedded
+            onView={setView}
+            returnToMap={traceCommit}
+          />
+        </div>
+      )}
+    </RepositoryDesk>
   )
 }

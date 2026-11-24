@@ -7,6 +7,8 @@ export interface Selection {
   commit?: string
   event?: string
   lineage?: string
+  pinBase?: string
+  pinTarget?: string
   view?: string
 }
 
@@ -28,6 +30,8 @@ export function encodeSelection(url: URL, selection: Selection): string {
     'event',
     'view',
     'lineage',
+    'pinBase',
+    'pinTarget',
   ] as const) {
     const value = selection[key]
     if (value) result.searchParams.set(key, value)
@@ -58,6 +62,8 @@ export function decodeSelection(params: URLSearchParams): Selection | null {
     'event',
     'view',
     'lineage',
+    'pinBase',
+    'pinTarget',
   ] as const) {
     const value = params.get(key)
     if (
@@ -68,7 +74,8 @@ export function decodeSelection(params: URLSearchParams): Selection | null {
         'This shared investigation contains an invalid ' + key + '.',
       )
     }
-    if (value) result[key] = value
+    if (value && (!key.startsWith('pin') || fullHash.test(value)))
+      result[key] = value
   }
   return result
 }
