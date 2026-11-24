@@ -8,11 +8,17 @@ import {
 export type { Selection }
 export const isExample = import.meta.env.MODE === 'example'
 
+export const fixtureMode =
+  isExample &&
+  (new URLSearchParams(window.location.search).get('fixture') === '1' ||
+    window.location.hash.startsWith('#evidence='))
 export async function service<K extends keyof Results>(
   op: K,
   params: Params = {},
 ): Promise<Results[K]> {
-  if (isExample) return (await import('./example')).exampleService(op, params)
+  if (fixtureMode) return (await import('./example')).exampleService(op, params)
+  if (isExample)
+    return (await import('./publicHistory')).publicHistory(op, params)
   const { invoke } = await import('@forge/bridge')
   const response = await invoke<Results[K]>('history', { op, ...params })
   return 'body' in response ? response.body : response

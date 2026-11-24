@@ -3,7 +3,6 @@ import {
   change,
   commit,
   compareSpec,
-  digest,
   encodedPath,
   filePath,
   fullHash,
@@ -11,7 +10,7 @@ import {
   revision,
   type ApiChange,
   type ApiCommit,
-} from './domain'
+} from './gitRecords'
 import type { RepositoryStorage } from './storage'
 
 type Page<T> = { values: T[]; next?: string }
@@ -111,7 +110,13 @@ export async function history(
   const webUrl = 'https://bitbucket.org/' + encodedPath(repo.full_name)
   const get = <T>(suffix: string) => json<T>(fetch(suffix, 'application/json'))
   const page = async <T>(suffix: string) => {
-    const scope = digest([op, suffix])
+    const bytes = await crypto.subtle.digest(
+      'SHA-256',
+      new TextEncoder().encode(JSON.stringify([op, suffix])),
+    )
+    const scope = Array.from(new Uint8Array(bytes), (b) =>
+      b.toString(16).padStart(2, '0'),
+    ).join('')
     const uri = p.cursor
       ? await storage.loadCursor<string>(scope, p.cursor)
       : suffix

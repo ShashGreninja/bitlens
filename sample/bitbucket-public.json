@@ -1,0 +1,1056 @@
+{
+  "repo": "atlassian/atlassian-connect-express",
+  "main": "master",
+  "captured": "2026-11-24T07:28:51.405321+00:00",
+  "refs": [
+    {
+      "name": "master",
+      "hash": "5ca91b2e5e587a5d8461b22e08f787127e484542",
+      "kind": "branch"
+    },
+    {
+      "name": "renovate/eslint-plugin-prettier-5.x",
+      "hash": "64237d2d13b7db8a2ac4a99aaa893210be8f0bc3",
+      "kind": "branch"
+    },
+    {
+      "name": "renovate/eslint-plugin-jest-28.x",
+      "hash": "9cff60e2f9904526027b667c62df95f641fc8b2d",
+      "kind": "branch"
+    },
+    {
+      "name": "renovate/validator-13.x",
+      "hash": "8c01d4468e0b527664aca992e7d04a5fe02e08aa",
+      "kind": "branch"
+    },
+    {
+      "name": "renovate/atlassian-atlassian-oauth2-0.x",
+      "hash": "8d0348c27da16e8f509cfcf9da0939876c24b950",
+      "kind": "branch"
+    },
+    {
+      "name": "renovate/node-18.x",
+      "hash": "7e768ba7b85281ffd1374634bbead0d083e4bc79",
+      "kind": "branch"
+    },
+    {
+      "name": "renovate/wait-on-8.x",
+      "hash": "e4253b2e04bf198e0ee6088487a7df7131dd2fe3",
+      "kind": "branch"
+    },
+    {
+      "name": "renovate/eslint-config-prettier-10.x",
+      "hash": "c59537105cd3c325e4c67552afcf56f18c123bec",
+      "kind": "branch"
+    },
+    {
+      "name": "v12.2.3",
+      "hash": "fd61ca641c0db3ab42ad10bc1b2b7190033aee77",
+      "kind": "tag"
+    },
+    {
+      "name": "12.2.2",
+      "hash": "096622adf5fabf2680bd7b1aa46bfbe294803eb1",
+      "kind": "tag"
+    },
+    {
+      "name": "v12.2.1",
+      "hash": "508a1cd96a0cad7faac1595bfc6c33a2c7e2c11c",
+      "kind": "tag"
+    },
+    {
+      "name": "v12.2.0",
+      "hash": "b2a5855b31997938cca6a5b9703ac66398606804",
+      "kind": "tag"
+    },
+    {
+      "name": "v12.1.1",
+      "hash": "e76731abbc5ca447c3700e20847753c88f8a8561",
+      "kind": "tag"
+    }
+  ],
+  "commits": [
+    {
+      "hash": "5ca91b2e5e587a5d8461b22e08f787127e484542",
+      "message": "Merged in ONECLOUD-21369/disable-renovate (pull request #615)\n\nONECLOUD-21369: Disable Renovate on ACE repo\n\nApproved-by: Scott Gangemi",
+      "author": "Mitchell Mc Cue",
+      "date": "2026-11-24T01:26:16+00:00",
+      "parents": [
+        "9c5c85803bfbd3131f0606cdf3c99e16c4c26f88",
+        "13fada9ab078672bac0d05675c063b7c565dde49"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/5ca91b2e5e587a5d8461b22e08f787127e484542"
+    },
+    {
+      "hash": "13fada9ab078672bac0d05675c063b7c565dde49",
+      "message": "ONECLOUD-21369: Disable Renovate on ACE repo\n\nACE is being deprecated. Disable Renovate to avoid unnecessary version\nbumps that risk breaking existing behaviour. Vulnerability fixes can be\napplied manually based on vuln tickets.\n\nCo-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>",
+      "author": "Mitchell Mc Cue",
+      "date": "2026-11-23T12:50:31+00:00",
+      "parents": [
+        "9c5c85803bfbd3131f0606cdf3c99e16c4c26f88"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/13fada9ab078672bac0d05675c063b7c565dde49"
+    },
+    {
+      "hash": "9c5c85803bfbd3131f0606cdf3c99e16c4c26f88",
+      "message": "Merged in renovate/express-4.x (pull request #582)\n\n[Renovate] Update dependency express to v4.22.3\n\nApproved-by: Chloe Zhang\nApproved-by: Ben Kelley",
+      "author": "atlassian-renovate-bot",
+      "date": "2026-11-12T03:08:11+00:00",
+      "parents": [
+        "fec3bb2edab7465a21a47dff8b35f4ef1165aad0",
+        "2b67f914225dbe7d9708f26463b9fed3b8db6422"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/9c5c85803bfbd3131f0606cdf3c99e16c4c26f88"
+    },
+    {
+      "hash": "fec3bb2edab7465a21a47dff8b35f4ef1165aad0",
+      "message": "Merged in renovate/body-parser-1.x (pull request #574)\n\n[Renovate] Update dependency body-parser to v1.20.9\n\nApproved-by: Chloe Zhang\nApproved-by: Ben Kelley",
+      "author": "atlassian-renovate-bot",
+      "date": "2026-11-12T03:05:58+00:00",
+      "parents": [
+        "1ca007ce196c4193f58d637619c4d2f88e6e2397",
+        "1f4e65f71fa688f4f3bcf15e0ed155c41264ee20"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/fec3bb2edab7465a21a47dff8b35f4ef1165aad0"
+    },
+    {
+      "hash": "1ca007ce196c4193f58d637619c4d2f88e6e2397",
+      "message": "Merged in renovate/request-2.x (pull request #570)\n\n[Renovate] Update dependency @types/request to v2.48.13\n\nApproved-by: Chloe Zhang\nApproved-by: Ben Kelley",
+      "author": "atlassian-renovate-bot",
+      "date": "2026-11-12T03:05:36+00:00",
+      "parents": [
+        "a50685cd98297edd1b248049f199396434726c97",
+        "5033387fd1c25d3d38c490564cb8128309e10d7c"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/1ca007ce196c4193f58d637619c4d2f88e6e2397"
+    },
+    {
+      "hash": "2b67f914225dbe7d9708f26463b9fed3b8db6422",
+      "message": "[Renovate] Update dependency express to v4.22.3",
+      "author": "psre-renovate-bot",
+      "date": "2026-11-11T22:36:54+00:00",
+      "parents": [
+        "a50685cd98297edd1b248049f199396434726c97"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/2b67f914225dbe7d9708f26463b9fed3b8db6422"
+    },
+    {
+      "hash": "1f4e65f71fa688f4f3bcf15e0ed155c41264ee20",
+      "message": "[Renovate] Update dependency body-parser to v1.20.9",
+      "author": "psre-renovate-bot",
+      "date": "2026-11-11T22:35:53+00:00",
+      "parents": [
+        "a50685cd98297edd1b248049f199396434726c97"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/1f4e65f71fa688f4f3bcf15e0ed155c41264ee20"
+    },
+    {
+      "hash": "5033387fd1c25d3d38c490564cb8128309e10d7c",
+      "message": "[Renovate] Update dependency @types/request to v2.48.13",
+      "author": "psre-renovate-bot",
+      "date": "2026-11-11T22:35:47+00:00",
+      "parents": [
+        "a50685cd98297edd1b248049f199396434726c97"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/5033387fd1c25d3d38c490564cb8128309e10d7c"
+    },
+    {
+      "hash": "a50685cd98297edd1b248049f199396434726c97",
+      "message": "Merged in renovate/lint-staged-17.x (pull request #591)\n\n[Renovate] Update dependency lint-staged to v17\n\nApproved-by: Ben Kelley",
+      "author": "atlassian-renovate-bot",
+      "date": "2026-11-11T00:26:06+00:00",
+      "parents": [
+        "44e8dba1592814b890829de2ba580f422d923f9e",
+        "981b4fe348a3c5d3cc1e2716753b8f5928168a6a"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/a50685cd98297edd1b248049f199396434726c97"
+    },
+    {
+      "hash": "981b4fe348a3c5d3cc1e2716753b8f5928168a6a",
+      "message": "Await HTTP server shutdown between test fixtures",
+      "author": "Ben Kelley",
+      "date": "2026-11-11T00:02:42+00:00",
+      "parents": [
+        "1ee5f29adb3d1f2b7a3e782cf1c0b9012147675a"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/981b4fe348a3c5d3cc1e2716753b8f5928168a6a"
+    },
+    {
+      "hash": "1ee5f29adb3d1f2b7a3e782cf1c0b9012147675a",
+      "message": "Wait for store test startup and cleanup",
+      "author": "Ben Kelley",
+      "date": "2026-11-10T23:05:13+00:00",
+      "parents": [
+        "9a4f6f70ed39a9a2ef35aa667f28d496c48d1f92"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/1ee5f29adb3d1f2b7a3e782cf1c0b9012147675a"
+    },
+    {
+      "hash": "9a4f6f70ed39a9a2ef35aa667f28d496c48d1f92",
+      "message": "Use standard image. Fix test.",
+      "author": "Ben Kelley",
+      "date": "2026-11-10T22:40:59+00:00",
+      "parents": [
+        "f27e6fe0a9e46b7be49b1ba692087b96a1cef2bf"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/9a4f6f70ed39a9a2ef35aa667f28d496c48d1f92"
+    },
+    {
+      "hash": "f27e6fe0a9e46b7be49b1ba692087b96a1cef2bf",
+      "message": "Upgrade CI image to a supported image.",
+      "author": "Ben Kelley",
+      "date": "2026-11-10T22:23:10+00:00",
+      "parents": [
+        "dec213647f189d6c2b60a29b810c701c1b2ba0d4"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/f27e6fe0a9e46b7be49b1ba692087b96a1cef2bf"
+    },
+    {
+      "hash": "44e8dba1592814b890829de2ba580f422d923f9e",
+      "message": "Merged in renovate/redis-6.x (pull request #596)\n\n[Renovate] Update dependency redis to v6\n\nApproved-by: Chloe Zhang\nApproved-by: Ben Kelley",
+      "author": "atlassian-renovate-bot",
+      "date": "2026-11-10T22:04:08+00:00",
+      "parents": [
+        "d00fcf7836356c3156b29cb5710e29d6da4c03c9",
+        "5317d838014e903d8c1169d524c310d8a748769c"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/44e8dba1592814b890829de2ba580f422d923f9e"
+    },
+    {
+      "hash": "dec213647f189d6c2b60a29b810c701c1b2ba0d4",
+      "message": "[Renovate] Update dependency lint-staged to v17",
+      "author": "psre-renovate-bot",
+      "date": "2026-09-29T19:02:32+00:00",
+      "parents": [
+        "d00fcf7836356c3156b29cb5710e29d6da4c03c9"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/dec213647f189d6c2b60a29b810c701c1b2ba0d4"
+    },
+    {
+      "hash": "5317d838014e903d8c1169d524c310d8a748769c",
+      "message": "[Renovate] Update dependency redis to v6",
+      "author": "psre-renovate-bot",
+      "date": "2026-06-01T10:26:57+00:00",
+      "parents": [
+        "d00fcf7836356c3156b29cb5710e29d6da4c03c9"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/5317d838014e903d8c1169d524c310d8a748769c"
+    },
+    {
+      "hash": "d00fcf7836356c3156b29cb5710e29d6da4c03c9",
+      "message": "Merged in release/12.2.3 (pull request #572)\n\nRelease/12.2.3\n\nApproved-by: Mitchell Mc Cue",
+      "author": "Vincent Nguyen",
+      "date": "2026-05-01T00:55:54+00:00",
+      "parents": [
+        "0c729e48201d72505c5138696ce2c3e686d5084e",
+        "c82862c20e31fe45c77b97300fe0d4bc3557ea92"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/d00fcf7836356c3156b29cb5710e29d6da4c03c9"
+    },
+    {
+      "hash": "c82862c20e31fe45c77b97300fe0d4bc3557ea92",
+      "message": "ONECLOUD-17630: Revert bitbucket change and update package.json test script",
+      "author": "Vincent Nguyen",
+      "date": "2026-05-01T00:39:11+00:00",
+      "parents": [
+        "4b036fa5c868dff0ef49f45c1bd782d0db4618a8"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/c82862c20e31fe45c77b97300fe0d4bc3557ea92"
+    },
+    {
+      "hash": "4b036fa5c868dff0ef49f45c1bd782d0db4618a8",
+      "message": "ONECLOUD-17630: Update bitbucket-pipelines.yml to use correct node version",
+      "author": "Vincent Nguyen",
+      "date": "2026-05-01T00:32:05+00:00",
+      "parents": [
+        "a0946757d5d9df82848bfa767217a7a020482c01"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/4b036fa5c868dff0ef49f45c1bd782d0db4618a8"
+    },
+    {
+      "hash": "a0946757d5d9df82848bfa767217a7a020482c01",
+      "message": "ONECLOUD-17630: Add changelog",
+      "author": "Vincent Nguyen",
+      "date": "2026-04-30T23:00:58+00:00",
+      "parents": [
+        "815bdf7219f506480a3567f794f7a8376ba62bca"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/a0946757d5d9df82848bfa767217a7a020482c01"
+    },
+    {
+      "hash": "815bdf7219f506480a3567f794f7a8376ba62bca",
+      "message": "ONECLOUD-17630: Add heading",
+      "author": "Vincent Nguyen",
+      "date": "2026-04-30T04:44:42+00:00",
+      "parents": [
+        "93b623bc441a71aeb3f88afd8850f0b1dac16312"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/815bdf7219f506480a3567f794f7a8376ba62bca"
+    },
+    {
+      "hash": "93b623bc441a71aeb3f88afd8850f0b1dac16312",
+      "message": "ONECLOUD-17630: Fix messaging",
+      "author": "Vincent Nguyen",
+      "date": "2026-04-30T04:41:58+00:00",
+      "parents": [
+        "061edb86537fe4090a5e0b6a4989b00a6a9099c6"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/93b623bc441a71aeb3f88afd8850f0b1dac16312"
+    },
+    {
+      "hash": "061edb86537fe4090a5e0b6a4989b00a6a9099c6",
+      "message": "ONECLOUD-17630: Fix formatting",
+      "author": "Vincent Nguyen",
+      "date": "2026-04-30T04:38:41+00:00",
+      "parents": [
+        "fd61ca641c0db3ab42ad10bc1b2b7190033aee77"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/061edb86537fe4090a5e0b6a4989b00a6a9099c6"
+    },
+    {
+      "hash": "fd61ca641c0db3ab42ad10bc1b2b7190033aee77",
+      "message": "12.2.3",
+      "author": "Vincent Nguyen",
+      "date": "2026-04-30T04:37:34+00:00",
+      "parents": [
+        "eea819926de1835d07a9508c0459b00de6bb50d6"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/fd61ca641c0db3ab42ad10bc1b2b7190033aee77"
+    },
+    {
+      "hash": "eea819926de1835d07a9508c0459b00de6bb50d6",
+      "message": "ONECLOUD-17630: Update README with EOS warning",
+      "author": "Vincent Nguyen",
+      "date": "2026-04-30T04:23:37+00:00",
+      "parents": [
+        "0c729e48201d72505c5138696ce2c3e686d5084e"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/eea819926de1835d07a9508c0459b00de6bb50d6"
+    },
+    {
+      "hash": "0c729e48201d72505c5138696ce2c3e686d5084e",
+      "message": "Merged in release/12.2.2 (pull request #569)\n\nACHELP-143: Release 12.2.2\n\nApproved-by: Chloe Zhang\nApproved-by: Feiyang Ye",
+      "author": "Mitchell Mc Cue",
+      "date": "2026-01-29T11:36:41+00:00",
+      "parents": [
+        "27d271acf7f08022bc9cb6ac2fb07127cb2dc662",
+        "096622adf5fabf2680bd7b1aa46bfbe294803eb1"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/0c729e48201d72505c5138696ce2c3e686d5084e"
+    },
+    {
+      "hash": "096622adf5fabf2680bd7b1aa46bfbe294803eb1",
+      "message": "12.2.2",
+      "author": "Mitchell Mc Cue",
+      "date": "2026-01-29T08:01:44+00:00",
+      "parents": [
+        "91bab3f12fa1806ec0b2cf5fbee068ca68682415"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/096622adf5fabf2680bd7b1aa46bfbe294803eb1"
+    },
+    {
+      "hash": "91bab3f12fa1806ec0b2cf5fbee068ca68682415",
+      "message": "ACHELP-143: Release 12.2.2",
+      "author": "Mitchell Mc Cue",
+      "date": "2026-01-29T07:46:05+00:00",
+      "parents": [
+        "1d158718e4d56c2055d3b5cfa5fdebb21e84441e"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/91bab3f12fa1806ec0b2cf5fbee068ca68682415"
+    },
+    {
+      "hash": "1d158718e4d56c2055d3b5cfa5fdebb21e84441e",
+      "message": "ACHELP-143: Release 12.2.2",
+      "author": "Mitchell Mc Cue",
+      "date": "2026-01-29T07:45:21+00:00",
+      "parents": [
+        "27d271acf7f08022bc9cb6ac2fb07127cb2dc662"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/1d158718e4d56c2055d3b5cfa5fdebb21e84441e"
+    },
+    {
+      "hash": "27d271acf7f08022bc9cb6ac2fb07127cb2dc662",
+      "message": "Merged in issue/ACHELP-143-forge-asapp (pull request #568)\n\nACHELP-143: Fix up instantiation of ForgeHostRequest\n\n* ACHELP-143: Fix up instantiation of ForgeHostRequest\n\n\nApproved-by: Chloe Zhang",
+      "author": "Mitchell Mc Cue",
+      "date": "2026-01-29T07:24:45+00:00",
+      "parents": [
+        "d73b799599bd2b7ef1bf474df5cd791481f9498c"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/27d271acf7f08022bc9cb6ac2fb07127cb2dc662"
+    },
+    {
+      "hash": "d73b799599bd2b7ef1bf474df5cd791481f9498c",
+      "message": "Merged in ONECLOUD-16435-renovate-config (pull request #567)\n\nONECLOUD-16435: Change renovate to use golden-renovate-config\n\nApproved-by: Chloe Zhang\nApproved-by: Thomas Wang\nApproved-by: Mitchell Mc Cue",
+      "author": "Ben Kelley",
+      "date": "2026-01-06T04:32:14+00:00",
+      "parents": [
+        "95beeeed7d30f9fa14c4d7f80339188eb8a6dfce",
+        "4c9277ef9eb195b2e8bb7bc0b048afca58407c0d"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/d73b799599bd2b7ef1bf474df5cd791481f9498c"
+    },
+    {
+      "hash": "4c9277ef9eb195b2e8bb7bc0b048afca58407c0d",
+      "message": "ONECLOUD-16435: Change renovate to use golden-renovate-config",
+      "author": "Ben Kelley",
+      "date": "2026-01-06T04:18:09+00:00",
+      "parents": [
+        "95beeeed7d30f9fa14c4d7f80339188eb8a6dfce"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/4c9277ef9eb195b2e8bb7bc0b048afca58407c0d"
+    },
+    {
+      "hash": "95beeeed7d30f9fa14c4d7f80339188eb8a6dfce",
+      "message": "Merged in release/12.2.0 (pull request #563)\n\nRelease 12.2.0 - ACE framework can make Forge authenticated outbound requests\n\nApproved-by: Serena Wang\nApproved-by: Vincent Nguyen",
+      "author": "Mitchell Mc Cue",
+      "date": "2025-11-19T23:28:18+00:00",
+      "parents": [
+        "17a3d84c6544efdc78f05ed43f7fafd5d38098cb",
+        "b2a5855b31997938cca6a5b9703ac66398606804"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/95beeeed7d30f9fa14c4d7f80339188eb8a6dfce"
+    },
+    {
+      "hash": "b2a5855b31997938cca6a5b9703ac66398606804",
+      "message": "12.2.0",
+      "author": "Mitchell Mc Cue",
+      "date": "2025-11-19T06:28:18+00:00",
+      "parents": [
+        "abad1211a1dc0d8a1878e1cc52c46218bd59442d"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/b2a5855b31997938cca6a5b9703ac66398606804"
+    },
+    {
+      "hash": "abad1211a1dc0d8a1878e1cc52c46218bd59442d",
+      "message": "ONECLOUD-15989: Releasing 12.2.0 - release notes",
+      "author": "Mitchell Mc Cue",
+      "date": "2025-11-19T06:27:55+00:00",
+      "parents": [
+        "17a3d84c6544efdc78f05ed43f7fafd5d38098cb"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/abad1211a1dc0d8a1878e1cc52c46218bd59442d"
+    },
+    {
+      "hash": "17a3d84c6544efdc78f05ed43f7fafd5d38098cb",
+      "message": "Merged in issue/ONECLOUD-15989-forge-http-support (pull request #561)\n\nONECLOUD-15989: Support for Atlassian App API calls for Forge installations\n\nApproved-by: Vincent Nguyen\nApproved-by: Serena Wang",
+      "author": "Mitchell Mc Cue",
+      "date": "2025-11-19T06:17:06+00:00",
+      "parents": [
+        "11a41b3ef3bfaf41455a064e50edadfb6b0792ac",
+        "1a0dd89f372503aed2c330a24db3515a76cd8bdc"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/17a3d84c6544efdc78f05ed43f7fafd5d38098cb"
+    },
+    {
+      "hash": "1a0dd89f372503aed2c330a24db3515a76cd8bdc",
+      "message": "ONECLOUD-15989: Method rename with structure more accomodating for upcoming offline impersonation method",
+      "author": "Mitchell Mc Cue",
+      "date": "2025-11-06T22:40:20+00:00",
+      "parents": [
+        "891d906143efa7253a347d53ad68c9433401dfd6"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/1a0dd89f372503aed2c330a24db3515a76cd8bdc"
+    },
+    {
+      "hash": "891d906143efa7253a347d53ad68c9433401dfd6",
+      "message": "ONECLOUD-15989: Consistent error message",
+      "author": "Mitchell Mc Cue",
+      "date": "2025-11-06T05:38:54+00:00",
+      "parents": [
+        "18a47cf65888ee89579e0bbc71d3cab082907406"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/891d906143efa7253a347d53ad68c9433401dfd6"
+    },
+    {
+      "hash": "18a47cf65888ee89579e0bbc71d3cab082907406",
+      "message": "ONECLOUD-15989: Improve constructor to be less AI slop",
+      "author": "Mitchell Mc Cue",
+      "date": "2025-11-06T05:37:34+00:00",
+      "parents": [
+        "f2723fb23524cf240de044f1bf88dddddae60f12"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/18a47cf65888ee89579e0bbc71d3cab082907406"
+    },
+    {
+      "hash": "f2723fb23524cf240de044f1bf88dddddae60f12",
+      "message": "ONECLOUD-15989: Improve documentation",
+      "author": "Mitchell Mc Cue",
+      "date": "2025-11-06T05:13:34+00:00",
+      "parents": [
+        "d027b3908038f8b3865dae7818a9e4165a1e1a6e"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/f2723fb23524cf240de044f1bf88dddddae60f12"
+    },
+    {
+      "hash": "64237d2d13b7db8a2ac4a99aaa893210be8f0bc3",
+      "message": "[low-risk] [minor] Update dependency eslint-plugin-prettier to v5.5.7",
+      "author": "psre-renovate-bot",
+      "date": "2026-11-23T12:02:36+00:00",
+      "parents": [
+        "9c5c85803bfbd3131f0606cdf3c99e16c4c26f88"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/64237d2d13b7db8a2ac4a99aaa893210be8f0bc3"
+    },
+    {
+      "hash": "d027b3908038f8b3865dae7818a9e4165a1e1a6e",
+      "message": "ONECLOUD-15989: Improve documentation",
+      "author": "Mitchell Mc Cue",
+      "date": "2025-11-06T05:01:41+00:00",
+      "parents": [
+        "ef7cfe59710ae69433be53e0e6175a6fa8dfd47f"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/d027b3908038f8b3865dae7818a9e4165a1e1a6e"
+    },
+    {
+      "hash": "9cff60e2f9904526027b667c62df95f641fc8b2d",
+      "message": "[low-risk] [minor] Update dependency eslint-plugin-jest to v28.14.0",
+      "author": "psre-renovate-bot",
+      "date": "2026-11-22T23:08:45+00:00",
+      "parents": [
+        "9c5c85803bfbd3131f0606cdf3c99e16c4c26f88"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/9cff60e2f9904526027b667c62df95f641fc8b2d"
+    },
+    {
+      "hash": "8c01d4468e0b527664aca992e7d04a5fe02e08aa",
+      "message": "[low-risk] [minor] Update dependency @types/validator to v13.15.10",
+      "author": "psre-renovate-bot",
+      "date": "2026-11-22T23:08:39+00:00",
+      "parents": [
+        "9c5c85803bfbd3131f0606cdf3c99e16c4c26f88"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/8c01d4468e0b527664aca992e7d04a5fe02e08aa"
+    },
+    {
+      "hash": "8d0348c27da16e8f509cfcf9da0939876c24b950",
+      "message": "[low-risk] [minor] Update dependency @atlassian/atlassian-oauth2 to ^0.9.0",
+      "author": "psre-renovate-bot",
+      "date": "2026-11-22T11:33:47+00:00",
+      "parents": [
+        "9c5c85803bfbd3131f0606cdf3c99e16c4c26f88"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/8d0348c27da16e8f509cfcf9da0939876c24b950"
+    },
+    {
+      "hash": "7e768ba7b85281ffd1374634bbead0d083e4bc79",
+      "message": "[low-risk] [patch] Update Node.js to v18.20.8",
+      "author": "psre-renovate-bot",
+      "date": "2026-11-22T11:33:40+00:00",
+      "parents": [
+        "9c5c85803bfbd3131f0606cdf3c99e16c4c26f88"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/7e768ba7b85281ffd1374634bbead0d083e4bc79"
+    },
+    {
+      "hash": "e4253b2e04bf198e0ee6088487a7df7131dd2fe3",
+      "message": "[low-risk] [patch] Update dependency wait-on to v8.0.5",
+      "author": "psre-renovate-bot",
+      "date": "2026-11-20T20:22:36+00:00",
+      "parents": [
+        "9c5c85803bfbd3131f0606cdf3c99e16c4c26f88"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/e4253b2e04bf198e0ee6088487a7df7131dd2fe3"
+    },
+    {
+      "hash": "c59537105cd3c325e4c67552afcf56f18c123bec",
+      "message": "[low-risk] [patch] Update dependency eslint-config-prettier to v10.1.8",
+      "author": "psre-renovate-bot",
+      "date": "2026-11-20T07:50:11+00:00",
+      "parents": [
+        "9c5c85803bfbd3131f0606cdf3c99e16c4c26f88"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/c59537105cd3c325e4c67552afcf56f18c123bec"
+    },
+    {
+      "hash": "ef7cfe59710ae69433be53e0e6175a6fa8dfd47f",
+      "message": "ONECLOUD-15989: Cached token and tests",
+      "author": "Mitchell Mc Cue",
+      "date": "2025-11-06T04:34:44+00:00",
+      "parents": [
+        "e492b8f495d6d8362c2eb4f61245a3542154aee7"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/ef7cfe59710ae69433be53e0e6175a6fa8dfd47f"
+    },
+    {
+      "hash": "e492b8f495d6d8362c2eb4f61245a3542154aee7",
+      "message": "ONECLOUD-15989: E2E tests",
+      "author": "Mitchell Mc Cue",
+      "date": "2025-11-04T23:16:49+00:00",
+      "parents": [
+        "95cea02ca68e9b845cdb33867edefe8bcfd825cb"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/e492b8f495d6d8362c2eb4f61245a3542154aee7"
+    },
+    {
+      "hash": "95cea02ca68e9b845cdb33867edefe8bcfd825cb",
+      "message": "ONECLOUD-15989: Implementation and unit test",
+      "author": "Mitchell Mc Cue",
+      "date": "2025-11-04T12:19:52+00:00",
+      "parents": [
+        "87ec7c4875108466bbcb09beb27b6466114b725a"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/95cea02ca68e9b845cdb33867edefe8bcfd825cb"
+    },
+    {
+      "hash": "87ec7c4875108466bbcb09beb27b6466114b725a",
+      "message": "ONECLOUD-15989: Interface and README updates",
+      "author": "Mitchell Mc Cue",
+      "date": "2025-11-04T08:47:46+00:00",
+      "parents": [
+        "11a41b3ef3bfaf41455a064e50edadfb6b0792ac"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/87ec7c4875108466bbcb09beb27b6466114b725a"
+    },
+    {
+      "hash": "11a41b3ef3bfaf41455a064e50edadfb6b0792ac",
+      "message": "Merged in release/12.1.1 (pull request #555)\n\nRelease/12.1.1\n\nApproved-by: Thomas Wang",
+      "author": "Mary Talebi",
+      "date": "2025-09-01T13:34:02+00:00",
+      "parents": [
+        "91b9767d6b5896f778970d3a627edda70941aafc",
+        "e76731abbc5ca447c3700e20847753c88f8a8561"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/11a41b3ef3bfaf41455a064e50edadfb6b0792ac"
+    },
+    {
+      "hash": "e76731abbc5ca447c3700e20847753c88f8a8561",
+      "message": "12.1.1",
+      "author": "Mary Talebi",
+      "date": "2025-09-01T07:53:57+00:00",
+      "parents": [
+        "8723839a77458f4ee2f5b4783563602ec33b3c66"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/e76731abbc5ca447c3700e20847753c88f8a8561"
+    },
+    {
+      "hash": "8723839a77458f4ee2f5b4783563602ec33b3c66",
+      "message": "None: Update releasing steps",
+      "author": "Mary Talebi",
+      "date": "2025-09-01T07:52:41+00:00",
+      "parents": [
+        "845d6d79b1c1781c4f46cd346d555669fa241ead"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/8723839a77458f4ee2f5b4783563602ec33b3c66"
+    },
+    {
+      "hash": "845d6d79b1c1781c4f46cd346d555669fa241ead",
+      "message": "Releasenotes for 12.1.1",
+      "author": "Mary Talebi",
+      "date": "2025-09-01T07:43:00+00:00",
+      "parents": [
+        "91b9767d6b5896f778970d3a627edda70941aafc"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/845d6d79b1c1781c4f46cd346d555669fa241ead"
+    },
+    {
+      "hash": "91b9767d6b5896f778970d3a627edda70941aafc",
+      "message": "Merged in issue/HOC-2275-update-doc-for-vulns (pull request #554)\n\nHOC-2275: Update readme on getting aound outdated packages\n\nApproved-by: Vincent Nguyen\nApproved-by: Anita Yang\nApproved-by: Justin Duong",
+      "author": "Mary Talebi",
+      "date": "2025-09-01T05:18:07+00:00",
+      "parents": [
+        "28144ba87de09fad1213260592453d7aa991b66b",
+        "ea3e9f17b4ce220e69580981fcb12f1982b9abc0"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/91b9767d6b5896f778970d3a627edda70941aafc"
+    },
+    {
+      "hash": "ea3e9f17b4ce220e69580981fcb12f1982b9abc0",
+      "message": "HOC-2275: Update package.json and readme on getting aound outdated packages",
+      "author": "Mary Talebi",
+      "date": "2025-09-01T04:10:30+00:00",
+      "parents": [
+        "28144ba87de09fad1213260592453d7aa991b66b"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/ea3e9f17b4ce220e69580981fcb12f1982b9abc0"
+    },
+    {
+      "hash": "28144ba87de09fad1213260592453d7aa991b66b",
+      "message": "Merged in ONECLOUD-13509/operate-without-descriptor (pull request #547)\n\n[ONECLOUD-13509]: ACE can operate without descriptor\n\nApproved-by: Mitchell Mc Cue",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-18T01:33:21+00:00",
+      "parents": [
+        "b58dfbb281c8ac3ef9f223706f850ab60f421c29",
+        "d0a06076aec97bf9a5bb4cf9c03ad709abd5a503"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/28144ba87de09fad1213260592453d7aa991b66b"
+    },
+    {
+      "hash": "d0a06076aec97bf9a5bb4cf9c03ad709abd5a503",
+      "message": "ONECLOUD-13509: issuer revert + doc changes",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-18T00:09:36+00:00",
+      "parents": [
+        "be1e120dbe9fdad7c14c196251661500f39a2cb4"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/d0a06076aec97bf9a5bb4cf9c03ad709abd5a503"
+    },
+    {
+      "hash": "be1e120dbe9fdad7c14c196251661500f39a2cb4",
+      "message": "merge",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-15T04:10:34+00:00",
+      "parents": [
+        "a2f7286dff37464e90c7970b2bbb3747666c8860",
+        "b58dfbb281c8ac3ef9f223706f850ab60f421c29"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/be1e120dbe9fdad7c14c196251661500f39a2cb4"
+    },
+    {
+      "hash": "b58dfbb281c8ac3ef9f223706f850ab60f421c29",
+      "message": "Merged in release/12.0.1 (pull request #550)\n\nRelease/12.0.1\n\nApproved-by: Thomas Wang",
+      "author": "Justin Duong",
+      "date": "2025-08-15T02:42:52+00:00",
+      "parents": [
+        "97cc70076ddf567b4e23b856203cfb8dd61da9d0",
+        "bc8c84e3cbac9d2dfcccc963a74a9a067faa8b21"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/b58dfbb281c8ac3ef9f223706f850ab60f421c29"
+    },
+    {
+      "hash": "bc8c84e3cbac9d2dfcccc963a74a9a067faa8b21",
+      "message": "fix typo",
+      "author": "Justin Duong",
+      "date": "2025-08-15T02:17:15+00:00",
+      "parents": [
+        "cd02b022c9cabda74aac803db60ee0a04782c28b"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/bc8c84e3cbac9d2dfcccc963a74a9a067faa8b21"
+    },
+    {
+      "hash": "cd02b022c9cabda74aac803db60ee0a04782c28b",
+      "message": "update release notes",
+      "author": "Justin Duong",
+      "date": "2025-08-15T02:10:17+00:00",
+      "parents": [
+        "757a13e63f0cf09cac74c0e6d522ad3e3bf2e2e6"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/cd02b022c9cabda74aac803db60ee0a04782c28b"
+    },
+    {
+      "hash": "757a13e63f0cf09cac74c0e6d522ad3e3bf2e2e6",
+      "message": "12.0.1",
+      "author": "Justin Duong",
+      "date": "2025-08-15T02:09:37+00:00",
+      "parents": [
+        "97cc70076ddf567b4e23b856203cfb8dd61da9d0"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/757a13e63f0cf09cac74c0e6d522ad3e3bf2e2e6"
+    },
+    {
+      "hash": "97cc70076ddf567b4e23b856203cfb8dd61da9d0",
+      "message": "Merged in issue/ONECLOUD-12872-package-update (pull request #548)\n\nONECLOUD-15024: pin form-data to 4.0.4\n\nApproved-by: Thomas Wang",
+      "author": "Justin Duong",
+      "date": "2025-08-15T00:28:30+00:00",
+      "parents": [
+        "6ccd46c564740013564283cd11e3893f828c0386",
+        "85bccf3ef20dd21cec1aff1924447799cc636725"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/97cc70076ddf567b4e23b856203cfb8dd61da9d0"
+    },
+    {
+      "hash": "85bccf3ef20dd21cec1aff1924447799cc636725",
+      "message": "remove package lock file",
+      "author": "Justin Duong",
+      "date": "2025-08-15T00:22:20+00:00",
+      "parents": [
+        "7a94ff3e34c0227f124cdd89c1d8e01db5b3aaab"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/85bccf3ef20dd21cec1aff1924447799cc636725"
+    },
+    {
+      "hash": "a2f7286dff37464e90c7970b2bbb3747666c8860",
+      "message": "ONECLOUD-13509: additional documentation in readme",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-14T07:26:17+00:00",
+      "parents": [
+        "b0ddc21d8f7e7167b75a6d9903039a5439221285"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/a2f7286dff37464e90c7970b2bbb3747666c8860"
+    },
+    {
+      "hash": "7a94ff3e34c0227f124cdd89c1d8e01db5b3aaab",
+      "message": "reverting .npmrc file",
+      "author": "Justin Duong",
+      "date": "2025-08-14T07:07:46+00:00",
+      "parents": [
+        "2d576f3b04a5186334b97cfea793c846095c0745"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/7a94ff3e34c0227f124cdd89c1d8e01db5b3aaab"
+    },
+    {
+      "hash": "2d576f3b04a5186334b97cfea793c846095c0745",
+      "message": "rearrange build pipeline",
+      "author": "Justin Duong",
+      "date": "2025-08-14T06:51:52+00:00",
+      "parents": [
+        "c39d9cf79f42f4af22dfe6d1f9c73bf28cd3e330"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/2d576f3b04a5186334b97cfea793c846095c0745"
+    },
+    {
+      "hash": "c39d9cf79f42f4af22dfe6d1f9c73bf28cd3e330",
+      "message": "Merge branch 'master' into issue/ONECLOUD-12872-package-update",
+      "author": "Justin Duong",
+      "date": "2025-08-14T06:50:46+00:00",
+      "parents": [
+        "e3e297b525e12451c2028076c657dc34cf119783",
+        "6ccd46c564740013564283cd11e3893f828c0386"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/c39d9cf79f42f4af22dfe6d1f9c73bf28cd3e330"
+    },
+    {
+      "hash": "e3e297b525e12451c2028076c657dc34cf119783",
+      "message": "ONECLOUD-15024: pin form-data to 4.0.4 to fix security vulnerability",
+      "author": "Justin Duong",
+      "date": "2025-08-14T06:43:10+00:00",
+      "parents": [
+        "03f6e100331ffda7ea397cee4dffe7e6764bfce2"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/e3e297b525e12451c2028076c657dc34cf119783"
+    },
+    {
+      "hash": "b0ddc21d8f7e7167b75a6d9903039a5439221285",
+      "message": "12.1.0",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-14T06:30:02+00:00",
+      "parents": [
+        "bd69f82fc0b32a3869f2842c855d29bc1b4f3fcf"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/b0ddc21d8f7e7167b75a6d9903039a5439221285"
+    },
+    {
+      "hash": "508a1cd96a0cad7faac1595bfc6c33a2c7e2c11c",
+      "message": "12.2.1",
+      "author": "Mitchell Mc Cue",
+      "date": "2026-01-29T07:37:57+00:00",
+      "parents": [
+        "2f068030333a282fda1b0b0a3501c66e1bca4074"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/508a1cd96a0cad7faac1595bfc6c33a2c7e2c11c"
+    },
+    {
+      "hash": "2f068030333a282fda1b0b0a3501c66e1bca4074",
+      "message": "ACHELP-143: Release 12.2.1",
+      "author": "Mitchell Mc Cue",
+      "date": "2026-01-29T07:31:58+00:00",
+      "parents": [
+        "7af33dd3c2158b411ceaedb8f47daac9b16399a2"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/2f068030333a282fda1b0b0a3501c66e1bca4074"
+    },
+    {
+      "hash": "7af33dd3c2158b411ceaedb8f47daac9b16399a2",
+      "message": "ACHELP-143: Release 12.2.1",
+      "author": "Mitchell Mc Cue",
+      "date": "2026-01-29T07:29:12+00:00",
+      "parents": [
+        "27d271acf7f08022bc9cb6ac2fb07127cb2dc662"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/7af33dd3c2158b411ceaedb8f47daac9b16399a2"
+    },
+    {
+      "hash": "bd69f82fc0b32a3869f2842c855d29bc1b4f3fcf",
+      "message": "Merge branch 'master' of bitbucket.org:atlassian/atlassian-connect-express into ONECLOUD-13509/operate-without-descriptor",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-14T04:50:30+00:00",
+      "parents": [
+        "fe4475adc0f351677db695ff5f9893b3e6a1c492",
+        "6ccd46c564740013564283cd11e3893f828c0386"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/bd69f82fc0b32a3869f2842c855d29bc1b4f3fcf"
+    },
+    {
+      "hash": "6ccd46c564740013564283cd11e3893f828c0386",
+      "message": "Merged in ONECLOUD-13508/baseurl-persistence (pull request #546)\n\n[DO-NOT-MERGE] [ONECLOUD-13508] Remove ngrok support + Make tunnelling self-served\n\nApproved-by: Serena Wang",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-14T02:38:23+00:00",
+      "parents": [
+        "03f6e100331ffda7ea397cee4dffe7e6764bfce2",
+        "f239724f3f83909ebaad6f300a3dcfb322c9b0dd"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/6ccd46c564740013564283cd11e3893f828c0386"
+    },
+    {
+      "hash": "fe4475adc0f351677db695ff5f9893b3e6a1c492",
+      "message": "ONECLOUD-13509: add guard to registration",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-14T00:23:33+00:00",
+      "parents": [
+        "66942d150af1e43fc9e15950344c593265c23e0e"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/fe4475adc0f351677db695ff5f9893b3e6a1c492"
+    },
+    {
+      "hash": "f239724f3f83909ebaad6f300a3dcfb322c9b0dd",
+      "message": "ONECLOUD-13509: reject if no tunnel url is provided for remote host",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-13T06:58:45+00:00",
+      "parents": [
+        "70607e29ee0fe7569c6b13f94ea3682d3dc42878"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/f239724f3f83909ebaad6f300a3dcfb322c9b0dd"
+    },
+    {
+      "hash": "70607e29ee0fe7569c6b13f94ea3682d3dc42878",
+      "message": "ONECLOUD-13508: PR comments",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-13T04:52:14+00:00",
+      "parents": [
+        "19572bc5375042ae67970b8fb551710eeb7ae0df"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/70607e29ee0fe7569c6b13f94ea3682d3dc42878"
+    },
+    {
+      "hash": "66942d150af1e43fc9e15950344c593265c23e0e",
+      "message": "ONECLOUD-13509: ensure that AC_OPTS are ignored",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-13T02:17:11+00:00",
+      "parents": [
+        "25572e64cd6f688625aac59d4535dded7463a0ac"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/66942d150af1e43fc9e15950344c593265c23e0e"
+    },
+    {
+      "hash": "25572e64cd6f688625aac59d4535dded7463a0ac",
+      "message": "ONECLOUD-13509: no routes mounted tests",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-13T01:57:04+00:00",
+      "parents": [
+        "7e3aa03b510cac7a1114a91d87ed1d5951c41bef"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/25572e64cd6f688625aac59d4535dded7463a0ac"
+    },
+    {
+      "hash": "7e3aa03b510cac7a1114a91d87ed1d5951c41bef",
+      "message": "ONECLOUD-13509: descriptor tests",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-13T01:15:36+00:00",
+      "parents": [
+        "add5d40d9dfdbafa0d3c62f53e9afc5322d1f045"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/7e3aa03b510cac7a1114a91d87ed1d5951c41bef"
+    },
+    {
+      "hash": "add5d40d9dfdbafa0d3c62f53e9afc5322d1f045",
+      "message": "ONECLOUD-13509: readme changes",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-12T06:48:40+00:00",
+      "parents": [
+        "5e95f4cb31c8242f21ad6550799607f69383e633"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/add5d40d9dfdbafa0d3c62f53e9afc5322d1f045"
+    },
+    {
+      "hash": "5e95f4cb31c8242f21ad6550799607f69383e633",
+      "message": "ONECLOUD-13509: check if descriptor exists before setup",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-12T06:27:47+00:00",
+      "parents": [
+        "03f6e100331ffda7ea397cee4dffe7e6764bfce2"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/5e95f4cb31c8242f21ad6550799607f69383e633"
+    },
+    {
+      "hash": "19572bc5375042ae67970b8fb551710eeb7ae0df",
+      "message": "12.0.0",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-11T03:10:41+00:00",
+      "parents": [
+        "f63a9eed7d825edc54fdab782838410c83abe085"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/19572bc5375042ae67970b8fb551710eeb7ae0df"
+    },
+    {
+      "hash": "f63a9eed7d825edc54fdab782838410c83abe085",
+      "message": "ONECLOUD-13508: releasenotes",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-11T02:29:57+00:00",
+      "parents": [
+        "e80e746e11d0e2491e2330cd93a0f5f4d212beef"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/f63a9eed7d825edc54fdab782838410c83abe085"
+    },
+    {
+      "hash": "e80e746e11d0e2491e2330cd93a0f5f4d212beef",
+      "message": "ONECLOUD-13508: update readme to remove references to ngrok",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-11T00:57:41+00:00",
+      "parents": [
+        "3d9a2c27920d5487912c1ee5407965dd912eb2b9"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/e80e746e11d0e2491e2330cd93a0f5f4d212beef"
+    },
+    {
+      "hash": "3d9a2c27920d5487912c1ee5407965dd912eb2b9",
+      "message": "ONECLOUD-13508: remove ngrok refs in tests + add timeouts to suppress flakiness",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-11T00:45:35+00:00",
+      "parents": [
+        "d5fe942d4667522a5a970812ee61cddad7c906ae"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/3d9a2c27920d5487912c1ee5407965dd912eb2b9"
+    },
+    {
+      "hash": "d5fe942d4667522a5a970812ee61cddad7c906ae",
+      "message": "ONECLOUD-13508: remove ngrok support in service code",
+      "author": "Vincent Nguyen",
+      "date": "2025-08-11T00:28:53+00:00",
+      "parents": [
+        "03f6e100331ffda7ea397cee4dffe7e6764bfce2"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/d5fe942d4667522a5a970812ee61cddad7c906ae"
+    },
+    {
+      "hash": "03f6e100331ffda7ea397cee4dffe7e6764bfce2",
+      "message": "Merged in issue/ECOHELP-71146-bump-outdated-dependencies (pull request #542)\n\nECOHELP-71146: Bump to use latest atlassian-jwt\n\nApproved-by: Anita Yang\nApproved-by: Justin Duong",
+      "author": "Jacky Lo",
+      "date": "2025-07-04T04:33:21+00:00",
+      "parents": [
+        "600bad76fe0acf61bc9abd741451e0ab0cdfbfa9",
+        "eaf26495604bc94e98448ddddd32c776302407f9"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/03f6e100331ffda7ea397cee4dffe7e6764bfce2"
+    },
+    {
+      "hash": "eaf26495604bc94e98448ddddd32c776302407f9",
+      "message": "ECOHELP-71146: Bump to use latest atlassian-jwt",
+      "author": "Jacky Lo",
+      "date": "2025-07-04T03:34:02+00:00",
+      "parents": [
+        "600bad76fe0acf61bc9abd741451e0ab0cdfbfa9"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/eaf26495604bc94e98448ddddd32c776302407f9"
+    },
+    {
+      "hash": "600bad76fe0acf61bc9abd741451e0ab0cdfbfa9",
+      "message": "Merged in noissue/uselatestoauth2 (pull request #541)\n\nNoissue/uselatestoauth2\n\nApproved-by: Anthony Nguyen",
+      "author": "Thomas Wang",
+      "date": "2025-07-03T02:05:36+00:00",
+      "parents": [
+        "3b2ab98578f2bc89eac2809a1691097fcc1c0371",
+        "53f286ca84c13a4c6afdbd92a9e7dfd824c79ae8"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/600bad76fe0acf61bc9abd741451e0ab0cdfbfa9"
+    },
+    {
+      "hash": "53f286ca84c13a4c6afdbd92a9e7dfd824c79ae8",
+      "message": "Bump version to 11.8.0",
+      "author": "Thomas Wang",
+      "date": "2025-07-03T01:47:25+00:00",
+      "parents": [
+        "fd934b447b0e5722bd78950f5c2693d2fb1f5621"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/53f286ca84c13a4c6afdbd92a9e7dfd824c79ae8"
+    },
+    {
+      "hash": "fd934b447b0e5722bd78950f5c2693d2fb1f5621",
+      "message": "used oauth2 scoped 0.7.0",
+      "author": "Thomas Wang",
+      "date": "2025-07-03T01:43:53+00:00",
+      "parents": [
+        "3b2ab98578f2bc89eac2809a1691097fcc1c0371"
+      ],
+      "url": "https://bitbucket.org/atlassian/atlassian-connect-express/commits/fd934b447b0e5722bd78950f5c2693d2fb1f5621"
+    }
+  ]
+}
