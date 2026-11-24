@@ -11,7 +11,7 @@ test('follow the renamed configuration to its landing PR and commit graph', asyn
 }) => {
   const errors: string[] = []
   page.on('pageerror', (error) => errors.push(error.message))
-  await page.goto('/')
+  await page.goto('/?fixture=1')
   const diff = page.getByRole('region', { name: 'Unified diff' })
   await expect(diff).toContainText('-timeout_ms: 1800')
   await expect(diff).toContainText('+timeout_ms: 600')
@@ -47,7 +47,7 @@ test('open a shared deletion record in a fresh browser context', async ({
   page,
   browser,
 }) => {
-  await page.goto('/')
+  await page.goto('/?fixture=1')
   await expect(page.getByRole('region', { name: 'Unified diff' })).toBeVisible()
   await page.getByRole('button', { name: 'Replay', exact: true }).click()
   const moved = records.events.find((event) => event.kind === 'force-push')!
@@ -103,7 +103,7 @@ test('browse both source trees and reverse a comparison by raw hash on a narrow 
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  await page.goto('/')
+  await page.goto('/?fixture=1')
   await page.getByRole('button', { name: 'Browse source' }).click()
   const tree = page.getByRole('dialog', { name: 'Source tree' })
   await tree.getByRole('button', { name: 'Target', exact: true }).click()
@@ -130,7 +130,7 @@ test('browse both source trees and reverse a comparison by raw hash on a narrow 
 test('surface a malformed investigation and recover to the default comparison', async ({
   page,
 }) => {
-  await page.goto('/?investigation=1&base=main')
+  await page.goto('/?fixture=1&investigation=1&base=main')
   await expect(page.getByRole('alert')).toContainText(
     'incomplete or unsupported',
   )

@@ -11,9 +11,9 @@ npm ci
 npm run dev
 ```
 
-Open the local URL in the terminal. The example starts at `v1.4` → `v1.5` in the payments service. The selected file moved from `payments/config.yml` to `services/payments/config.yml`. Follow **View file history** to see where the timeout changed from 1800 to 600 ms. Open **Replay** to investigate the branch deletion and **Share investigation** to preserve your selection.
+The explorer opens on Atlassian's public [atlassian-connect-express](https://bitbucket.org/atlassian/atlassian-connect-express) repository. Choose a branch or tag and trace all parents or only the first parent. Drag cards to rearrange the map. Expand parents, search by author, message or hash, or select a commit to open its Bitbucket record and inspect its file changes.
 
-The local example uses a reproducible Git repository. Its pull request records are illustrative. The Forge build reads the installed Bitbucket repository as the current user. The [judge walkthrough](JUDGE.md) includes the fixture generator, team-workspace installation steps, and a scenario using real pull requests and push events.
+The local graph starts from a dated snapshot of public Bitbucket REST records. Older ancestry and file investigations request the public API and need network access. An installed Forge app reads its own repository as the current viewer. Push replay requires the installed event recorder. The deterministic regression fixture remains available for tests at `/?fixture=1`. See the [judge walkthrough](JUDGE.md) for hosted installation.
 
 ## Run the checks
 

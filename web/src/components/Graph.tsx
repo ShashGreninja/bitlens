@@ -108,7 +108,7 @@ export default function Graph({
         minZoom: 0.12,
         maxZoom: 2.5,
         wheelSensitivity: 0.25,
-        autoungrabify: true,
+        autoungrabify: false,
         boxSelectionEnabled: false,
         style: [
           {

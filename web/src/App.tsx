@@ -18,6 +18,7 @@ import {
 import type { Ref, Results } from '../../shared/types'
 import {
   isExample,
+  fixtureMode,
   readInvestigation,
   service,
   shareInvestigation,
@@ -43,6 +44,7 @@ import {
 } from './components/data'
 import './app.css'
 
+const Atlas = lazy(() => import('./Atlas'))
 const Graph = lazy(() => import('./components/Graph'))
 const views = {
   compare: {
@@ -85,11 +87,11 @@ function defaults(repo: Bootstrap) {
     (r) => r.kind === 'branch' && r.name === repo.defaultBranch,
   )
   const target =
-    isExample && tags.some((r) => r.name === 'v1.5')
+    fixtureMode && tags.some((r) => r.name === 'v1.5')
       ? 'v1.5'
       : tags.at(-1)?.name || branch?.name || repo.refs[0]?.name || ''
   const base =
-    isExample && tags.some((r) => r.name === 'v1.4')
+    fixtureMode && tags.some((r) => r.name === 'v1.4')
       ? 'v1.4'
       : tags.at(-2)?.name || branch?.name || target
   return { base, target }
@@ -97,9 +99,11 @@ function defaults(repo: Bootstrap) {
 function Workspace({
   repo,
   initial,
+  returnToMap,
 }: {
   repo: Bootstrap
   initial: Selection | null
+  returnToMap?: (selection: Selection) => void
 }) {
   const [selection, setSelection] = useState<Selection>(
     initial || defaults(repo),
@@ -112,7 +116,14 @@ function Workspace({
   const [refsExpanded, setRefsExpanded] = useState(false)
   const changeSelection = (p: Partial<Selection>) =>
     setSelection((s) => ({ ...s, ...p }))
-  const navigate = (view: View) => changeSelection({ view })
+  const navigate = (view: View) =>
+    view === 'graph' && returnToMap
+      ? returnToMap({
+          ...selection,
+          target: fixed?.target || initial?.target || selection.target,
+          view,
+        })
+      : changeSelection({ view })
   const compare = usePages(
     'compare',
     { base: selection.base, target: selection.target },
@@ -324,7 +335,7 @@ function Workspace({
         </div>
         <div className="sidebar-bottom">
           <span className="indicator" />
-          <span>{isExample ? 'Local example' : 'Bitbucket Cloud'}</span>
+          <span>{fixtureMode ? 'Test fixture' : 'Bitbucket Cloud'}</span>
         </div>
       </aside>
       <main className="main-panel">
@@ -339,14 +350,21 @@ function Workspace({
           </div>
           <span className="top-context">
             <CircleDot size={13} />
-            {isExample ? 'Example workspace' : 'Repository workspace'}
+            {fixtureMode ? 'Test fixture' : 'Repository workspace'}
           </span>
         </header>
         <div className="main-content">
           <section className="hero">
             <div className="hero-copy">
               <h1>{title}</h1>
-              <p>{isExample && current === 'compare' && selection.base === 'v1.4' && selection.target === 'v1.5' ? 'Investigate the payment timeout. Select config.yml to see what changed between releases.' : description}</p>
+              <p>
+                {fixtureMode &&
+                current === 'compare' &&
+                selection.base === 'v1.4' &&
+                selection.target === 'v1.5'
+                  ? 'Investigate the payment timeout. Select config.yml to see what changed between releases.'
+                  : description}
+              </p>
             </div>
           </section>
           <div className="section-heading revisions-heading">
@@ -409,7 +427,16 @@ function Workspace({
               }
               selected={selection.commit}
               selectCommit={(commit) => changeSelection({ commit })}
-              graph={(commit) => changeSelection({ commit, view: 'graph' })}
+              graph={(commit) =>
+                returnToMap
+                  ? returnToMap({
+                      base: fixed.base,
+                      target: fixed.target,
+                      commit,
+                      view: 'graph',
+                    })
+                  : changeSelection({ commit, view: 'graph' })
+              }
             />
           )}
           {current === 'graph' && fixed && (
@@ -495,7 +522,7 @@ function Workspace({
             <dt>Default branch</dt>
             <dd>{repo.defaultBranch || 'Unknown'}</dd>
             <dt>Data source</dt>
-            <dd>{isExample ? 'Local Git fixture' : 'Bitbucket Cloud'}</dd>
+            <dd>{fixtureMode ? 'Local Git fixture' : 'Bitbucket Cloud'}</dd>
           </dl>
           <Source url={repo.webUrl}>Open repository</Source>
         </Dialog>
@@ -537,7 +564,12 @@ export default function App() {
           <>
             <Problem text={error} retry={() => setAttempt((v) => v + 1)} />
             {window.location.search.includes('investigation=') && (
-              <a className="source-link" href={window.location.pathname}>
+              <a
+                className="source-link"
+                href={
+                  window.location.pathname + (fixtureMode ? '?fixture=1' : '')
+                }
+              >
                 Start a new investigation
               </a>
             )}
@@ -547,5 +579,17 @@ export default function App() {
         )}
       </main>
     )
-  return <Workspace repo={repo} initial={initial} />
+  if (!fixtureMode && (!initial || initial.view === 'graph'))
+    return (
+      <Suspense fallback={<Loading text="Opening commit map…" />}>
+        <Atlas repo={repo} initial={initial} investigate={setInitial} />
+      </Suspense>
+    )
+  return (
+    <Workspace
+      repo={repo}
+      initial={initial}
+      returnToMap={fixtureMode ? undefined : setInitial}
+    />
+  )
 }

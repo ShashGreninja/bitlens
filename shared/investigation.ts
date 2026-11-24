@@ -6,6 +6,7 @@ export interface Selection {
   fileSide?: string
   commit?: string
   event?: string
+  lineage?: string
   view?: string
 }
 
@@ -26,6 +27,7 @@ export function encodeSelection(url: URL, selection: Selection): string {
     'commit',
     'event',
     'view',
+    'lineage',
   ] as const) {
     const value = selection[key]
     if (value) result.searchParams.set(key, value)
@@ -55,6 +57,7 @@ export function decodeSelection(params: URLSearchParams): Selection | null {
     'commit',
     'event',
     'view',
+    'lineage',
   ] as const) {
     const value = params.get(key)
     if (

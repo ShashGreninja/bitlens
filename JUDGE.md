@@ -2,7 +2,7 @@
 
 ## Explore the local example
 
-From the app checkout, run `npm ci` and `npm run dev` with Node.js 24. Open the URL printed by Vite. The example reads bundled Git evidence and works without a Bitbucket account.
+From the app checkout, run `npm ci` and `npm run dev` with Node.js 24. Open the URL printed by Vite for the real Bitbucket graph. Append `/?fixture=1` to the server origin for the controlled walkthrough below. The example reads bundled Git evidence and works without a Bitbucket account.
 
 1. Open **Compare** and select `v1.4` and `v1.5`. Select `services/payments/config.yml`. The patch shows the rename from `payments/config.yml` and a timeout decrease from 1800 ms to 600 ms. The release also adds a runbook, removes a legacy environment file, and updates `VERSION`. Reverse the revisions to see the opposite change.
 2. In **File history**, follow the configuration through its previous path to “Allow the gateway 1800 ms to respond.” Open the landing pull request for the target revision. Local PR #42 illustrates the squash merge. Local PR #41 illustrates the regular merge and can be opened from its commit evidence. Both PR records are illustrative. The commit hashes, trees, diffs and parent edges come from Git.
