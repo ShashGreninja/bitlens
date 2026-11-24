@@ -242,9 +242,6 @@ function Workspace({
           '[Open investigation](' + share + ')',
         ].join('\n')
       : ''
-  const branch = repo.refs.find(
-    (r) => r.kind === 'branch' && r.name === repo.defaultBranch,
-  )
   function refButton(ref: Ref) {
     return (
       <button
@@ -303,14 +300,6 @@ function Workspace({
           </nav>
           <div className="side-refs">
             <div className="sidebar-label">Repository refs</div>
-            {branch && refButton(branch)}
-            {repo.refs
-              .filter((r) => r.kind === 'tag')
-              .sort((a, b) =>
-                b.name.localeCompare(a.name, undefined, { numeric: true }),
-              )
-              .slice(0, 3)
-              .map(refButton)}
             <button
               className="all-refs"
               onClick={() => setRefsExpanded(!refsExpanded)}
@@ -357,16 +346,7 @@ function Workspace({
           <section className="hero">
             <div className="hero-copy">
               <h1>{title}</h1>
-              <p>{description}</p>
-            </div>
-            <div className="hero-background" aria-hidden="true">
-              <div className="track one" />
-              <div className="track two" />
-              <div className="track three" />
-              <i />
-              <i />
-              <i />
-              <i />
+              <p>{isExample && current === 'compare' && selection.base === 'v1.4' && selection.target === 'v1.5' ? 'Investigate the payment timeout. Select config.yml to see what changed between releases.' : description}</p>
             </div>
           </section>
           <div className="section-heading revisions-heading">

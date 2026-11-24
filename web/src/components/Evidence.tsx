@@ -300,7 +300,7 @@ export function Replay({
           <article className="evidence-card">
             {event ? (
               <>
-                <div className="micro-label">Selected event</div>
+
                 <h3>{kindNames[event.kind] || event.kind}</h3>
                 <div className="ref-pill">
                   <GitBranch size={14} />
@@ -309,9 +309,10 @@ export function Replay({
                 <dl className="facts">
                   <dt>Recorded at</dt>
                   <dd>{dateText(event.date, true)}</dd>
-                  <dt>Push actor</dt>
+                  <dt>Recorded by</dt>
                   <dd>{event.actor || 'Unavailable'}</dd>
                 </dl>
+                <section className="ref-movement" aria-label="Branch or tag movement">
                 <div className="pointer">
                   <span>Before</span>
                   <code>{event.before || 'No pointer recorded'}</code>
@@ -320,6 +321,7 @@ export function Replay({
                   <span>After</span>
                   <code>{event.after || 'No pointer recorded'}</code>
                 </div>
+                </section>
                 {event.gap && (
                   <div className="notice">
                     <Info size={15} />

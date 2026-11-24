@@ -346,76 +346,6 @@ nav {
   font-size: 13px;
   line-height: 1.5;
 }
-.hero-background {
-  position: absolute;
-  z-index: 0;
-  pointer-events: none;
-  top: 0;
-  right: 0;
-  width: 42%;
-  height: 100%;
-  overflow: hidden;
-  opacity: 0.87;
-  background-image: radial-gradient(#b9d4a146 0.8px, transparent 0.9px);
-  background-size: 12px 12px;
-  mask-image: linear-gradient(to right, transparent, #000 24%);
-}
-.track {
-  position: absolute;
-  width: 115%;
-  height: 46px;
-  border-bottom: 2px solid #a7be79;
-  transform: rotate(-13deg);
-  border-radius: 0 0 0 23px;
-  left: 9%;
-  top: 38%;
-}
-.track.two {
-  width: 70%;
-  left: 35%;
-  top: 0;
-  height: 78px;
-  border-bottom-color: #8da775;
-  border-left: 2px solid #8da775;
-  transform: rotate(-13deg) skewX(12deg);
-  border-radius: 0 0 0 30px;
-}
-.track.three {
-  width: 70%;
-  left: 60%;
-  top: 40%;
-  height: 63px;
-  border-bottom: 2px solid #789d71;
-  border-left: 2px solid #789d71;
-  transform: rotate(-13deg) skewX(12deg);
-  border-radius: 0 0 0 30px;
-}
-.hero-background i {
-  position: absolute;
-  width: 11px;
-  height: 11px;
-  background: #2d513d;
-  border: 2px solid #c0d794;
-  border-radius: 50%;
-  top: 62%;
-  left: 27%;
-}
-.hero-background i:nth-last-child(3) {
-  left: 53%;
-  top: 45%;
-}
-.hero-background i:nth-last-child(2) {
-  left: 74%;
-  top: 31%;
-  background: #c0d794;
-}
-.hero-background i:nth-last-child(1) {
-  left: 88%;
-  top: 71%;
-  width: 8px;
-  height: 8px;
-  border-color: #8dac7f;
-}
 .section-heading {
   display: flex;
   align-items: center;
@@ -1656,3 +1586,26 @@ dialog textarea {
 .replay-graph > .section-heading {
   flex-wrap: wrap;
 }
+
+/* The repository frame surrounds a single working sheet. */
+.app-shell,.sidebar,.topbar {background:#edf1ed}
+.main-panel {min-width:0;background:#edf1ed}
+.main-content {width:calc(100% - 32px);margin:0 16px 24px;background:#fff;border:1px solid #d6ded8;border-radius:14px;padding:clamp(20px,3vw,44px)}
+.hero {background:none;color:var(--ink);border-radius:0;box-shadow:none;padding:0 0 22px;border-bottom:1px solid var(--line)}
+.hero-copy {max-width:70ch}
+.hero h1 {font-size:clamp(25px,2.5vw,32px);letter-spacing:-.04em;margin:0 0 8px}
+.hero p {color:#48594f;font-size:15px}
+.sidebar-label,.micro-label,.panel-label,.revision-label {text-transform:none;letter-spacing:normal;font-size:13px}
+.nav-item.active {background:#dfe6e0;color:#182d22}
+.nav-dot {display:none}
+.button,.nav-item,.file-row,.tree-entry,.source-link,.text-button {min-height:40px}
+.record-row {padding:14px;min-height:56px}
+.evidence-card {padding:clamp(20px,2.5vw,36px)}
+.ref-movement {margin:24px 0;display:grid;gap:0;border-left:2px solid #a7bdb0}
+.ref-movement .pointer {position:relative;margin:0;padding:12px 16px;background:transparent;border:0;align-items:center;gap:16px}
+.ref-movement .pointer::before {content:'';position:absolute;left:-5px;width:8px;height:8px;border-radius:50%;background:#62846d}
+.ref-movement .pointer span {font-size:13px}
+.ref-movement .pointer code {font-size:13px;min-width:0}
+.step-controls {border-top:1px solid var(--line);padding-top:16px;gap:12px;margin-top:24px}
+.evidence-links,.graph-tools,.tree-controls,.copy-action {gap:12px}
+@media(max-width:700px){.main-content{width:100%;margin:0;border-radius:0;padding:20px 14px}.hero-copy{max-width:100%}.nav-item{min-height:44px}.ref-movement .pointer{align-items:flex-start;flex-direction:column;gap:5px}.file-row,.button,.text-button{min-height:44px}}
