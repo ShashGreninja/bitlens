@@ -131,24 +131,15 @@ export function ExampleEvidence() {
     window.location.reload()
   }
   return (
-    <main className="example-evidence">
-      <style>{`
-      .example-evidence {box-sizing:border-box; max-width:850px; margin:48px auto; padding:0 28px 48px; font:16px/1.6 system-ui,sans-serif; color:#192b34;}
-      .example-evidence header {display:flex; align-items:center; gap:1em; justify-content:space-between; border-bottom:1px solid #d4dfdc; padding-bottom:1em;}
-      .example-evidence h1 {line-height:1.18; font-size:clamp(1.6rem,4vw,2.4rem); margin:1em 0 .4em; overflow-wrap:anywhere;}
-      .example-evidence h2 {font-size:1.15rem; margin-top:1.65em;}
-      .example-evidence a {color:#006650; text-decoration:underline;}
-      .example-evidence button {background:#eef4f2; border:1px solid #c6d7cf; border-radius:5px; color:#124e3d; padding:8px 12px; cursor:pointer;}
-      .example-evidence dd {margin:0 0 .75em; overflow-wrap:anywhere;}
-      .example-evidence dt {color:#586762; font-size:.86rem;}
-      .example-evidence pre {background:#f3f6f5; border:1px solid #d4dfdc; padding:16px; overflow-x:auto; font:14px/1.6 monospace;}
-    `}</style>
-      <header>
-        <strong>Local example evidence</strong>
-        <button onClick={returnToApp}>Return to investigation</button>
-      </header>
-      <h1>{title}</h1>
-      {body}
+    <main className="repo-desk">
+      <article className="example-evidence">
+        <header>
+          <strong>Local example evidence</strong>
+          <button onClick={returnToApp}>Return to investigation</button>
+        </header>
+        <h1>{title}</h1>
+        {body}
+      </article>
     </main>
   )
 }

@@ -13,7 +13,7 @@ class ErrorBoundary extends Component<
   render() {
     if (!this.state.failed) return this.props.children
     return (
-      <main role="alert" style={{ padding: 32, fontFamily: 'system-ui' }}>
+      <main role="alert" className="repo-desk desk-fallback">
         <h1>Repository History could not open this view</h1>
         <p>Reload to retry the investigation.</p>
         <button onClick={() => window.location.reload()}>Reload</button>
@@ -29,7 +29,7 @@ const ExampleEvidence =
 createRoot(document.getElementById('root')!).render(
   <ErrorBoundary>
     {ExampleEvidence && window.location.hash.startsWith('#evidence=') ? (
-      <Suspense fallback={<p>Loading source record…</p>}>
+      <Suspense fallback={<main className="repo-desk desk-fallback" role="status">Loading source record…</main>}>
         <ExampleEvidence />
       </Suspense>
     ) : (

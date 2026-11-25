@@ -1,5 +1,5 @@
 /* The same repository shell follows the investigation across every view. */
-.repo-desk {
+:root {
   --desk-ground: #171719;
   --desk-sheet: #131315;
   --desk-hover: #242427;
@@ -8,6 +8,8 @@
   --desk-muted: #a9acb1;
   --desk-accent: #82bdf2;
   --desk-rule: #70747b;
+}
+.repo-desk {
   min-height: 100vh;
   background: var(--desk-ground);
   color: var(--desk-ink);
@@ -19,6 +21,51 @@
 }
 .repo-desk a {
   color: var(--desk-accent);
+}
+.desk-fallback,
+.example-evidence {
+  padding: clamp(20px, 4vw, 48px);
+}
+.example-evidence {
+  max-width: 850px;
+  margin-inline: auto;
+  font-size: 16px;
+}
+.example-evidence header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--desk-line);
+}
+.example-evidence h1,
+.example-evidence dd {
+  overflow-wrap: anywhere;
+}
+.example-evidence h1 {
+  line-height: 1.2;
+  font-size: clamp(24px, 4vw, 36px);
+}
+.example-evidence dt {
+  color: var(--desk-muted);
+  font-size: 14px;
+}
+.example-evidence dd {
+  margin: 0 0 12px;
+}
+.example-evidence button,
+.desk-fallback button {
+  padding: 8px 12px;
+  border: 1px solid var(--desk-rule);
+  border-radius: 4px;
+}
+.example-evidence pre {
+  background: var(--desk-sheet);
+  border: 1px solid var(--desk-line);
+  padding: 16px;
+  overflow-x: auto;
 }
 .repo-desk button:focus-visible,
 .repo-desk input:focus-visible,
@@ -96,7 +143,7 @@
   width: 100%;
   max-width: none;
   margin: 24px 0 0;
-  background: var(--desk-ground);
+  background: transparent;
   color: var(--desk-ink);
   padding: clamp(12px, 2.6vw, 32px);
   border: 0;
@@ -274,6 +321,7 @@
     .diff-footer,
     .file-panel,
     .search-field,
+    .timeline-dot,
     .picker-search input,
     .segmented button.active
   ) {
@@ -289,6 +337,9 @@
     .history-list,
     .diff-panel,
     .diff-scroll,
+    .empty,
+    .graph-tools,
+    .path-form,
     .picker,
     .path-form input,
     .share-url,
@@ -305,6 +356,21 @@
 }
 .desk-workspace .graph-drawing {
   filter: invert(0.86) hue-rotate(155deg);
+}
+.desk-workspace :is(.graph-tools button, .more, .coverage, .record-row small, .file-path, .diff-toolbar span, .facts dt, .tree-controls code) {
+  color: var(--desk-muted);
+}
+.desk-workspace :is(.graph-tools button, .more, .empty, .diff td, .diff th) {
+  border-color: var(--desk-line);
+}
+.desk-workspace .graph-tools button:hover,
+.desk-workspace .more:hover {
+  background: var(--desk-hover);
+  color: var(--desk-ink);
+}
+.desk-workspace .button.primary:hover:not(:disabled) {
+  background: #304e6a;
+  border-color: var(--desk-accent);
 }
 .desk-workspace :is(.file-row, .tree-entry, .commit-title) {
   color: var(--desk-ink);

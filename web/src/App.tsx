@@ -616,7 +616,7 @@ export default function App() {
   }, [attempt])
   if (!repo)
     return (
-      <main className="start-screen">
+      <main className="repo-desk desk-workspace start-screen">
         <div className="brand-mark">
           <GitBranch size={24} />
         </div>
