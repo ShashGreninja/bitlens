@@ -1,0 +1,249 @@
+.desk-home {
+  width: min(100%, 1232px);
+  margin-inline: auto;
+  padding-block: clamp(24px, 4vw, 60px);
+}
+
+.home-start {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  background: var(--desk-sheet);
+  border: 1px solid var(--desk-line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.home-launch,
+.home-guide {
+  min-width: 0;
+  padding: clamp(24px, 3.5vw, 52px);
+}
+
+.home-launch {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #1c1e21;
+}
+
+.home-launch h1 {
+  max-width: 14ch;
+  margin: 0;
+  font-size: clamp(32px, 4vw, 60px);
+  line-height: 1.02;
+  letter-spacing: -0.055em;
+}
+
+.home-launch p {
+  max-width: 38ch;
+  margin: 18px 0 28px;
+  color: var(--desk-muted);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.home-launch form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 10px;
+  max-width: 440px;
+}
+
+.home-launch label {
+  display: grid;
+  min-width: 0;
+  gap: 7px;
+  color: var(--desk-muted);
+}
+
+.home-launch select,
+.home-primary {
+  min-height: 46px;
+  padding-inline: 12px;
+  font: inherit;
+  border-radius: 5px;
+}
+
+.home-launch select {
+  width: 100%;
+  min-width: 0;
+  background: var(--desk-sheet);
+  color: var(--desk-ink);
+  border: 1px solid var(--desk-rule);
+}
+
+.home-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #a9d4fa;
+  color: #132739;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.home-primary:hover:enabled {
+  background: #c7e5ff;
+}
+
+.home-guide {
+  border-left: 1px solid var(--desk-line);
+}
+
+.home-guide h2,
+.home-tools h2 {
+  font-size: 18px;
+  margin: 0;
+  letter-spacing: -0.015em;
+}
+
+.home-ancestry {
+  --lane: #65829d;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 20px 0 14px;
+  padding: 16px 12px;
+  border: 1px solid var(--desk-line);
+  border-radius: 6px;
+  background: #191a1d;
+}
+
+.home-commit {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 4px;
+  border: 1px solid var(--desk-rule);
+  border-radius: 4px;
+  background: var(--desk-sheet);
+  text-align: center;
+  line-height: 1.15;
+  font-size: 12px;
+}
+
+.home-commit svg {
+  flex: none;
+}
+
+.home-commit-start {
+  color: #b7dbfb;
+  border-color: #6388aa;
+  background: #212f3d;
+}
+
+.home-commit-start::after,
+.home-commit-merge::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  top: 50%;
+  left: 100%;
+  border-top: 1px solid var(--lane);
+}
+
+.home-commit-side {
+  grid-column: 3;
+}
+
+.home-commit-side::before {
+  content: '';
+  position: absolute;
+  right: 100%;
+  top: -14px;
+  width: 14px;
+  height: calc(50% + 14px);
+  border-left: 1px dashed var(--lane);
+  border-bottom: 1px dashed var(--lane);
+  border-bottom-left-radius: 5px;
+}
+
+.home-instructions {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 21px;
+}
+
+.home-instructions li::marker {
+  color: var(--desk-accent);
+}
+
+.home-instructions strong,
+.home-instructions span {
+  display: block;
+}
+
+.home-instructions span,
+.home-tool-list small {
+  color: var(--desk-muted);
+  font-size: 13px;
+}
+
+.home-tools {
+  margin-top: clamp(24px, 4vw, 44px);
+}
+
+.home-tool-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(16px, 4vw, 52px);
+  margin-top: 10px;
+}
+
+.home-tool-list button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 8px;
+  border-bottom: 1px solid var(--desk-line);
+  text-align: left;
+}
+
+.home-tool-list button:hover {
+  background: var(--desk-hover);
+}
+
+.home-tool-list button > svg {
+  color: var(--desk-muted);
+}
+
+.home-tool-list :is(strong, small) {
+  display: block;
+}
+
+@media (max-width: 850px) {
+  .home-start {
+    grid-template-columns: 1fr;
+  }
+  .home-guide {
+    border-left: 0;
+    border-top: 1px solid var(--desk-line);
+  }
+}
+
+@media (max-width: 530px) {
+  .home-launch,
+  .home-guide {
+    padding: 20px 16px;
+  }
+  .home-commit svg {
+    display: none;
+  }
+  .home-tool-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 350px) {
+  .home-launch form {
+    grid-template-columns: 1fr;
+  }
+}

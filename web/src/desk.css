@@ -79,6 +79,9 @@
 .desk-content {
   padding-inline: clamp(16px, 3vw, 44px);
 }
+.repo-desk .desk-content:focus {
+  outline: none;
+}
 .desk-header {
   display: flex;
   align-items: center;
@@ -156,6 +159,12 @@
 .desk-workspace .main-content h1 {
   font-size: 26px;
 }
+.desk-workspace .hero {
+  padding-bottom: 16px;
+}
+.desk-workspace .revisions-heading {
+  margin-top: 16px;
+}
 .desk-workspace dialog {
   color-scheme: dark;
 }
@@ -203,79 +212,6 @@
   color: var(--desk-ink);
 }
 
-.desk-home {
-  max-width: 850px;
-  padding-block: clamp(28px, 6vw, 76px);
-}
-.desk-home header {
-  padding-bottom: 32px;
-  border-bottom: 1px solid var(--desk-line);
-}
-.desk-home h1 {
-  font-size: clamp(30px, 5vw, 54px);
-  letter-spacing: -0.045em;
-  line-height: 1.06;
-  margin: 0 0 12px;
-}
-.desk-home h2 {
-  font-size: 20px;
-  margin: 24px 0 6px;
-}
-.desk-home h3 {
-  font-size: 16px;
-  margin: 0;
-}
-.desk-home p,
-.home-extra span {
-  color: var(--desk-muted);
-  margin: 4px 0 0;
-}
-.desk-home header p {
-  font-size: 16px;
-}
-.desk-home button {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 0 10px;
-  text-align: left;
-}
-.desk-home button:hover {
-  background: var(--desk-hover);
-}
-.desk-home .home-primary {
-  margin-top: 20px;
-  background: #263e57;
-  border: 1px solid #54718d;
-  border-radius: 3px;
-}
-.desk-home li {
-  display: list-item;
-  border-bottom: 1px solid var(--desk-line);
-  padding: 16px 0;
-}
-.desk-home li::marker {
-  color: var(--desk-accent);
-  font-variant-numeric: tabular-nums;
-}
-.desk-home ol {
-  padding-left: 1.5em;
-}
-.desk-home li button {
-  padding-left: 0;
-  color: var(--desk-accent);
-}
-.home-extra {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  gap: 4px 12px;
-}
-.home-extra button {
-  padding-left: 0;
-  color: var(--desk-accent);
-}
 .desk-workspace {
   --ink: var(--desk-ink);
   --muted: var(--desk-muted);
@@ -357,7 +293,17 @@
 .desk-workspace .graph-drawing {
   filter: invert(0.86) hue-rotate(155deg);
 }
-.desk-workspace :is(.graph-tools button, .more, .coverage, .record-row small, .file-path, .diff-toolbar span, .facts dt, .tree-controls code) {
+.desk-workspace
+  :is(
+    .graph-tools button,
+    .more,
+    .coverage,
+    .record-row small,
+    .file-path,
+    .diff-toolbar span,
+    .facts dt,
+    .tree-controls code
+  ) {
   color: var(--desk-muted);
 }
 .desk-workspace :is(.graph-tools button, .more, .empty, .diff td, .diff th) {

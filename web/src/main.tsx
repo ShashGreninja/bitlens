@@ -29,7 +29,13 @@ const ExampleEvidence =
 createRoot(document.getElementById('root')!).render(
   <ErrorBoundary>
     {ExampleEvidence && window.location.hash.startsWith('#evidence=') ? (
-      <Suspense fallback={<main className="repo-desk desk-fallback" role="status">Loading source record…</main>}>
+      <Suspense
+        fallback={
+          <main className="repo-desk desk-fallback" role="status">
+            Loading source record…
+          </main>
+        }
+      >
         <ExampleEvidence />
       </Suspense>
     ) : (

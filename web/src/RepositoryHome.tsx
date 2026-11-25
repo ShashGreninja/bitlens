@@ -1,74 +1,106 @@
-import { ArrowRight, GitBranch } from 'lucide-react'
+import { useState } from 'react'
+import {
+  ArrowRight,
+  FileClock,
+  FolderTree,
+  GitBranch,
+  GitCompareArrows,
+  GitMerge,
+  History,
+} from 'lucide-react'
+import type { Ref } from '../../shared/types'
+import { GraphRevisionPicker } from './GraphRevisionPicker'
 import type { DeskView } from './RepositoryDesk'
+import './home.css'
 
-const steps = [
-  [
-    'graph',
-    'Choose where to start',
-    'Pick a branch or tag. Drag the background to pan, scroll to zoom, and expand a commit to follow its parents.',
-  ],
-  [
-    'compare',
-    'See what changed',
-    'Pin a baseline and target in Graph, or choose two revisions in Compare. Open a changed file to see its diff.',
-  ],
-  [
-    'history',
-    'Follow a file',
-    'Enter a path or open a file from Compare. File history follows the changes, including earlier names.',
-  ],
+const tools = [
+  ['compare', GitCompareArrows, 'Compare revisions', 'See which files changed between two versions.'],
+  ['history', FileClock, 'Follow a file', 'Find who changed a file, even if it was renamed.'],
+  ['tree', FolderTree, 'Browse files', 'Open the source tree at an earlier revision.'],
+  ['replay', History, 'Replay branch activity', 'See recorded updates to branches and tags.'],
 ] as const
 
 export function RepositoryHome({
+  refs,
+  revision,
+  onOpenGraph,
   navigate,
 }: {
+  refs: Ref[]
+  revision: string
+  onOpenGraph: (revision: string) => void
   navigate: (view: DeskView) => void
 }) {
+  const [start, setStart] = useState(revision)
   return (
     <section className="desk-home">
-      <header>
-        <h1>Find what changed</h1>
-        <p>
-          Start with a branch, tag, or file. Follow it through your Bitbucket
-          repository.
-        </p>
-        <button className="home-primary" onClick={() => navigate('graph')}>
-          <GitBranch size={17} /> Open graph <ArrowRight size={17} />
-        </button>
-      </header>
-      <section aria-labelledby="home-steps">
-        <h2 id="home-steps">How to use it</h2>
-        <ol>
-          {steps.map(([view, title, description]) => (
-            <li key={view}>
-              <div>
-                <h3>{title}</h3>
-                <p>{description}</p>
-              </div>
-              <button onClick={() => navigate(view)}>
-                {view === 'history'
-                  ? 'File history'
-                  : view === 'compare'
-                    ? 'Compare'
-                    : 'Graph'}{' '}
-                <ArrowRight size={16} />
-              </button>
+      <div className="home-start">
+        <div className="home-launch">
+          <h1>Explore your repository’s history</h1>
+          <p>
+            Start from a branch or tag. The graph shows how its commits connect
+            and what each one changed.
+          </p>
+          <form
+            onSubmit={(event) => {
+              event.preventDefault()
+              if (start) onOpenGraph(start)
+            }}
+          >
+            <GraphRevisionPicker
+              refs={refs}
+              revision={start}
+              onChange={setStart}
+              label="Branch or tag"
+            />
+            <button className="home-primary" type="submit" disabled={!start}>
+              Open graph <ArrowRight size={17} aria-hidden="true" />
+            </button>
+          </form>
+        </div>
+        <section className="home-guide" aria-labelledby="home-steps">
+          <h2 id="home-steps">How to use it</h2>
+          <div className="home-ancestry" aria-hidden="true">
+            <span className="home-commit home-commit-start">
+              <GitBranch size={16} /> Branch tip
+            </span>
+            <span className="home-commit home-commit-merge">
+              <GitMerge size={17} /> Merge
+            </span>
+            <span className="home-commit">Earlier commit</span>
+            <span className="home-commit home-commit-side">Merged branch</span>
+          </div>
+          <ol className="home-instructions">
+            <li>
+              <strong>Open a commit</strong>
+              <span>Click its title to see the author and open its diff.</span>
             </li>
-          ))}
-        </ol>
-      </section>
-      <div className="home-extra">
-        <button onClick={() => navigate('tree')}>
-          Source <ArrowRight size={16} />
-        </button>
-        <span>Browse files as they were at either revision.</span>
-        <button onClick={() => navigate('replay')}>
-          Replay <ArrowRight size={16} />
-        </button>
-        <span>
-          Step through branch and tag events recorded after app installation.
-        </span>
+            <li>
+              <strong>Go back in time</strong>
+              <span>Expand its parents to see the commits that came before it.</span>
+            </li>
+            <li>
+              <strong>Compare two commits</strong>
+              <span>Pin one as baseline and another as target.</span>
+            </li>
+          </ol>
+        </section>
       </div>
+      <section className="home-tools" aria-labelledby="home-tools-title">
+        <h2 id="home-tools-title">Looking for something specific?</h2>
+        <div className="home-tool-list">
+          {tools.map(([view, Icon, title, description]) => (
+            <button key={view} type="button" onClick={() => navigate(view)}>
+              <Icon size={19} aria-hidden="true" />
+              <span>
+                <strong>{title}</strong>
+                <small>{description}</small>
+              </span>
+              <ArrowRight size={17} aria-hidden="true" />
+            </button>
+          ))}
+        </div>
+      </section>
     </section>
   )
 }

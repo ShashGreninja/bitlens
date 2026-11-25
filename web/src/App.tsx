@@ -44,6 +44,7 @@ import {
 import './app.css'
 import { RepositoryHome } from './RepositoryHome'
 import { RepositoryDesk, deskViews, type DeskView } from './RepositoryDesk'
+import { graphRevision } from './GraphRevisionPicker'
 
 const Atlas = lazy(() => import('./Atlas'))
 const Graph = lazy(() => import('./components/Graph'))
@@ -51,14 +52,14 @@ const views = {
   compare: {
     name: 'Compare',
     title: 'Compare revisions',
-    description: 'Explore file changes between two points in your repository.',
+    description: 'Choose two versions, then select a file to see what changed.',
     icon: GitCompareArrows,
   },
   history: {
     name: 'File history',
     title: 'File history',
     description:
-      'Follow a file across renames and inspect the commits that changed it.',
+      'Enter a file path to see the commits that changed it, including renames.',
     icon: History,
   },
   graph: {
@@ -71,7 +72,7 @@ const views = {
   replay: {
     name: 'Replay',
     title: 'Branch replay',
-    description: 'Step through recorded changes to branch and tag pointers.',
+    description: 'Choose a recorded event to see where a branch or tag pointed before and after.',
     icon: RotateCcw,
   },
 }
@@ -228,7 +229,7 @@ function Workspace({
     current === 'tree'
       ? {
           title: 'Source tree',
-          description: 'Browse a repository snapshot at either revision.',
+          description: 'Pick Baseline or Target to browse the files at that version.',
           name: 'Source',
         }
       : views[current]
@@ -423,15 +424,16 @@ function Workspace({
               target={selection.target}
               hashes={fixed}
               setPair={selectPair}
+              partial={repo.partial}
             />
           )}
-          {repo.partial && (
+          {!embedded && current !== 'replay' && repo.partial && (
             <div className="notice">
               Some repository refs are outside the loaded list. Enter a ref or
               commit hash to select it.
             </div>
           )}
-          {(!selection.base || !selection.target) && (
+          {current !== 'replay' && (!selection.base || !selection.target) && (
             <Empty
               title="Choose two revisions"
               text="Enter a branch, tag, or commit hash to begin an investigation."
@@ -666,6 +668,9 @@ function LiveDesk({
     () => initial || defaults(repo),
   )
   const [graph, setGraph] = useState({ initial, revision: 0 })
+  const [startingRevision, setStartingRevision] = useState(() =>
+    graphRevision(repo.refs, repo.defaultBranch, initial?.target),
+  )
   const [investigation, setInvestigation] = useState(0)
   const [opened, setOpened] = useState(view !== 'graph' && view !== 'home')
   const [graphOpened, setGraphOpened] = useState(view === 'graph')
@@ -684,11 +689,24 @@ function LiveDesk({
   }
   const traceCommit = (selection: Selection) => {
     setGraph((old) => ({ initial: selection, revision: old.revision + 1 }))
+    setStartingRevision(
+      graphRevision(repo.refs, repo.defaultBranch, selection.target),
+    )
     navigate('graph')
   }
   return (
     <RepositoryDesk repo={repo} view={view} navigate={navigate}>
-      {view === 'home' && <RepositoryHome navigate={navigate} />}
+      {view === 'home' && (
+        <RepositoryHome
+          refs={repo.refs}
+          revision={startingRevision}
+          onOpenGraph={(revision) => {
+            setStartingRevision(revision)
+            navigate('graph')
+          }}
+          navigate={navigate}
+        />
+      )}
       {graphOpened && (
         <div hidden={view !== 'graph'}>
           <Suspense fallback={<Loading text="Opening commit graph…" />}>
@@ -696,6 +714,8 @@ function LiveDesk({
               key={graph.revision}
               repo={repo}
               initial={graph.initial}
+              revision={startingRevision}
+              onRevisionChange={setStartingRevision}
               investigate={openEvidence}
             />
           </Suspense>

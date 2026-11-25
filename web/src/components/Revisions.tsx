@@ -18,8 +18,9 @@ type Props = {
   target: string
   hashes?: { base: string; target: string }
   setPair: (base: string, target: string) => void
+  partial?: boolean
 }
-export function Revisions({ refs, base, target, hashes, setPair }: Props) {
+export function Revisions({ refs, base, target, hashes, setPair, partial }: Props) {
   const [open, setOpen] = useState<'base' | 'target' | null>(null)
   const [search, setSearch] = useState('')
   const box = useRef<HTMLDivElement>(null)
@@ -120,6 +121,9 @@ export function Revisions({ refs, base, target, hashes, setPair }: Props) {
               />
             </form>
             <div className="picker-options">
+              {partial && !query && refs.length > 0 && (
+                <p>Missing a branch or tag? Enter its name or a commit hash.</p>
+              )}
               {matches.map((r) => (
                 <button key={r.kind + r.name} onClick={() => choose(r.name)}>
                   {r.kind === 'tag' ? (

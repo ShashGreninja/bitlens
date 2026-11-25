@@ -324,6 +324,17 @@
   padding: 8px 0;
   cursor: pointer;
 }
+.atlas-inspector .atlas-inspect-changes {
+  justify-content: space-between;
+  border: 1px solid #47627d;
+  border-radius: 4px;
+  padding-inline: 10px;
+  background: #243549;
+  color: #dcecff;
+}
+.atlas-inspector .atlas-inspect-changes:hover {
+  background: #304e6a;
+}
 .atlas-inspector pre {
   white-space: pre-wrap;
   overflow-wrap: anywhere;

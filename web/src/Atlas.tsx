@@ -26,6 +26,7 @@ import './atlas.css'
 import { CommitFiles } from './CommitFiles'
 import { CommitLedger } from './CommitLedger'
 import { BranchComparison } from './BranchComparison'
+import { GraphRevisionPicker, graphRevisionHash } from './GraphRevisionPicker'
 import { pathToAncestor, tracePair } from '../../shared/ancestry'
 
 import { useMapCamera, type Point } from './useMapCamera'
@@ -44,18 +45,17 @@ const errorText = (e: unknown) => (e instanceof Error ? e.message : String(e))
 export default function Atlas({
   repo,
   initial,
+  revision,
+  onRevisionChange,
   investigate,
 }: {
   repo: Results['bootstrap']
   initial: Selection | null
+  revision: string
+  onRevisionChange: (revision: string) => void
   investigate: (s: Selection) => void
 }) {
-  const [tip, setTip] = useState(
-    initial?.target ||
-      repo.refs.find((r) => r.name === repo.defaultBranch)?.hash ||
-      repo.refs[0]?.hash ||
-      '',
-  )
+  const tip = graphRevisionHash(repo.refs, revision)
   const [line, setLine] = useState(initial?.lineage === 'first')
   const [archive, setArchive] = useState<Map<string, Commit>>()
   const [pinned, setPinned] = useState({
@@ -75,26 +75,14 @@ export default function Atlas({
       <div className="atlas-title">
         <div>
           <h1>Commit graph</h1>
-          <p>Pin two commits to find where their histories meet.</p>
+          <p>Click a commit for details. Expand its parents to go back in time.</p>
         </div>
         <div className="atlas-settings">
-          <label>
-            Starting revision
-            <select
-              aria-label="Starting revision"
-              value={tip}
-              onChange={(e) => setTip(e.target.value)}
-            >
-              {!repo.refs.some((r) => r.hash === tip) && tip && (
-                <option value={tip}>{short(tip)}</option>
-              )}
-              {repo.refs.map((r) => (
-                <option key={r.kind + r.name} value={r.hash}>
-                  {r.kind} · {r.name}
-                </option>
-              ))}
-            </select>
-          </label>
+          <GraphRevisionPicker
+            refs={repo.refs}
+            revision={revision}
+            onChange={onRevisionChange}
+          />
           <label>
             Follow
             <select
@@ -673,6 +661,18 @@ function Canvas({
                     <pre>{focus.message}</pre>
                   </details>
                 )}
+                <button
+                  className="atlas-inspect-changes"
+                  onClick={() =>
+                    investigate({
+                      base: focus.parents[0] || focus.hash,
+                      target: focus.hash,
+                      view: 'compare',
+                    })
+                  }
+                >
+                  Open in Compare <ChevronRight size={15} />
+                </button>
                 <div className="pin-actions">
                   <button
                     aria-pressed={pinned.base === focus.hash}
@@ -694,17 +694,6 @@ function Canvas({
                 />
                 <button onClick={() => void openRoot(focus.hash)}>
                   Trace from this commit
-                </button>
-                <button
-                  onClick={() =>
-                    investigate({
-                      base: focus.parents[0] || focus.hash,
-                      target: focus.hash,
-                      view: 'compare',
-                    })
-                  }
-                >
-                  Inspect changed files
                 </button>
                 <button
                   onClick={() =>
