@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
+    "bitlens": "tsx scripts/bitlens.ts",
     "dev": "vite web --config web/vite.config.ts --mode example",
     "preview:example": "vite preview web --config web/vite.config.ts --outDir dist-example --host 127.0.0.1",
     "build": "npm run typecheck && vite build web --config web/vite.config.ts",

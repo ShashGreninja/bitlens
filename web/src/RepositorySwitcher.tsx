@@ -3,7 +3,8 @@ import { ChevronDown, FolderGit2 } from 'lucide-react'
 import type { Results } from '../../shared/types'
 import { Dialog, Problem, Source } from './components/Common'
 import { messageOf } from './components/data'
-import { previewUrl, repositoryName } from './repositoryLocation'
+import { previewUrl } from './repositoryLocation'
+import { repositoryName } from '../../shared/repositoryName'
 import { isExample, openSource } from './service'
 
 export function RepositorySwitcher({ repo }: { repo: Results['bootstrap'] }) {
