@@ -1,4 +1,4 @@
-# Repository History
+# bitlens
 
 A repository-scoped Forge app follows a release regression from a pair of immutable commits to a file rename, its landing pull request, and recorded branch movements. The sample workspace runs the same React screens locally.
 

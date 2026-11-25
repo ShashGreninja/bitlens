@@ -1,4 +1,4 @@
-# Repository History for Bitbucket
+# bitlens for Bitbucket
 
 Engineering handoff for Codegeist 2026 · November 24, 2026
 
@@ -14,7 +14,7 @@ Bitbucket already provides a commit view and comparisons with diffs, commits, an
 
 ## Product experience
 
-Open **Repository History** from the repository’s **Apps** menu. Start with the default branch and release tags, with side branches expandable. A single selection of repository, revisions, path, commit, and event carries across the views.
+Open **bitlens** from the repository’s **Apps** menu. Start with the default branch and release tags, with side branches expandable. A single selection of repository, revisions, path, commit, and event carries across the views.
 
 | View | Expected behavior |
 | --- | --- |

@@ -1,4 +1,4 @@
-# Repository History for Bitbucket
+# bitlens for Bitbucket
 
 Follow a release regression from a changed file to its earlier name, landing pull request, Git parents, and recorded branch movements. Share the investigation with both revisions fixed to commit hashes.
 
@@ -11,9 +11,9 @@ npm ci
 npm run dev
 ```
 
-Choose **Open graph** on Home to explore Atlassian's public [atlassian-connect-express](https://bitbucket.org/atlassian/atlassian-connect-express) repository. Choose a branch or tag and trace all parents or only the first parent. Drag cards to rearrange the map. Drag the background to pan or scroll over it to zoom. Expand parents, search by author, message or hash, or select a commit to open its Bitbucket record and inspect its file changes.
+Choose **Open graph** on Home to explore Atlassian's public [atlassian-connect-express](https://bitbucket.org/atlassian/atlassian-connect-express) repository. To open another public Bitbucket Cloud repository, choose **Change repository** and paste its URL or enter `workspace/repository`. Choose a branch or tag, then expand commits to follow their parents. Drag the background to pan or scroll over it to zoom.
 
-The local graph starts from a dated snapshot of public Bitbucket REST records. Older ancestry and file investigations request the public API and need network access. An installed Forge app reads its own repository as the current viewer. Push replay requires the installed event recorder. The deterministic regression fixture remains available for tests at `/?fixture=1`. See the [judge walkthrough](JUDGE.md) for hosted installation.
+The sample graph starts from a dated snapshot of public Bitbucket REST records. Other repositories and uncached records use the public API and need network access. For a private repository, install bitlens in the workspace and choose **Apps → bitlens** from the repository in Bitbucket. The Forge app reads that repository with the current viewer's permissions. Replay records live events in the installed app. In the public preview, open **Replay → Open Replay example** to explore a sample force-push and branch deletion. See the [judge walkthrough](JUDGE.md) for hosted installation.
 
 ## Run the checks
 

@@ -1,5 +1,13 @@
 # Judge walkthrough
 
+## Codegeist submission status
+
+bitlens fits **Apps for Software Teams**. Its Forge manifest declares a Bitbucket repository menu page and a push trigger. The resolver reads Bitbucket as the current user, and Forge KVS stores recorded branch and tag movements. Rovo, Atlassian MCP, Teamwork Graph, and Marketplace listing have separate bonus tracks. Forge LLMs are optional. [Codegeist requirements](https://codegeist2026.devpost.com/)
+
+The checked-in manifest contains a placeholder app ID. Register the app, validate the hosted walkthrough below in a Bitbucket team workspace, deploy the production environment, and enable sharing. Verify that a judge can install the app from that link in a second workspace. [Forge distribution guide](https://developer.atlassian.com/platform/forge/distribute-your-apps/#start-sharing-your-app)
+
+Complete the Devpost form with the installation link, configuration instructions, feature description, Forge explanation, category, and a public YouTube demo under five minutes. Show the installed app in the video. The rules also require English materials or translations and cover entrant eligibility, originality, ownership, and rights for dependencies, data, and media. Submission closes **December 22, 2026 at noon PST** (**December 23 at 1:30 a.m. IST**). [Official rules](https://codegeist2026.devpost.com/rules)
+
 ## Explore the local example
 
 From the app checkout, run `npm ci` and `npm run dev` with Node.js 24. Open the URL printed by Vite for the real Bitbucket graph. Append `/?fixture=1` to the server origin for the controlled walkthrough below. The example reads bundled Git evidence and works without a Bitbucket account.
@@ -57,7 +65,7 @@ forge deploy -e development
 forge install -e development
 ```
 
-When prompted, select **Bitbucket** and enter your team workspace URL. Open the seeded repository, choose **Apps → Repository History**, and open **Replay**. Confirm coverage has begun and the initial `main` and `v1.4` pointers are visible before continuing. With a previously installed app, this first repository visit still establishes its baseline. [Forge deployment and workspace installation](https://developer.atlassian.com/platform/forge/build-a-hello-world-app-in-bitbucket/)
+When prompted, select **Bitbucket** and enter your team workspace URL. Open the seeded repository, choose **Apps → bitlens**, and open **Replay**. Confirm coverage has begun and the initial `main` and `v1.4` pointers are visible before continuing. With a previously installed app, this first repository visit still establishes its baseline. [Forge deployment and workspace installation](https://developer.atlassian.com/platform/forge/build-a-hello-world-app-in-bitbucket/)
 
 ### Create actual pull requests and replay events
 
