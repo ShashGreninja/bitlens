@@ -15,7 +15,26 @@ Choose **Open graph** on Home to explore Atlassian's public [atlassian-connect-e
 
 The sample graph starts from a dated snapshot of public Bitbucket REST records. Other repositories and uncached records use the public API and need network access. For a private repository, install bitlens in the workspace and choose **Apps → bitlens** from the repository in Bitbucket. The Forge app reads that repository with the current viewer's permissions. Replay records live events in the installed app. In the public preview, open **Replay → Open Replay example** to explore a sample force-push and branch deletion. See the [judge walkthrough](JUDGE.md) for hosted installation.
 
-## Run the checks
+## Use bitlens in a Linux or WSL terminal
+
+Install Node.js 24 in that environment and run `npm ci` from this checkout.
+
+```sh
+npm run bitlens -- --help
+npm run bitlens -- graph --repo atlassian/atlassian-connect-express
+npm run bitlens -- compare v12.2.1 v12.2.3 --repo atlassian/atlassian-connect-express
+npm run --silent bitlens -- tree master --repo atlassian/atlassian-connect-express --json
+```
+
+Use `--repo` from any directory when calling the script directly with `tsx` from this checkout. If omitted, the CLI looks for the Bitbucket `origin` of the current directory, or the directory npm was invoked from. For authenticated requests, set `BITBUCKET_TOKEN` to a read-scoped Bitbucket bearer token. Commands are read only and return the first page. View recorded Replay events in the installed Forge app.
+
+## Configure the help provider
+
+Help ships with a built-in guide. The public preview uses that guide. The Forge app uses it when a provider is unavailable or unconfigured.
+
+To enable a provider in Forge, allow its HTTPS origin in the manifest's backend fetch permissions. Set `BITLENS_HELP_URL` in the selected Forge environment and optionally set `BITLENS_HELP_TOKEN` as an encrypted environment variable. Deploy the updated manifest. The endpoint accepts a JSON POST with `{ "system": "...", "question": "..." }` and returns `{ "answer": "..." }`. The [system prompt](shared/help.ts) is sent from the resolver. The request contains the current question and product guide. Keep provider credentials server-side.
+
+## Build and test
 
 ```sh
 npm test
