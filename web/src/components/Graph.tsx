@@ -210,7 +210,7 @@ export default function Graph({
       )}
       {!!commits.length && (
         <>
-          <div className="graph-layout">
+          <Dock className="graph-layout" label="Commit graph" split={59}>
             <div className="graph-canvas">
               <div
                 ref={el}
@@ -287,12 +287,12 @@ export default function Graph({
                 </p>
               )}
             </article>
-          </div>
+          </Dock>
           {graphError && <Problem text={graphError} />}
           <div className="subheading">
             <h3>Commit list</h3>
           </div>
-          <div className="record-list">
+          <div className="record-list dock-single-pane">
             {commits.map((c) => (
               <button
                 className={'record-row ' + (c.hash === hash ? 'selected' : '')}
@@ -322,3 +322,4 @@ export default function Graph({
     </section>
   )
 }
+import { Dock } from './Dock'

@@ -24,7 +24,10 @@ function storageFor(workspace: string, repo: string) {
 }
 
 const resolver = new Resolver()
-resolver.define('help', async ({ payload }) => ({ answer: await answerHelp(payload?.question) }))
+resolver.define('help', async ({ context, payload }) => {
+  repositoryContext(context)
+  return { answer: await answerHelp(payload?.question, payload?.view, payload?.history) }
+})
 resolver.define('history', async ({ context, payload }) => {
   const { workspace, repo } = repositoryContext(context)
   if (!payload || !operations.has(payload.op))

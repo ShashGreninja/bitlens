@@ -101,7 +101,7 @@ export function FileHistory({
       {detail.busy && !detail.data ? (
         <Loading text="Following file history…" />
       ) : rows.length ? (
-        <div className="history-list">
+        <div className="history-list dock-single-pane">
           {rows.map((r, i) => (
             <HistoryRow
               key={r.hash + r.path}
@@ -206,6 +206,8 @@ const kindNames: Record<string, string> = {
   deleted: 'Deleted',
   tag: 'Tag update',
 }
+export const replayKindName = (kind: string) => kindNames[kind] || kind
+
 export function Replay({
   page,
   selected,
@@ -294,7 +296,7 @@ export function Replay({
         </label>
       )}
       {!!events.length && (
-        <div className="evidence-split">
+        <Dock className="evidence-split" label="Replay" split={43}>
           <div className="record-list">
             <div className="panel-label">
               Event timeline <span className="count">{events.length}</span>
@@ -310,7 +312,7 @@ export function Replay({
               >
                 <HistoryIcon size={16} />
                 <span>
-                  <strong>{kindNames[e.kind] || e.kind}</strong>
+                  <strong>{replayKindName(e.kind)}</strong>
                   <small>{e.ref}</small>
                 </span>
                 <small>{dateText(e.date).replace(/, \d{4}/, '')}</small>
@@ -321,7 +323,7 @@ export function Replay({
             {event ? (
               <>
 
-                <h3>{kindNames[event.kind] || event.kind}</h3>
+                <h3>{replayKindName(event.kind)}</h3>
                 <div className="ref-pill">
                   <GitBranch size={14} />
                   {event.ref}
@@ -394,7 +396,7 @@ export function Replay({
               />
             )}
           </article>
-        </div>
+        </Dock>
       )}
       <More
         hasNext={page.data?.next}
@@ -462,6 +464,7 @@ export function Tree({
         />
       )}
       {page.busy && !page.data && <Loading />}
+      <div className="dock-single-pane">
       {page.data?.entries.map((entry) => (
         <div key={entry.path} className="tree-entry">
           {entry.directory ? (
@@ -498,6 +501,8 @@ export function Tree({
         action={page.next}
         label="Load more entries"
       />
+      </div>
     </>
   )
 }
+import { Dock } from './Dock'

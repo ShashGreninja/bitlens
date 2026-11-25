@@ -2,46 +2,45 @@
   margin-inline: calc(-1 * clamp(16px, 3vw, 44px));
 }
 .home-start {
+  --home-ink: #171412;
   background: #ff6943;
-  color: #171412;
+  color: var(--home-ink);
 }
 .home-launch {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr);
-  align-items: end;
-  gap: 16px 48px;
-  padding: clamp(36px, 6vw, 88px) clamp(20px, 7vw, 100px);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(24px, 5vw, 72px);
+  padding: clamp(30px, 5vw, 72px) clamp(20px, 5vw, 72px);
 }
 .home-launch h1 {
-  grid-row: span 2;
   align-self: center;
   margin: 0;
-  font-size: clamp(49px, 8.1vw, 124px);
+  font-size: clamp(34px, 4.15vw, 67px);
   font-weight: 800;
   letter-spacing: -0.065em;
-  line-height: 0.85;
+  line-height: 0.95;
 }
+.home-actions { display: grid; justify-items: start; gap: 16px; min-width: 0; }
 .home-launch p {
-  max-width: 25ch;
+  max-width: 38ch;
   margin: 0;
   font-size: clamp(17px, 2vw, 25px);
-  line-height: 1.25;
-  align-self: end;
+  line-height: 1.35;
 }
 .home-launch form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
   align-items: end;
+  width: min(100%, 460px);
 }
 .home-launch label {
   display: grid;
-  flex: 1 1 160px;
   min-width: 0;
   gap: 5px;
 }
-.home-launch select,
-.home-primary {
+.home-launch :is(select, .home-primary, .home-secondary) {
   min-height: 44px;
   padding-inline: 12px;
   border: 1px solid #171412;
@@ -54,15 +53,29 @@
   color: #171412;
   color-scheme: light;
 }
-.home-primary {
+.home-primary,
+.home-secondary {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: #171412;
-  color: #ffffff;
   font-weight: 650;
 }
+.home-primary {
+  background: #171412;
+  color: #ffffff;
+}
 .home-primary:hover:enabled { background: #36302c; }
+.home-secondary {
+  background: #ff896b;
+  color: #171412;
+}
+.home-secondary:hover:enabled { background: #ffa38e; }
+.repo-desk .home-start a.home-example {
+  color: var(--home-ink);
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 .repo-desk .home-start :focus-visible { outline-color: #171412; }
 .home-proof {
   display: grid;
@@ -95,6 +108,9 @@
 .home-commit-list span { overflow-wrap: anywhere; font-weight: 600; }
 @media (max-width: 660px) {
   .home-launch, .home-proof { grid-template-columns: minmax(0, 1fr); }
-  .home-launch h1 { grid-row: auto; }
   .home-proof { gap: 8px; }
+}
+@media (max-width: 400px) {
+  .home-launch form { grid-template-columns: minmax(0, 1fr); justify-items: start; }
+  .home-launch label { width: 100%; }
 }

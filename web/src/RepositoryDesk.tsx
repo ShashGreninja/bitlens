@@ -62,7 +62,7 @@ export function RepositoryDesk({
         </nav>
         <div className="desk-actions">
           <RepositorySwitcher repo={repo} />
-          <HelpChat />
+          <HelpChat view={view} />
         </div>
       </header>
       <main ref={content} className="desk-content" tabIndex={-1}>

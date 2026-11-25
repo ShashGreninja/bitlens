@@ -517,7 +517,7 @@ function Canvas({
             </button>
           </div>
         </div>
-        <div className="atlas-body">
+        <Dock className="atlas-body" label="Graph" split={73} single={wide}>
           <div
             className="atlas-port"
             ref={port}
@@ -779,7 +779,7 @@ function Canvas({
               </svg>
             )}
           </aside>
-        </div>
+        </Dock>
         <footer className="atlas-footer">
           <span>
             {layout.length} visible commits · {records.size} loaded
@@ -830,3 +830,4 @@ function Canvas({
     </>
   )
 }
+import { Dock } from './components/Dock'

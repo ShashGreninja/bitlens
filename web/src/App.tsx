@@ -33,7 +33,7 @@ import {
   Source,
 } from './components/Common'
 import { Compare } from './components/Compare'
-import { FileHistory, Replay, Tree } from './components/Evidence'
+import { FileHistory, Replay, Tree, replayKindName } from './components/Evidence'
 import { Revisions } from './components/Revisions'
 import {
   messageOf,
@@ -52,6 +52,9 @@ const Graph = lazy(() => import('./components/Graph'))
 const replayExample =
   fixtureMode &&
   new URLSearchParams(window.location.search).get('walkthrough') === 'replay'
+const releaseExample =
+  fixtureMode &&
+  new URLSearchParams(window.location.search).get('walkthrough') === 'release'
 const customPreview =
   isExample && new URLSearchParams(window.location.search).has('repo')
 const views = {
@@ -87,6 +90,13 @@ const viewKeys = Object.keys(views) as View[]
 const asView = (v?: string): View | 'tree' =>
   v === 'tree' ? v : viewKeys.includes(v as View) ? (v as View) : 'compare'
 type Bootstrap = Results['bootstrap']
+function markdownCode(value: string) {
+  const line = value.replace(/[\r\n]+/g, ' ')
+  const ticks = Math.max(0, ...(line.match(/`+/g) || []).map((run) => run.length))
+  const fence = '`'.repeat(ticks + 1)
+  return ticks ? fence + ' ' + line + ' ' + fence : fence + line + fence
+}
+
 function defaults(repo: Bootstrap) {
   const tags = repo.refs
     .filter((r) => r.kind === 'tag')
@@ -188,7 +198,11 @@ function Workspace({
     { base: fixed?.base, target: fixed?.target },
     !!fixed && current === 'graph' && !embedded,
   )
-  const replay = usePages('replay', {}, current === 'replay')
+  const replay = usePages(
+    'replay',
+    {},
+    current === 'replay' || (dialog === 'share' && Boolean(selection.event)),
+  )
   const activeCommit =
     selection.commit || (current === 'graph' ? fixed?.target : undefined)
   const activeEvent =
@@ -200,6 +214,13 @@ function Workspace({
           )
           .at(-1)?.id
       : undefined)
+  const recordedEvent = replay.data?.events.find((event) => event.id === activeEvent)
+  useLocateRecord(
+    replay,
+    dialog === 'share' && current !== 'replay' && !recordedEvent
+      ? activeEvent
+      : undefined,
+  )
   const selectPair = (base: string, target: string) =>
     setSelection((s) => ({ base, target, view: s.view }))
   const sharedSelection = fixed
@@ -244,17 +265,34 @@ function Workspace({
     detail.data?.history.find((c) => c.hash === activeCommit) ||
     (!activeCommit ? detail.data?.history[0] : undefined)
   const absolute = (url: string) => new URL(url, window.location.href).href
+  const summaryBusy = detail.busy || replay.busy
+  const eventSummary = recordedEvent
+    ? [
+        replayKindName(recordedEvent.kind) + ' ' + recordedEvent.refType + ' ' + markdownCode(recordedEvent.ref),
+        'Recorded at: ' + markdownCode(recordedEvent.date),
+        'Recorded by: ' + markdownCode(recordedEvent.actor || 'Unavailable'),
+        'Before: ' + (recordedEvent.before ? markdownCode(recordedEvent.before) : 'No pointer recorded'),
+        'After: ' + (recordedEvent.after ? markdownCode(recordedEvent.after) : 'No pointer recorded'),
+        ...(recordedEvent.gap ? ['Replay coverage has a gap at this event.'] : []),
+      ]
+    : activeEvent
+      ? ['Replay details are unavailable for this event.']
+      : []
   const markdown =
-    fixed && share
+    fixed && share && !summaryBusy
       ? [
           '## Repository investigation',
           '',
           'Repository: ' + repo.workspace + ' / ' + repo.repo,
           'Baseline: `' + fixed.base + '`',
           'Target: `' + fixed.target + '`',
-          ...(path ? ['File: `' + path + '`'] : []),
+          ...(path ? ['File: ' + markdownCode(path)] : []),
+          ...(previousPath && previousPath !== path
+            ? ['Previous path: ' + markdownCode(previousPath)]
+            : []),
           ...(activeCommit ? ['Selected commit: `' + activeCommit + '`'] : []),
           ...(activeEvent ? ['Recorded event: `' + activeEvent + '`'] : []),
+          ...eventSummary,
           '',
           ...(evidence
             ? [
@@ -275,7 +313,7 @@ function Workspace({
               ]
             : []),
           '[Open investigation](' + share + ')',
-        ].join('\n')
+        ].join('  \n')
       : ''
   function refButton(ref: Ref) {
     return (
@@ -572,12 +610,18 @@ function Workspace({
                 onFocus={(e) => e.target.select()}
               />
               <CopyButton label="Copy link" value={share} />
-              <label className="field-label" htmlFor="markdown">
-                <BookOpen size={14} />
-                Markdown summary
-              </label>
-              <textarea id="markdown" readOnly value={markdown} rows={6} />
-              <CopyButton label="Copy Markdown" value={markdown} />
+              {summaryBusy ? (
+                <Loading text="Loading summary evidence…" />
+              ) : (
+                <>
+                  <label className="field-label" htmlFor="markdown">
+                    <BookOpen size={14} />
+                    Markdown summary
+                  </label>
+                  <textarea id="markdown" readOnly value={markdown} rows={6} />
+                  <CopyButton label="Copy Markdown" value={markdown} />
+                </>
+              )}
             </>
           )}
         </Dialog>
@@ -667,7 +711,7 @@ export default function App() {
         )}
       </main>
     )
-  return fixtureMode && !replayExample ? (
+  return fixtureMode && !replayExample && !releaseExample ? (
     <Workspace repo={repo} initial={initial} />
   ) : (
     <LiveDesk repo={repo} initial={initial} />
@@ -725,6 +769,8 @@ function LiveDesk({
         <RepositoryHome
           repo={repo}
           revision={startingRevision}
+          canCompare={Boolean(context.base && context.target)}
+          onCompare={() => navigate('compare')}
           onOpenGraph={(revision) => {
             setStartingRevision(revision)
             navigate('graph')

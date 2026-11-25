@@ -6,9 +6,26 @@
   white-space: nowrap;
 }
 .desk-help-open:hover { color: var(--desk-accent); }
+.repo-desk button.desk-help-avatar {
+  position: fixed;
+  z-index: 12;
+  inset-inline-end: clamp(14px, 2vw, 28px);
+  bottom: max(16px, env(safe-area-inset-bottom));
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border: 2px solid var(--desk-ground);
+  border-radius: 50%;
+  background: var(--desk-accent);
+  color: #171412;
+}
+.repo-desk button.desk-help-avatar:hover { background: #ffb19c; }
 .help-log { max-height: min(44vh, 360px); overflow-y: auto; }
 .help-turn { overflow-wrap: anywhere; padding-inline: 4px; }
 .help-question { font-weight: 650; color: var(--desk-accent); }
+.help-source { color: var(--desk-muted); }
+.help-answer { margin-top: 4px; white-space: pre-wrap; }
 .help-topics { display: flex; flex-wrap: wrap; gap: 7px; margin-block: 16px; }
 .help-topics button {
   padding: 7px 10px;

@@ -1,4 +1,8 @@
 modules:
+  llm:
+    - key: bitlens-product-guide
+      model:
+        - claude
   bitbucket:repoMainMenuPage:
     - key: repository-history
       title: bitlens

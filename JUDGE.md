@@ -10,14 +10,14 @@ Complete the Devpost form with the installation link, configuration instructions
 
 ## Explore the local example
 
-From the app checkout, run `npm ci` and `npm run dev` with Node.js 24. Open the URL printed by Vite for the real Bitbucket graph. Append `/?fixture=1` to the server origin for the controlled walkthrough below. The example reads bundled Git evidence and works without a Bitbucket account.
+From the app checkout, run `npm ci` and `npm run dev` with Node.js 24. Open the URL printed by Vite and choose **Try the release example**, or append `/?fixture=1&walkthrough=release` to the server origin. It uses the same repository navigation and graph as the Forge build. It reads bundled Git evidence and runs without a Bitbucket account.
 
-1. Open **Compare** and select `v1.4` and `v1.5`. Select `services/payments/config.yml`. The patch shows the rename from `payments/config.yml` and a timeout decrease from 1800 ms to 600 ms. The release also adds a runbook, removes a legacy environment file, and updates `VERSION`. Reverse the revisions to see the opposite change.
+1. Choose **Compare revisions** on Home. Select `v1.4` and `v1.5` if they are not already selected. Select `services/payments/config.yml`. The patch shows the rename from `payments/config.yml` and a timeout decrease from 1800 ms to 600 ms. The release also adds a runbook, removes a legacy environment file, and updates `VERSION`. Reverse the revisions to see the opposite change, then restore the original order before continuing.
 2. In **File history**, follow the configuration through its previous path to “Allow the gateway 1800 ms to respond.” Open the landing pull request for the target revision. Local PR #42 illustrates the squash merge. Local PR #41 illustrates the regular merge and can be opened from its commit evidence. Both PR records are illustrative. The commit hashes, trees, diffs and parent edges come from Git.
-3. In **Graph**, inspect `41bc3e5`. Its sole parent is `6d5cf47`, the regular merge with parents `2b372a8` and `054419d`. The squashed feature tip `0c0dd7a` remains discoverable through the deletion event and PR evidence.
+3. From the first file history record, choose **View in graph**. Inspect `41bc3e5`. Its sole parent is `6d5cf47`, the regular merge with parents `2b372a8` and `054419d`. The squashed feature tip `0c0dd7a` remains discoverable through the deletion event and PR evidence.
 4. In **Replay**, inspect the deletion of `feature/payment-timeout` and the force-push of `investigate/gateway-latency`. Their last tip and before/after tips are `0c0dd7a` and `14a992d` → `74ab3b4`, respectively. The local recorder reads each Git ref before and after updating it. Actors and dates follow the fixture script. The hosted walkthrough below exercises Forge event delivery.
 5. Choose **Show ancestry at this event** on the force-push. Switch between **Before event** and **After event** to see the two histories. Use the event slider to inspect another point in time.
-6. Copy the investigation link and reopen it. With the same local server running, it restores the selected release pair, file, and event. A second user's access must be tested on the installed app.
+6. Choose **Share investigation** and inspect the Markdown summary. It includes both file paths, the event's recorded pointers, and the investigation link. Copy the link and reopen it. With the same local server running, it restores the selected release pair, file, and event. A second user's access must be tested on the installed app.
 
 ### Verify against Git
 
@@ -114,3 +114,22 @@ When prompted, select **Bitbucket** and enter your team workspace URL. Open the 
 | Share the investigation after selecting the renamed file and an event | A second signed-in repository reader sees the same baseline hash, target hash, file, and selected event. A signed-in account without repository permission receives no investigation data. |
 
 Use the live PR URLs, shared investigation link, and observed replay entries for the hosted acceptance record. Local reproduction verifies the fixture and UI data only. Workspace installation, event delivery and multi-account access require this hosted run.
+
+## Draft Devpost description
+
+When a release regresses, an on-call engineer may have two revisions and a file path that no longer exists. BitLens opens directly in a Bitbucket Cloud repository. Compare the releases, follow the file through its rename, and open the Bitbucket pull request behind the change. Replay shows where branches and tags pointed before and after changes the app observed. Share an investigation pinned to two exact commits so the next engineer can reopen the same evidence.
+
+BitLens uses a Forge Bitbucket repository menu page, reads Bitbucket as the viewer, and records push observations in Forge storage. Replay coverage starts with an observed event or a repository snapshot. Enter **Apps for Software Teams**.
+
+## Demo recording outline · 3 minutes 30 seconds
+
+Use the installed app and the real PRs, events, and accounts from the hosted acceptance run. Time the final cut and confirm that the public YouTube URL opens in a signed-out browser.
+
+| Time | On screen | What to say |
+| --- | --- | --- |
+| 0:00–0:25 | Open **Apps → bitlens** on the seeded repository. | “Payments started timing out after v1.5. We have two release tags and a configuration file that moved.” |
+| 0:25–1:05 | Compare the release tags, then select the moved file. | “Here’s the old path and the new one. The timeout fell from 1800 to 600 milliseconds. That gives us a lead to check against incident data.” |
+| 1:05–1:45 | Open earlier file history and the actual squash PR. Show the landing commit's parent in Graph. | “File history crosses the rename. The pull request tells us how the change landed, and the graph shows the actual parent.” |
+| 1:45–2:30 | Show the recorded source branch deletion and both sides of the force-push. | “This deleted branch still has a recorded last tip. Replay covers the events BitLens observed, and it flags gaps.” |
+| 2:30–3:10 | Share the investigation and reopen it as the second reader. | “Both revisions are fixed to commit hashes. The next engineer opens the same file and event, with their own repository permissions.” |
+| 3:10–3:30 | Return to the repository navigation, with a slide or overlay naming Forge, Bitbucket, and the category. | “BitLens gives release engineers a trail from a changed line to the records a teammate needs to verify it.” |

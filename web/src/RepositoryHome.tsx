@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react'
 import { ArrowRight, ArrowUpRight, GitCommitHorizontal, GitMerge } from 'lucide-react'
 import type { Commit, Results } from '../../shared/types'
 import { GraphRevisionPicker, graphRevisionHash } from './GraphRevisionPicker'
-import { isExample, service } from './service'
+import { fixtureMode, isExample, service } from './service'
+import { previewUrl } from './repositoryLocation'
 import './home.css'
 
-export function RepositoryHome({ repo, revision, onOpenGraph, onOpenCommit }: {
+export function RepositoryHome({ repo, revision, canCompare, onCompare, onOpenGraph, onOpenCommit }: {
   repo: Results['bootstrap']
   revision: string
+  canCompare: boolean
+  onCompare: () => void
   onOpenGraph: (revision: string) => void
   onOpenCommit: (tip: string, commit: string) => void
 }) {
@@ -19,7 +22,7 @@ export function RepositoryHome({ repo, revision, onOpenGraph, onOpenCommit }: {
     if (!tip) return
     let active = true
     async function read() {
-      if (import.meta.env.MODE === 'example') {
+      if (isExample && !fixtureMode) {
         const { archive, snapshotRepository } = await import('./publicHistory')
         const head = archive.get(tip)
         if (head && snapshotRepository === `${repo.workspace}/${repo.repo}`) {
@@ -43,26 +46,36 @@ export function RepositoryHome({ repo, revision, onOpenGraph, onOpenCommit }: {
   }, [repo.repo, repo.workspace, tip])
 
   const commits = preview?.tip === tip ? preview.commits : undefined
+  const example = previewUrl()
+  example.search = '?fixture=1&walkthrough=release'
   return (
     <section className="desk-home">
       <div className="home-start">
         <div className="home-launch">
-          <h1>Trace what<br />changed.</h1>
-          <p>Explore Bitbucket history from a branch tip to the line that changed.</p>
-          <form onSubmit={(event) => { event.preventDefault(); if (start) onOpenGraph(start) }}>
-            <GraphRevisionPicker refs={repo.refs} revision={start} onChange={setStart} label="Branch or tag" />
-            <button className="home-primary" type="submit" disabled={!start}>
-              Open graph <ArrowRight size={18} aria-hidden="true" />
+          <h1>Trace what changed.<br />Visually.</h1>
+          <div className="home-actions">
+            <p>Compare two revisions to trace a changed file back to its earlier path and pull request.</p>
+            <button className="home-primary" type="button" onClick={onCompare} disabled={!canCompare}>
+              Compare revisions <ArrowRight size={18} aria-hidden="true" />
             </button>
-          </form>
+            <form onSubmit={(event) => { event.preventDefault(); if (start) onOpenGraph(start) }}>
+              <GraphRevisionPicker refs={repo.refs} revision={start} onChange={setStart} label="Branch or tag" />
+              <button className="home-secondary" type="submit" disabled={!start}>
+                Open graph <ArrowRight size={18} aria-hidden="true" />
+              </button>
+            </form>
+            {isExample && !fixtureMode && (
+              <a className="home-example" href={example.href}>Try the release example</a>
+            )}
+          </div>
         </div>
       </div>
       <section className="home-proof" aria-labelledby="recent-commits">
         <div className="home-proof-label">
           <h2 id="recent-commits">Recent commits</h2>
-          {isExample && <span>Public Bitbucket preview</span>}
+          {isExample && <span>{fixtureMode ? 'Local Git fixture' : 'Public Bitbucket preview'}</span>}
         </div>
-        <div className="home-commit-list">
+        <div className="home-commit-list dock-single-pane">
           {commits?.map((commit) => {
             const Icon = commit.parents.length > 1 ? GitMerge : GitCommitHorizontal
             return (

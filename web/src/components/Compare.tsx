@@ -176,7 +176,7 @@ export function Compare({
           text="These revisions have the same file contents. Choose another baseline or target to compare."
         />
       ) : (
-        <div className="change-workbench">
+        <Dock className="change-workbench" label="Compare" split={28}>
           <aside className="file-panel">
             <div className="panel-label">
               <span>File explorer</span>
@@ -314,8 +314,9 @@ export function Compare({
               />
             )}
           </article>
-        </div>
+        </Dock>
       )}
     </section>
   )
 }
+import { Dock } from './Dock'
