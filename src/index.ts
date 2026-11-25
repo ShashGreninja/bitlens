@@ -9,6 +9,7 @@ import {
 } from './domain'
 import { authorize, history, type FetchRepo } from './history'
 import { RepositoryStorage } from './storage'
+import { answerHelp } from './help'
 
 const operations = new Set([
   'bootstrap',
@@ -23,6 +24,7 @@ function storageFor(workspace: string, repo: string) {
 }
 
 const resolver = new Resolver()
+resolver.define('help', async ({ payload }) => ({ answer: await answerHelp(payload?.question) }))
 resolver.define('history', async ({ context, payload }) => {
   const { workspace, repo } = repositoryContext(context)
   if (!payload || !operations.has(payload.op))

@@ -1,0 +1,30 @@
+.desk-help-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  white-space: nowrap;
+}
+.desk-help-open:hover { color: var(--desk-accent); }
+.help-log { max-height: min(44vh, 360px); overflow-y: auto; }
+.help-turn { overflow-wrap: anywhere; padding-inline: 4px; }
+.help-question { font-weight: 650; color: var(--desk-accent); }
+.help-topics { display: flex; flex-wrap: wrap; gap: 7px; margin-block: 16px; }
+.help-topics button {
+  padding: 7px 10px;
+  background: var(--desk-hover);
+  border-radius: var(--desk-control-radius);
+  text-align: left;
+}
+.help-topics button:hover { color: var(--desk-accent); }
+.help-form { display: flex; gap: 8px; margin-top: 16px; }
+.help-form input {
+  min-width: 0;
+  flex: 1;
+  padding: 7px 10px;
+  background: var(--desk-ground);
+  color: var(--desk-ink);
+  border: 1px solid var(--desk-rule);
+  border-radius: var(--desk-control-radius);
+}
+.help-hint { display: block; margin-top: 10px; color: var(--desk-muted); }
