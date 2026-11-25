@@ -29,6 +29,8 @@ import {
 } from './data'
 import { Empty, Loading, More, Problem, Source } from './Common'
 import { ReplayGraph } from './ReplayGraph'
+import { fixtureMode, isExample } from '../service'
+import { previewUrl } from '../repositoryLocation'
 
 export function FileHistory({
   path,
@@ -211,10 +213,12 @@ export function Replay({
   page,
   selected,
   select,
+  compare,
 }: {
   page: Page<'replay'>
   selected?: string
   select: (id: string) => void
+  compare: (base: string, target: string, event: string) => void
 }) {
   const [showGraph, setShowGraph] = useState(false)
   const events = [...(page.data?.events || [])].sort(
@@ -224,6 +228,10 @@ export function Replay({
     ? events.findIndex((e) => e.id === selected)
     : events.length - 1
   const event = events[index]
+  const before = event?.before
+  const after = event?.after
+  const example = previewUrl()
+  example.search = '?fixture=1&walkthrough=replay'
   useLocateRecord(page, !event ? selected : undefined)
   return (
     <section className="workspace-section">
@@ -236,6 +244,12 @@ export function Replay({
           </span>
         )}
       </div>
+      {fixtureMode && (
+        <div className="replay-example-note">
+          <p>Sample activity from the payments repository.</p>
+          <a className="source-link" href={previewUrl().href}>Back to public preview</a>
+        </div>
+      )}
       {page.error && (
         <Problem
           text={page.error}
@@ -252,10 +266,19 @@ export function Replay({
         <Loading text="Loading recorded branch events…" />
       )}
       {page.data && !events.length && (
-        <Empty
-          title="No recorded events yet"
-          text="Replay begins with the first recorded snapshot or branch event for this repository."
-        />
+        <div className="replay-guide">
+          <div>
+            <h3>No recorded events yet</h3>
+            <p>Say a force-push replaces a commit. Replay keeps the old and new commit IDs so you can see what disappeared.</p>
+          </div>
+          <div>
+            <h3>{isExample ? 'See a force-push example' : 'When recording starts'}</h3>
+            <p>{isExample
+              ? 'Try a recorded branch deletion or force-push in the sample repository.'
+              : 'Coverage begins with the first snapshot or push event bitlens receives. Earlier events are outside that coverage.'}</p>
+            {isExample && !fixtureMode && <a className="source-link" href={example.href}>Open Replay example</a>}
+          </div>
+        </div>
       )}
       {events.length > 1 && (
         <label className="replay-scrubber">
@@ -313,15 +336,23 @@ export function Replay({
                   <dd>{event.actor || 'Unavailable'}</dd>
                 </dl>
                 <section className="ref-movement" aria-label="Branch or tag movement">
-                <div className="pointer">
-                  <span>Before</span>
-                  <code>{event.before || 'No pointer recorded'}</code>
-                </div>
-                <div className="pointer">
-                  <span>After</span>
-                  <code>{event.after || 'No pointer recorded'}</code>
-                </div>
+                  <div className="pointer">
+                    <span>Before</span>
+                    <code>{event.before || 'No pointer recorded'}</code>
+                  </div>
+                  <div className="pointer">
+                    <span>After</span>
+                    <code>{event.after || 'No pointer recorded'}</code>
+                  </div>
                 </section>
+                {before && after && before !== after && (
+                  <button
+                    className="button primary replay-compare"
+                    onClick={() => compare(before, after, event.id)}
+                  >
+                    Compare before and after
+                  </button>
+                )}
                 {event.gap && (
                   <div className="notice">
                     <Info size={15} />

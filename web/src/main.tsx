@@ -14,7 +14,7 @@ class ErrorBoundary extends Component<
     if (!this.state.failed) return this.props.children
     return (
       <main role="alert" className="repo-desk desk-fallback">
-        <h1>Repository History could not open this view</h1>
+        <h1>bitlens could not open this view</h1>
         <p>Reload to retry the investigation.</p>
         <button onClick={() => window.location.reload()}>Reload</button>
       </main>

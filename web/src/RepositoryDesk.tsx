@@ -1,7 +1,7 @@
 import { useEffect, useRef, type ReactNode } from 'react'
 import { GitMerge } from 'lucide-react'
 import type { Results } from '../../shared/types'
-import { Source } from './components/Common'
+import { RepositorySwitcher } from './RepositorySwitcher'
 import './desk.css'
 
 export const deskViews = [
@@ -32,17 +32,22 @@ export function RepositoryDesk({
     previousView.current = view
     content.current?.focus({ preventScroll: true })
     window.scrollTo(0, 0)
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const arrival = content.current?.animate(
+        [{ opacity: 0.55, transform: 'translateY(4px)' }, { opacity: 1, transform: 'none' }],
+        { duration: 170, easing: 'cubic-bezier(0.2, 0.7, 0.3, 1)' },
+      )
+      return () => arrival?.cancel()
+    }
   }, [view])
   return (
     <div className="repo-desk">
       <header className="desk-header">
         <div className="desk-brand">
           <GitMerge aria-hidden="true" size={20} />
-          <strong>Repository History</strong>
+          <strong>bitlens</strong>
         </div>
-        <Source url={repo.webUrl} className="desk-source">
-          {repo.workspace} / {repo.repo}
-        </Source>
+        <RepositorySwitcher repo={repo} />
       </header>
       <nav className="desk-nav" aria-label="Repository views">
         {deskViews.map(([key, name]) => (

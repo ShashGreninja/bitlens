@@ -63,13 +63,17 @@ export default function Atlas({
     target: initial?.pinTarget,
   })
   const [stamp, setStamp] = useState('')
+  const [previewReady, setPreviewReady] = useState(!isExample)
   useEffect(() => {
-    if (isExample)
+    if (import.meta.env.MODE === 'example')
       import('./publicHistory').then((m) => {
-        setArchive(m.archive)
-        setStamp(m.captured)
+        if (m.snapshotRepository === `${repo.workspace}/${repo.repo}`) {
+          setArchive(m.archive)
+          setStamp(m.captured)
+        }
+        setPreviewReady(true)
       })
-  }, [])
+  }, [repo.workspace, repo.repo])
   return (
     <section className="atlas">
       <div className="atlas-title">
@@ -96,7 +100,7 @@ export default function Atlas({
           </label>
         </div>
       </div>
-      {tip && (!isExample || archive) ? (
+      {tip && previewReady ? (
         <Canvas
           key={tip + line}
           {...{ repo, tip, line, archive, stamp, investigate }}
@@ -814,7 +818,9 @@ function Canvas({
       <p className="atlas-source">
         {stamp
           ? 'Public Bitbucket snapshot · ' + stamp
-          : 'Connected Bitbucket repository'}{' '}
+          : isExample
+            ? 'Public Bitbucket repository'
+            : 'Connected Bitbucket repository'}{' '}
         ·{' '}
         <a
           href={repo.webUrl}

@@ -17,7 +17,7 @@ const tools = [
   ['compare', GitCompareArrows, 'Compare revisions', 'See which files changed between two versions.'],
   ['history', FileClock, 'Follow a file', 'Find who changed a file, even if it was renamed.'],
   ['tree', FolderTree, 'Browse files', 'Open the source tree at an earlier revision.'],
-  ['replay', History, 'Replay branch activity', 'See recorded updates to branches and tags.'],
+  ['replay', History, 'Replay branch activity', 'See where a branch pointed before a rewrite or deletion.'],
 ] as const
 
 export function RepositoryHome({
@@ -36,10 +36,10 @@ export function RepositoryHome({
     <section className="desk-home">
       <div className="home-start">
         <div className="home-launch">
-          <h1>Explore your repository’s history</h1>
+          <h1>Trace what changed</h1>
           <p>
-            Start from a branch or tag. The graph shows how its commits connect
-            and what each one changed.
+            Follow a change from the commit graph to the file diff, even when
+            a branch has moved or a file was renamed.
           </p>
           <form
             onSubmit={(event) => {

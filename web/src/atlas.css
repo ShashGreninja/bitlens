@@ -43,13 +43,14 @@
   color: var(--desk-ink);
   min-height: 38px;
   border: 1px solid var(--desk-rule);
-  border-radius: 3px;
+  border-radius: var(--desk-control-radius);
   padding: 0 8px;
   max-width: 240px;
 }
 .atlas-board {
   border: 1px solid var(--desk-line);
   background: var(--desk-sheet);
+  border-radius: var(--desk-panel-radius);
 }
 .atlas-bar {
   min-height: 52px;
@@ -79,6 +80,7 @@
   margin-left: auto;
   padding: 0 8px;
   border: 1px solid var(--desk-line);
+  border-radius: var(--desk-control-radius);
 }
 .atlas-search input {
   min-height: 36px;
@@ -99,6 +101,7 @@
   padding: 4px;
   background: var(--desk-hover);
   border: 1px solid var(--desk-rule);
+  border-radius: var(--desk-control-radius);
 }
 .atlas-results button {
   display: block;
@@ -327,7 +330,7 @@
 .atlas-inspector .atlas-inspect-changes {
   justify-content: space-between;
   border: 1px solid #47627d;
-  border-radius: 4px;
+  border-radius: var(--desk-control-radius);
   padding-inline: 10px;
   background: #243549;
   color: #dcecff;

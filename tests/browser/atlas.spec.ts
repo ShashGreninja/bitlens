@@ -70,7 +70,7 @@ test('pin two real commits, trace their paths, and return from Replay without lo
     await expect(views.getByRole('button', { name, exact: true })).toBeVisible()
   await views.getByRole('button', { name: 'Replay', exact: true }).click()
   await expect(
-    page.getByText(/Recording begins when Repository History is installed/),
+    page.getByText(/Live event recording runs in the installed Forge app/),
   ).toBeVisible()
   await views.getByRole('button', { name: 'Graph', exact: true }).click()
   await expect(range).toBeVisible()

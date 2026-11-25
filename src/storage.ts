@@ -71,7 +71,7 @@ export class RepositoryStorage {
       kind: 'snapshot',
       before: null,
       after: r.hash,
-      actor: 'Repository History',
+      actor: 'bitlens',
     }))
     for (let start = 0; start < events.length; start += 25) {
       const batch = events
@@ -80,7 +80,7 @@ export class RepositoryStorage {
       const result = await kvs.batchSet(batch)
       if (result.failedKeys.length)
         throw new Error(
-          'The initial pointer snapshot is incomplete. Reopen Repository History to resume.',
+          'The initial pointer snapshot is incomplete. Reopen bitlens to resume.',
         )
     }
     await kvs.set(readyKey, true)

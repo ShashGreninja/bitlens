@@ -1,4 +1,5 @@
 import type { Params, Results } from '../../shared/types'
+import { previewRepository } from './repositoryLocation'
 import {
   decodeSelection,
   encodeSelection,
@@ -17,8 +18,12 @@ export async function service<K extends keyof Results>(
   params: Params = {},
 ): Promise<Results[K]> {
   if (fixtureMode) return (await import('./example')).exampleService(op, params)
-  if (isExample)
-    return (await import('./publicHistory')).publicHistory(op, params)
+  if (import.meta.env.MODE === 'example')
+    return (await import('./publicHistory')).publicHistory(
+      op,
+      params,
+      previewRepository(),
+    )
   const { invoke } = await import('@forge/bridge')
   const response = await invoke<Results[K]>('history', { op, ...params })
   return 'body' in response ? response.body : response

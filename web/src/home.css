@@ -9,7 +9,7 @@
   grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
   background: var(--desk-sheet);
   border: 1px solid var(--desk-line);
-  border-radius: 12px;
+  border-radius: var(--desk-panel-radius);
   overflow: hidden;
 }
 
@@ -27,11 +27,11 @@
 }
 
 .home-launch h1 {
-  max-width: 14ch;
+  max-width: 19ch;
   margin: 0;
-  font-size: clamp(32px, 4vw, 60px);
-  line-height: 1.02;
-  letter-spacing: -0.055em;
+  font-size: clamp(24px, 3vw, 32px);
+  line-height: 1.14;
+  letter-spacing: -0.04em;
 }
 
 .home-launch p {
@@ -62,7 +62,7 @@
   min-height: 46px;
   padding-inline: 12px;
   font: inherit;
-  border-radius: 5px;
+  border-radius: var(--desk-control-radius);
 }
 
 .home-launch select {
@@ -108,7 +108,7 @@
   margin: 20px 0 14px;
   padding: 16px 12px;
   border: 1px solid var(--desk-line);
-  border-radius: 6px;
+  border-radius: var(--desk-panel-radius);
   background: #191a1d;
 }
 
@@ -121,7 +121,7 @@
   min-height: 36px;
   padding: 4px;
   border: 1px solid var(--desk-rule);
-  border-radius: 4px;
+  border-radius: var(--desk-control-radius);
   background: var(--desk-sheet);
   text-align: center;
   line-height: 1.15;
@@ -209,6 +209,7 @@
 
 .home-tool-list button:hover {
   background: var(--desk-hover);
+  border-radius: var(--desk-control-radius);
 }
 
 .home-tool-list button > svg {
@@ -233,6 +234,9 @@
   .home-launch,
   .home-guide {
     padding: 20px 16px;
+  }
+  .home-launch h1 {
+    font-size: 24px;
   }
   .home-commit svg {
     display: none;

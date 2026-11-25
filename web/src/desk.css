@@ -8,6 +8,9 @@
   --desk-muted: #a9acb1;
   --desk-accent: #82bdf2;
   --desk-rule: #70747b;
+  --desk-panel-radius: 14px;
+  --desk-control-radius: 8px;
+  --desk-motion: 170ms cubic-bezier(0.2, 0.7, 0.3, 1);
 }
 .repo-desk {
   min-height: 100vh;
@@ -91,23 +94,93 @@
   padding-block: 8px;
   border-bottom: 1px solid var(--desk-line);
 }
-.desk-brand,
-.desk-source {
+.desk-brand {
   display: inline-flex;
   align-items: center;
   gap: 10px;
 }
-.desk-brand svg,
-.desk-source svg {
+.desk-brand svg {
   flex: none;
+  color: var(--desk-accent);
 }
 .desk-brand {
   font-size: 15px;
 }
-.desk-header .desk-source {
-  text-decoration: none;
+.desk-switch {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  gap: 10px;
+  min-height: 44px;
+  padding: 6px 10px;
+  border: 1px solid var(--desk-line);
+  border-radius: var(--desk-control-radius);
+  background: var(--desk-sheet);
+}
+.desk-switch:hover,
+.desk-switch[aria-expanded='true'] {
+  background: var(--desk-hover);
+  border-color: var(--desk-rule);
+}
+.desk-switch svg {
   color: var(--desk-muted);
+  flex: none;
+}
+.desk-switch :is(small, strong) {
+  display: block;
   overflow-wrap: anywhere;
+}
+.desk-switch small,
+.repo-entry-hint,
+.replay-guide p,
+.replay-example-note p {
+  color: var(--desk-muted);
+}
+.desk-switch strong {
+  font-size: 13px;
+}
+.repo-entry {
+  display: grid;
+  gap: 10px;
+}
+.repo-entry input {
+  width: 100%;
+  min-height: 44px;
+  padding-inline: 12px;
+  color: var(--desk-ink);
+  background: var(--desk-ground);
+  border: 1px solid var(--desk-rule);
+  border-radius: var(--desk-control-radius);
+}
+.repo-entry-links,
+.replay-example-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin-top: 16px;
+}
+.replay-example-note p {
+  margin: 0;
+}
+.replay-guide {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap: 20px 36px;
+  margin-top: 16px;
+  padding: clamp(16px, 3vw, 30px);
+  background: var(--desk-sheet);
+  border-radius: var(--desk-panel-radius);
+}
+.replay-guide h3 {
+  margin: 0 0 5px;
+}
+.replay-guide p {
+  margin: 0;
+}
+.replay-compare {
+  margin-right: 12px;
+  margin-bottom: 8px;
 }
 .desk-nav {
   display: flex;
@@ -138,6 +211,27 @@
 }
 .desk-content > [hidden] {
   display: none;
+}
+.repo-desk dialog[open],
+.repo-desk .picker,
+.repo-desk .atlas-results {
+  animation: desk-arrive var(--desk-motion) both;
+}
+.repo-desk :is(.desk-switch, .home-primary, .home-tool-list button, .button, .atlas-tools button) {
+  transition: background-color var(--desk-motion), border-color var(--desk-motion), color var(--desk-motion), transform var(--desk-motion);
+}
+.repo-desk :is(.desk-switch, .home-primary, .home-tool-list button, .button, .atlas-tools button):active:enabled {
+  transform: translateY(1px);
+}
+@keyframes desk-arrive {
+  from { opacity: 0.5; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .repo-desk *, .repo-desk *::before, .repo-desk *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 .desk-workspace .main-panel {
   background: transparent;
@@ -176,7 +270,8 @@
     padding-block: 12px;
   }
   .desk-nav {
-    gap: 18px;
+    flex-wrap: wrap;
+    gap: 0 13px;
   }
   .desk-workspace .main-content {
     margin-top: 16px;
@@ -191,10 +286,11 @@
   --paper: var(--desk-sheet);
 }
 .desk-workspace .revision-trigger,
-.desk-workspace .revisions,
-.desk-workspace .change-workbench,
-.desk-workspace .evidence-split {
-  border-radius: 3px;
+.desk-workspace .button {
+  border-radius: var(--desk-control-radius);
+}
+.desk-workspace :is(.revisions, .change-workbench, .evidence-split) {
+  border-radius: var(--desk-panel-radius);
   box-shadow: none;
 }
 .desk-workspace .revision-trigger,
@@ -292,6 +388,9 @@
 }
 .desk-workspace .graph-drawing {
   filter: invert(0.86) hue-rotate(155deg);
+}
+.repo-desk .atlas-node {
+  border-radius: var(--desk-control-radius);
 }
 .desk-workspace
   :is(

@@ -18,6 +18,7 @@ import {
 import type { Ref, Results } from '../../shared/types'
 import {
   fixtureMode,
+  isExample,
   readInvestigation,
   service,
   shareInvestigation,
@@ -48,6 +49,11 @@ import { graphRevision } from './GraphRevisionPicker'
 
 const Atlas = lazy(() => import('./Atlas'))
 const Graph = lazy(() => import('./components/Graph'))
+const replayExample =
+  fixtureMode &&
+  new URLSearchParams(window.location.search).get('walkthrough') === 'replay'
+const customPreview =
+  isExample && new URLSearchParams(window.location.search).has('repo')
 const views = {
   compare: {
     name: 'Compare',
@@ -71,8 +77,8 @@ const views = {
   },
   replay: {
     name: 'Replay',
-    title: 'Branch replay',
-    description: 'Choose a recorded event to see where a branch or tag pointed before and after.',
+    title: 'Replay branch changes',
+    description: 'See where a branch or tag pointed before and after a push, force-push, or deletion.',
     icon: RotateCcw,
   },
 }
@@ -292,11 +298,7 @@ function Workspace({
             <span className="brand-mark">
               <GitBranch size={22} strokeWidth={2.4} />
             </span>
-            <span>
-              Repository
-              <br />
-              History
-            </span>
+            <span>bitlens</span>
           </div>
           <div className="sidebar-inner">
             <div className="sidebar-label">Workspace</div>
@@ -513,6 +515,18 @@ function Workspace({
               page={replay}
               selected={activeEvent}
               select={(event) => changeSelection({ event })}
+              compare={(base, target, event) =>
+                changeSelection({
+                  base,
+                  target,
+                  event,
+                  view: 'compare',
+                  path: undefined,
+                  previousPath: undefined,
+                  fileSide: undefined,
+                  commit: undefined,
+                })
+              }
             />
           )}
         </div>
@@ -604,7 +618,9 @@ export default function App() {
     Promise.all([service('bootstrap'), readInvestigation()]).then(
       ([data, s]) => {
         if (alive) {
-          setInitial(s)
+          setInitial(
+            s ?? (replayExample ? { ...defaults(data), view: 'replay' } : null),
+          )
           setRepo(data)
         }
       },
@@ -622,18 +638,18 @@ export default function App() {
         <div className="brand-mark">
           <GitBranch size={24} />
         </div>
-        <h1>Repository History</h1>
+        <h1>bitlens</h1>
         {error ? (
           <>
             <Problem text={error} retry={() => setAttempt((v) => v + 1)} />
-            {window.location.search.includes('investigation=') && (
+            {(window.location.search.includes('investigation=') || customPreview) && (
               <a
                 className="source-link"
                 href={
                   window.location.pathname + (fixtureMode ? '?fixture=1' : '')
                 }
               >
-                Start a new investigation
+                {customPreview ? 'Return to the sample repository' : 'Start a new investigation'}
               </a>
             )}
           </>
@@ -642,7 +658,7 @@ export default function App() {
         )}
       </main>
     )
-  return fixtureMode ? (
+  return fixtureMode && !replayExample ? (
     <Workspace repo={repo} initial={initial} />
   ) : (
     <LiveDesk repo={repo} initial={initial} />

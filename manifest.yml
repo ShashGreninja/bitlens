@@ -1,7 +1,7 @@
 modules:
   bitbucket:repoMainMenuPage:
     - key: repository-history
-      title: Repository History
+      title: bitlens
       resource: history-ui
       resolver:
         function: history
