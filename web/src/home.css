@@ -1,253 +1,100 @@
 .desk-home {
-  width: min(100%, 1232px);
-  margin-inline: auto;
-  padding-block: clamp(24px, 4vw, 60px);
+  margin-inline: calc(-1 * clamp(16px, 3vw, 44px));
 }
-
 .home-start {
-  display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-  background: var(--desk-sheet);
-  border: 1px solid var(--desk-line);
-  border-radius: var(--desk-panel-radius);
-  overflow: hidden;
+  background: #ff6943;
+  color: #171412;
 }
-
-.home-launch,
-.home-guide {
-  min-width: 0;
-  padding: clamp(24px, 3.5vw, 52px);
-}
-
 .home-launch {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: #1c1e21;
-}
-
-.home-launch h1 {
-  max-width: 19ch;
-  margin: 0;
-  font-size: clamp(24px, 3vw, 32px);
-  line-height: 1.14;
-  letter-spacing: -0.04em;
-}
-
-.home-launch p {
-  max-width: 38ch;
-  margin: 18px 0 28px;
-  color: var(--desk-muted);
-  font-size: 16px;
-  line-height: 1.55;
-}
-
-.home-launch form {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr);
   align-items: end;
-  gap: 10px;
-  max-width: 440px;
+  gap: 16px 48px;
+  padding: clamp(36px, 6vw, 88px) clamp(20px, 7vw, 100px);
 }
-
+.home-launch h1 {
+  grid-row: span 2;
+  align-self: center;
+  margin: 0;
+  font-size: clamp(49px, 8.1vw, 124px);
+  font-weight: 800;
+  letter-spacing: -0.065em;
+  line-height: 0.85;
+}
+.home-launch p {
+  max-width: 25ch;
+  margin: 0;
+  font-size: clamp(17px, 2vw, 25px);
+  line-height: 1.25;
+  align-self: end;
+}
+.home-launch form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: end;
+}
 .home-launch label {
   display: grid;
+  flex: 1 1 160px;
   min-width: 0;
-  gap: 7px;
-  color: var(--desk-muted);
+  gap: 5px;
 }
-
 .home-launch select,
 .home-primary {
-  min-height: 46px;
+  min-height: 44px;
   padding-inline: 12px;
+  border: 1px solid #171412;
+  border-radius: 5px;
   font: inherit;
-  border-radius: var(--desk-control-radius);
 }
-
 .home-launch select {
   width: 100%;
-  min-width: 0;
-  background: var(--desk-sheet);
-  color: var(--desk-ink);
-  border: 1px solid var(--desk-rule);
+  background: #ff896b;
+  color: #171412;
+  color-scheme: light;
 }
-
 .home-primary {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: 10px;
-  background: #a9d4fa;
-  color: #132739;
+  background: #171412;
+  color: #ffffff;
   font-weight: 650;
-  white-space: nowrap;
 }
-
-.home-primary:hover:enabled {
-  background: #c7e5ff;
-}
-
-.home-guide {
-  border-left: 1px solid var(--desk-line);
-}
-
-.home-guide h2,
-.home-tools h2 {
-  font-size: 18px;
-  margin: 0;
-  letter-spacing: -0.015em;
-}
-
-.home-ancestry {
-  --lane: #65829d;
-  position: relative;
+.home-primary:hover:enabled { background: #36302c; }
+.repo-desk .home-start :focus-visible { outline-color: #171412; }
+.home-proof {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin: 20px 0 14px;
-  padding: 16px 12px;
-  border: 1px solid var(--desk-line);
-  border-radius: var(--desk-panel-radius);
-  background: #191a1d;
+  grid-template-columns: minmax(170px, 1fr) minmax(0, 3fr);
+  gap: 18px 36px;
+  padding: clamp(26px, 4vw, 60px) clamp(20px, 7vw, 100px);
 }
-
-.home-commit {
-  position: relative;
-  display: flex;
+.home-proof-label h2 {
+  margin: 0 0 5px;
+  font-size: 20px;
+  letter-spacing: -0.025em;
+}
+.home-proof-label span { color: var(--desk-muted); }
+.home-commit-list { min-width: 0; }
+.home-commit-list button {
+  display: grid;
+  width: 100%;
+  min-height: 54px;
+  grid-template-columns: 22px auto minmax(0, 1fr) 18px;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 36px;
-  padding: 4px;
-  border: 1px solid var(--desk-rule);
-  border-radius: var(--desk-control-radius);
-  background: var(--desk-sheet);
-  text-align: center;
-  line-height: 1.15;
-  font-size: 12px;
-}
-
-.home-commit svg {
-  flex: none;
-}
-
-.home-commit-start {
-  color: #b7dbfb;
-  border-color: #6388aa;
-  background: #212f3d;
-}
-
-.home-commit-start::after,
-.home-commit-merge::after {
-  content: '';
-  position: absolute;
-  width: 14px;
-  top: 50%;
-  left: 100%;
-  border-top: 1px solid var(--lane);
-}
-
-.home-commit-side {
-  grid-column: 3;
-}
-
-.home-commit-side::before {
-  content: '';
-  position: absolute;
-  right: 100%;
-  top: -14px;
-  width: 14px;
-  height: calc(50% + 14px);
-  border-left: 1px dashed var(--lane);
-  border-bottom: 1px dashed var(--lane);
-  border-bottom-left-radius: 5px;
-}
-
-.home-instructions {
-  display: grid;
-  gap: 10px;
-  margin: 0;
-  padding-left: 21px;
-}
-
-.home-instructions li::marker {
-  color: var(--desk-accent);
-}
-
-.home-instructions strong,
-.home-instructions span {
-  display: block;
-}
-
-.home-instructions span,
-.home-tool-list small {
-  color: var(--desk-muted);
-  font-size: 13px;
-}
-
-.home-tools {
-  margin-top: clamp(24px, 4vw, 44px);
-}
-
-.home-tool-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: clamp(16px, 4vw, 52px);
-  margin-top: 10px;
-}
-
-.home-tool-list button {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  gap: 14px;
-  align-items: center;
-  padding: 12px 8px;
-  border-bottom: 1px solid var(--desk-line);
+  gap: clamp(8px, 2vw, 26px);
+  padding: 8px 10px;
   text-align: left;
+  border-bottom: 1px solid var(--desk-line);
 }
-
-.home-tool-list button:hover {
-  background: var(--desk-hover);
-  border-radius: var(--desk-control-radius);
-}
-
-.home-tool-list button > svg {
-  color: var(--desk-muted);
-}
-
-.home-tool-list :is(strong, small) {
-  display: block;
-}
-
-@media (max-width: 850px) {
-  .home-start {
-    grid-template-columns: 1fr;
-  }
-  .home-guide {
-    border-left: 0;
-    border-top: 1px solid var(--desk-line);
-  }
-}
-
-@media (max-width: 530px) {
-  .home-launch,
-  .home-guide {
-    padding: 20px 16px;
-  }
-  .home-launch h1 {
-    font-size: 24px;
-  }
-  .home-commit svg {
-    display: none;
-  }
-  .home-tool-list {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 350px) {
-  .home-launch form {
-    grid-template-columns: 1fr;
-  }
+.home-commit-list button:hover { background: var(--desk-hover); }
+.home-commit-list button:active { opacity: .75; }
+.home-commit-list code,
+.home-commit-list svg:first-child { color: var(--desk-accent); }
+.home-commit-list span { overflow-wrap: anywhere; font-weight: 600; }
+@media (max-width: 660px) {
+  .home-launch, .home-proof { grid-template-columns: minmax(0, 1fr); }
+  .home-launch h1 { grid-row: auto; }
+  .home-proof { gap: 8px; }
 }

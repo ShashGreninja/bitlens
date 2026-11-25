@@ -1,104 +1,80 @@
-import { useState } from 'react'
-import {
-  ArrowRight,
-  FileClock,
-  FolderTree,
-  GitBranch,
-  GitCompareArrows,
-  GitMerge,
-  History,
-} from 'lucide-react'
-import type { Ref } from '../../shared/types'
-import { GraphRevisionPicker } from './GraphRevisionPicker'
-import type { DeskView } from './RepositoryDesk'
+import { useEffect, useState } from 'react'
+import { ArrowRight, ArrowUpRight, GitCommitHorizontal, GitMerge } from 'lucide-react'
+import type { Commit, Results } from '../../shared/types'
+import { GraphRevisionPicker, graphRevisionHash } from './GraphRevisionPicker'
+import { isExample, service } from './service'
 import './home.css'
 
-const tools = [
-  ['compare', GitCompareArrows, 'Compare revisions', 'See which files changed between two versions.'],
-  ['history', FileClock, 'Follow a file', 'Find who changed a file, even if it was renamed.'],
-  ['tree', FolderTree, 'Browse files', 'Open the source tree at an earlier revision.'],
-  ['replay', History, 'Replay branch activity', 'See where a branch pointed before a rewrite or deletion.'],
-] as const
-
-export function RepositoryHome({
-  refs,
-  revision,
-  onOpenGraph,
-  navigate,
-}: {
-  refs: Ref[]
+export function RepositoryHome({ repo, revision, onOpenGraph, onOpenCommit }: {
+  repo: Results['bootstrap']
   revision: string
   onOpenGraph: (revision: string) => void
-  navigate: (view: DeskView) => void
+  onOpenCommit: (tip: string, commit: string) => void
 }) {
   const [start, setStart] = useState(revision)
+  const [preview, setPreview] = useState<{ tip: string; commits: Commit[] }>()
+  const tip = graphRevisionHash(repo.refs, start)
+
+  useEffect(() => {
+    if (!tip) return
+    let active = true
+    async function read() {
+      if (import.meta.env.MODE === 'example') {
+        const { archive, snapshotRepository } = await import('./publicHistory')
+        const head = archive.get(tip)
+        if (head && snapshotRepository === `${repo.workspace}/${repo.repo}`) {
+          const records = new Map([[head.hash, head]])
+          for (const commit of records.values()) {
+            for (const parent of commit.parents) {
+              const record = archive.get(parent)
+              if (record && records.size < 5) records.set(parent, record)
+            }
+          }
+          return [...records.values()]
+        }
+      }
+      return (await service('graph', { base: tip, target: tip })).commits.slice(0, 5)
+    }
+    read().then(
+      (commits) => { if (active) setPreview({ tip, commits }) },
+      () => { if (active) setPreview({ tip, commits: [] }) },
+    )
+    return () => { active = false }
+  }, [repo.repo, repo.workspace, tip])
+
+  const commits = preview?.tip === tip ? preview.commits : undefined
   return (
     <section className="desk-home">
       <div className="home-start">
         <div className="home-launch">
-          <h1>Trace what changed</h1>
-          <p>
-            Follow a change from the commit graph to the file diff, even when
-            a branch has moved or a file was renamed.
-          </p>
-          <form
-            onSubmit={(event) => {
-              event.preventDefault()
-              if (start) onOpenGraph(start)
-            }}
-          >
-            <GraphRevisionPicker
-              refs={refs}
-              revision={start}
-              onChange={setStart}
-              label="Branch or tag"
-            />
+          <h1>Trace what<br />changed.</h1>
+          <p>Explore Bitbucket history from a branch tip to the line that changed.</p>
+          <form onSubmit={(event) => { event.preventDefault(); if (start) onOpenGraph(start) }}>
+            <GraphRevisionPicker refs={repo.refs} revision={start} onChange={setStart} label="Branch or tag" />
             <button className="home-primary" type="submit" disabled={!start}>
-              Open graph <ArrowRight size={17} aria-hidden="true" />
+              Open graph <ArrowRight size={18} aria-hidden="true" />
             </button>
           </form>
         </div>
-        <section className="home-guide" aria-labelledby="home-steps">
-          <h2 id="home-steps">How to use it</h2>
-          <div className="home-ancestry" aria-hidden="true">
-            <span className="home-commit home-commit-start">
-              <GitBranch size={16} /> Branch tip
-            </span>
-            <span className="home-commit home-commit-merge">
-              <GitMerge size={17} /> Merge
-            </span>
-            <span className="home-commit">Earlier commit</span>
-            <span className="home-commit home-commit-side">Merged branch</span>
-          </div>
-          <ol className="home-instructions">
-            <li>
-              <strong>Open a commit</strong>
-              <span>Click its title to see the author and open its diff.</span>
-            </li>
-            <li>
-              <strong>Go back in time</strong>
-              <span>Expand its parents to see the commits that came before it.</span>
-            </li>
-            <li>
-              <strong>Compare two commits</strong>
-              <span>Pin one as baseline and another as target.</span>
-            </li>
-          </ol>
-        </section>
       </div>
-      <section className="home-tools" aria-labelledby="home-tools-title">
-        <h2 id="home-tools-title">Looking for something specific?</h2>
-        <div className="home-tool-list">
-          {tools.map(([view, Icon, title, description]) => (
-            <button key={view} type="button" onClick={() => navigate(view)}>
-              <Icon size={19} aria-hidden="true" />
-              <span>
-                <strong>{title}</strong>
-                <small>{description}</small>
-              </span>
-              <ArrowRight size={17} aria-hidden="true" />
-            </button>
-          ))}
+      <section className="home-proof" aria-labelledby="recent-commits">
+        <div className="home-proof-label">
+          <h2 id="recent-commits">Recent commits</h2>
+          {isExample && <span>Public Bitbucket preview</span>}
+        </div>
+        <div className="home-commit-list">
+          {commits?.map((commit) => {
+            const Icon = commit.parents.length > 1 ? GitMerge : GitCommitHorizontal
+            return (
+              <button key={commit.hash} type="button" onClick={() => onOpenCommit(tip, commit.hash)}>
+                <Icon size={21} aria-hidden="true" />
+                <code>{commit.hash.slice(0, 7)}</code>
+                <span>{commit.message.split('\n')[0]}</span>
+                <ArrowUpRight size={16} aria-hidden="true" />
+              </button>
+            )
+          })}
+          {!commits?.length && <p role="status">{!tip ? 'This repository has no revisions yet.' : commits ? 'Preview unavailable. Open the graph to try again.' : 'Loading commits…'}</p>}
         </div>
       </section>
     </section>

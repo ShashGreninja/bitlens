@@ -2,6 +2,7 @@ import { useEffect, useRef, type ReactNode } from 'react'
 import { GitMerge } from 'lucide-react'
 import type { Results } from '../../shared/types'
 import { RepositorySwitcher } from './RepositorySwitcher'
+import { HelpChat } from './HelpChat'
 import './desk.css'
 
 export const deskViews = [
@@ -34,7 +35,7 @@ export function RepositoryDesk({
     window.scrollTo(0, 0)
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       const arrival = content.current?.animate(
-        [{ opacity: 0.55, transform: 'translateY(4px)' }, { opacity: 1, transform: 'none' }],
+        [{ opacity: 0.55 }, { opacity: 1 }],
         { duration: 170, easing: 'cubic-bezier(0.2, 0.7, 0.3, 1)' },
       )
       return () => arrival?.cancel()
@@ -43,13 +44,11 @@ export function RepositoryDesk({
   return (
     <div className="repo-desk">
       <header className="desk-header">
-        <div className="desk-brand">
+        <button className="desk-brand" type="button" onClick={() => navigate('home')} aria-label="bitlens home">
           <GitMerge aria-hidden="true" size={20} />
           <strong>bitlens</strong>
-        </div>
-        <RepositorySwitcher repo={repo} />
-      </header>
-      <nav className="desk-nav" aria-label="Repository views">
+        </button>
+        <nav className="desk-nav" aria-label="Repository views">
         {deskViews.map(([key, name]) => (
           <button
             type="button"
@@ -60,7 +59,12 @@ export function RepositoryDesk({
             {name}
           </button>
         ))}
-      </nav>
+        </nav>
+        <div className="desk-actions">
+          <RepositorySwitcher repo={repo} />
+          <HelpChat />
+        </div>
+      </header>
       <main ref={content} className="desk-content" tabIndex={-1}>
         {children}
       </main>

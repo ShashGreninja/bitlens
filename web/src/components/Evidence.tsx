@@ -58,9 +58,6 @@ export function FileHistory({
   )
   return (
     <section className="workspace-section">
-      <div className="section-heading">
-        <h2>File lineage</h2>
-      </div>
       <form
         className="path-form"
         onSubmit={(e) => {

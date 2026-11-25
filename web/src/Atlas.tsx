@@ -79,7 +79,6 @@ export default function Atlas({
       <div className="atlas-title">
         <div>
           <h1>Commit graph</h1>
-          <p>Click a commit for details. Expand its parents to go back in time.</p>
         </div>
         <div className="atlas-settings">
           <GraphRevisionPicker
@@ -472,10 +471,6 @@ function Canvas({
       )}
       <div className={'atlas-board' + (wide ? ' atlas-wide' : '')}>
         <div className="atlas-bar">
-          <h2>
-            <GitBranch size={18} />
-            Commit map
-          </h2>
           <div className="atlas-search">
             <Search size={16} />
             <input

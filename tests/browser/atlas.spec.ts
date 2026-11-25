@@ -84,7 +84,7 @@ test('start from Home, pan the canvas, and zoom around the pointer', async ({
 }) => {
   await page.goto('/')
   await expect(
-    page.getByRole('heading', { name: 'How to use it' }),
+    page.getByRole('heading', { name: 'Recent commits' }),
   ).toBeVisible()
   await page.getByRole('button', { name: 'Open graph', exact: true }).click()
   const viewport = page.getByLabel('Draggable commit map')

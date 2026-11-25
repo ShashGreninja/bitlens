@@ -381,17 +381,26 @@ function Workspace({
           <section className="hero">
             <div className="hero-copy">
               <h1>{title}</h1>
-              <p>
+              {(!embedded || current === 'replay') && <p>
                 {fixtureMode &&
                 current === 'compare' &&
                 selection.base === 'v1.4' &&
                 selection.target === 'v1.5'
                   ? 'Investigate the payment timeout. Select config.yml to see what changed between releases.'
                   : description}
-              </p>
+              </p>}
             </div>
+            {embedded && (
+              <button
+                className="button"
+                disabled={current === 'replay' ? !selection.base || !selection.target : !fixed}
+                onClick={() => setDialog('share')}
+              >
+                <Share2 size={15} /> Share investigation
+              </button>
+            )}
           </section>
-          {current === 'replay' && (
+          {!embedded && current === 'replay' && (
             <div className="replay-share">
               <button
                 className="button"
@@ -403,7 +412,7 @@ function Workspace({
               </button>
             </div>
           )}
-          {current !== 'replay' && (
+          {!embedded && current !== 'replay' && (
             <div className="section-heading revisions-heading">
               <div className="heading-with-meta">
                 <Columns2 size={17} />
@@ -714,13 +723,15 @@ function LiveDesk({
     <RepositoryDesk repo={repo} view={view} navigate={navigate}>
       {view === 'home' && (
         <RepositoryHome
-          refs={repo.refs}
+          repo={repo}
           revision={startingRevision}
           onOpenGraph={(revision) => {
             setStartingRevision(revision)
             navigate('graph')
           }}
-          navigate={navigate}
+          onOpenCommit={(tip, commit) =>
+            traceCommit({ base: tip, target: tip, commit, view: 'graph' })
+          }
         />
       )}
       {graphOpened && (
