@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-import { execFileSync } from 'node:child_process'
 import { parseArgs } from 'node:util'
-import { authorize, history, type FetchRepo } from '../src/history'
-import { repositoryName } from '../shared/repositoryName'
+import { openTerminalRepository } from './terminalRepository'
 import type { Params, Results } from '../shared/types'
 
 const help = `Usage: npm run bitlens -- <command> [arguments] [--repo workspace/repository] [--json]
 
+  tui [REV]             Browse commits, refs, files and patches interactively
+                        Add --example for the offline release walkthrough
   refs                  List branches and tags
   graph [REV]           Show recent commits and their parents
   compare BASE TARGET   List changed files
@@ -17,19 +17,6 @@ Repository defaults to the Bitbucket origin of the current Git checkout.
 Set BITBUCKET_TOKEN for bearer authentication. Output contains the first page.
 Replay is available in the installed Bitbucket app.`
 
-function origin() {
-  try {
-    const url = execFileSync('git', ['remote', 'get-url', 'origin'], {
-      cwd: process.env.INIT_CWD || process.cwd(),
-      encoding: 'utf8',
-      stdio: ['ignore', 'pipe', 'ignore'],
-    }).trim()
-    return url.replace(/^git@bitbucket\.org:/, '').replace(/^ssh:\/\/git@bitbucket\.org\//, '')
-  } catch {
-    throw new Error('Pass --repo or run in a checkout with a Bitbucket origin.')
-  }
-}
-
 function print(...parts: unknown[]) {
   const text = parts.filter((part) => part != null).join(' ')
   console.log(text.replace(/[\u0000-\u0008\u000b-\u001f\u007f-\u009f]/g, ''))
@@ -38,13 +25,21 @@ function print(...parts: unknown[]) {
 async function run() {
   const { values, positionals } = parseArgs({
     allowPositionals: true,
-    options: { repo: { type: 'string' }, json: { type: 'boolean' }, help: { type: 'boolean', short: 'h' } },
+    options: { repo: { type: 'string' }, json: { type: 'boolean' }, example: { type: 'boolean' }, help: { type: 'boolean', short: 'h' } },
   })
   const [command, ...args] = positionals
   if (values.help || !command) {
     console.log(help)
     return
   }
+  if (command === 'tui') {
+    if (args.length > 1 || values.json || (values.example && values.repo))
+      throw new Error('Use tui [REV] with either --repo or --example. See --help.')
+    const { runTui } = await import('./bitlensTui')
+    await runTui({ repo: values.repo, example: values.example, revision: args[0] })
+    return
+  }
+  if (values.example) throw new Error('--example is available with tui.')
   const specs = {
     refs: [0, 0, 'bootstrap'],
     graph: [0, 1, 'graph'],
@@ -55,29 +50,14 @@ async function run() {
   if (!Object.hasOwn(specs, command)) throw new Error(`Unknown command: ${command}. See --help.`)
   const [min, max, operation] = specs[command as keyof typeof specs]
   if (args.length < min || args.length > max) throw new Error(`Wrong number of arguments for ${command}. See --help.`)
-  const repository = repositoryName(values.repo || origin())
-  const token = process.env.BITBUCKET_TOKEN
-  const request: FetchRepo = (suffix, accept) => fetch(
-    'https://api.bitbucket.org/2.0/repositories/' + repository + suffix,
-    {
-      redirect: 'error',
-      signal: AbortSignal.timeout(15000),
-      headers: { Accept: accept, ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-    },
-  )
-  const metadata = await authorize(request)
-  const revision = args[0] || metadata.mainbranch?.name
+  const { service, defaultBranch } = await openTerminalRepository(values.repo)
+  const revision = args[0] || defaultBranch
   const params: Params = operation === 'tree'
     ? { target: revision, path: args[1] || '' }
     : operation === 'graph'
       ? { base: revision, target: revision }
       : { base: args[0], target: args[1], path: args[2] }
-  const result = await history(operation, params, metadata, request, {
-    async initialize() {},
-    async saveCursor() { return 'more' },
-    async loadCursor() { throw new Error('Pagination is unavailable in the CLI.') },
-    async replay() { throw new Error('Open Replay in Bitbucket.') },
-  })
+  const result = await service(operation, params)
   if (values.json) {
     console.log(JSON.stringify(result, null, 2).replace(/[\u007f-\u009f]/g, (char) => '\\u' + char.charCodeAt(0).toString(16).padStart(4, '0')))
     return

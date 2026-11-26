@@ -21,12 +21,16 @@ Install Node.js 24 in that environment and run `npm ci` from this checkout.
 
 ```sh
 npm run bitlens -- --help
+npm run bitlens -- tui --example
+npm run bitlens -- tui --repo atlassian/atlassian-connect-express
 npm run bitlens -- graph --repo atlassian/atlassian-connect-express
 npm run bitlens -- compare v12.2.1 v12.2.3 --repo atlassian/atlassian-connect-express
 npm run --silent bitlens -- tree master --repo atlassian/atlassian-connect-express --json
 ```
 
-Use `--repo` from any directory when calling the script directly with `tsx` from this checkout. If omitted, the CLI looks for the Bitbucket `origin` of the current directory, or the directory npm was invoked from. For authenticated requests, set `BITBUCKET_TOKEN` to a read-scoped Bitbucket bearer token. Commands are read only and return the first page. View recorded Replay events in the installed Forge app.
+The orange and black TUI runs in an interactive Linux or WSL terminal. Use 1–4 to switch between commits, refs, comparisons, and source. Move with the arrow keys, press Enter to open a row, and use b and t to pin revisions before pressing c to compare. Enter on a changed file opens its patch and rename history. Press ? for keys and q to quit. The bundled example works offline.
+
+Use `--repo` from any directory when calling the script directly with `tsx` from this checkout. If omitted, the CLI looks for the Bitbucket `origin` of the current directory, or the directory npm was invoked from. For authenticated requests, set `BITBUCKET_TOKEN` to a read-scoped Bitbucket bearer token. Terminal operations are read only. Scriptable commands return the first page. In the TUI, press n where more pages are available. View recorded Replay events in the installed Forge app.
 
 ## Graph workflows
 
