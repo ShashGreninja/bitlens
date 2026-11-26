@@ -46,7 +46,7 @@ test('tab headings and shared controls stay fixed, and chat keeps the active vie
 test('home actions stay readable and the workspace can be rearranged', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Trace what changed\.\s*Visually\./)
-  await expect(page.getByRole('link', { name: 'Try the release example' })).toHaveCSS('color', 'rgb(244, 244, 245)')
+  await expect(page.getByRole('link', { name: 'Try the release example' })).toHaveCSS('color', 'rgb(23, 20, 18)')
   for (const width of [1440, 768, 390]) {
     await page.setViewportSize({ width, height: 900 })
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)

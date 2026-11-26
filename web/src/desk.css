@@ -1,12 +1,14 @@
 /* The same repository shell follows the investigation across every view. */
 :root {
-  --desk-ground: #171615;
-  --desk-sheet: #131315;
-  --desk-hover: #242427;
-  --desk-line: #353539;
-  --desk-ink: #f4f4f5;
-  --desk-muted: #a9acb1;
-  --desk-accent: #ff987d;
+  --desk-ground: #1b1918;
+  --desk-sheet: #191817;
+  --desk-hover: #292624;
+  --desk-selection: #30373b;
+  --desk-selection-rule: #64747b;
+  --desk-line: #3b3734;
+  --desk-ink: #eeeae5;
+  --desk-muted: #bbb2aa;
+  --desk-accent: #e8a184;
   --desk-rule: #70747b;
   --desk-panel-radius: 14px;
   --desk-control-radius: 8px;
@@ -16,10 +18,7 @@
   min-height: 100vh;
   background: var(--desk-ground);
   color: var(--desk-ink);
-  font:
-    14px/1.5 'Public Sans',
-    'Segoe UI',
-    sans-serif;
+  font: 14px/1.55 system-ui, sans-serif;
   color-scheme: dark;
 }
 .repo-desk a {
@@ -457,6 +456,13 @@
 .desk-workspace :is(.file-row, .tree-entry, .commit-title) {
   color: var(--desk-ink);
 }
+.desk-workspace .record-row {
+  color: var(--desk-muted);
+  border-color: var(--desk-line);
+}
+.desk-workspace .record-row strong {
+  color: var(--desk-ink);
+}
 .desk-workspace
   :is(
     .revision-trigger,
@@ -480,9 +486,9 @@
     .history-row.chosen,
     .segmented button.active
   ) {
-  background: #243449;
+  background: var(--desk-selection);
   color: var(--desk-ink);
-  border-color: var(--desk-accent);
+  border-color: var(--desk-selection-rule);
 }
 .desk-workspace :is(.status, .diff .meta, .diff .hunk) {
   background: #252a30;
@@ -591,12 +597,14 @@ html:has(.repo-desk) {
   scrollbar-gutter: stable;
 }
 .desk-workspace {
-  --desk-accent: #a7c5db;
+  --desk-accent: #becbd1;
 }
 .repo-desk .desk-workspace a,
 .desk-workspace .text-button,
 .desk-workspace .source-link { color: var(--desk-ink); }
 .desk-workspace .source-link { text-underline-offset: 3px; }
+.repo-desk .bitlens-dialog::backdrop { background: rgb(16 14 13 / 58%); }
+.desk-workspace .replay-scrubber input { accent-color: var(--desk-accent); }
 .desk-workspace .main-content { margin: 0; padding: 0; }
 .repo-desk .desk-page-heading {
   display: flex;

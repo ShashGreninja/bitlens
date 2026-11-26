@@ -150,7 +150,7 @@
   cursor: grab;
   touch-action: none;
   overscroll-behavior: contain;
-  background: #151517;
+  background: var(--desk-sheet);
 }
 .atlas-port:active,
 .atlas-node:active {
@@ -208,7 +208,7 @@
 }
 .atlas-node.chosen {
   border-top-color: var(--desk-accent);
-  background: #1d1e21;
+  background: var(--desk-hover);
 }
 .atlas-node.chosen::before {
   background: var(--desk-accent);
@@ -234,8 +234,8 @@
 .node-title {
   text-align: left;
   font-size: 14px;
-  font-weight: 650;
-  line-height: 1.2;
+  font-weight: 600;
+  line-height: 1.32;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -329,14 +329,14 @@
 }
 .atlas-inspector .atlas-inspect-changes {
   justify-content: space-between;
-  border: 1px solid #47627d;
+  border: 1px solid var(--desk-selection-rule);
   border-radius: var(--desk-control-radius);
   padding-inline: 10px;
-  background: #243549;
-  color: #dcecff;
+  background: var(--desk-selection);
+  color: var(--desk-ink);
 }
 .atlas-inspector .atlas-inspect-changes:hover {
-  background: #304e6a;
+  background: #3a454b;
 }
 .atlas-commit-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .atlas-inspector .atlas-commit-actions button { width: auto; flex: 1; justify-content: center; border: 1px solid var(--desk-rule); border-radius: var(--desk-control-radius); padding-inline: 10px; }

@@ -6,6 +6,15 @@ import { fixtureMode, isExample, service } from './service'
 import { previewUrl } from './repositoryLocation'
 import './home.css'
 
+const watermarkSnippets = [
+  '$ git log --graph\n* 41bc3e5 (v1.5)',
+  '@@ -4 +4 @@\n-timeout_ms: 1800\n+timeout_ms: 600',
+  '$ git diff v1.4..v1.5\nrename from payments/config.yml',
+  '$ git show 41bc3e5\n  retries: 2',
+  '$ git log --follow\n  services/payments/config.yml',
+  '$ git rev-parse main\n41bc3e5',
+]
+
 export function RepositoryHome({ repo, revision, canCompare, onCompare, onOpenGraph, onOpenCommit }: {
   repo: Results['bootstrap']
   revision: string
@@ -51,24 +60,28 @@ export function RepositoryHome({ repo, revision, canCompare, onCompare, onOpenGr
   return (
     <section className="desk-home">
       <div className="home-start">
+        <div className="home-watermark" aria-hidden="true">
+          <div className="home-watermark-grid">
+            {Array.from({ length: 96 }, (_, index) => (
+              <pre key={index}>{watermarkSnippets[index % watermarkSnippets.length]}</pre>
+            ))}
+          </div>
+        </div>
         <div className="home-launch">
-          <h1>Trace what changed.<br />Visually.</h1>
-          <p>Follow Bitbucket commits, compare changes, and retrace branch moves.</p>
+          <h1>Trace what changed.<br /><em>Visually</em>.</h1>
           <div className="home-actions">
+            <button className="home-primary" type="button" onClick={onCompare} disabled={!canCompare}>
+              <GitCompareArrows size={19} aria-hidden="true" /> Compare revisions <ArrowRight size={18} aria-hidden="true" />
+            </button>
             <form onSubmit={(event) => { event.preventDefault(); if (start) onOpenGraph(start) }}>
               <GraphRevisionPicker refs={repo.refs} revision={start} onChange={setStart} label="Branch or tag" />
-              <button className="home-primary" type="submit" disabled={!start}>
+              <button className="home-secondary" type="submit" disabled={!start}>
                 <Network size={19} aria-hidden="true" /> Open graph <ArrowRight size={18} aria-hidden="true" />
               </button>
             </form>
-            <div className="home-other-actions">
-              <button className="home-secondary" type="button" onClick={onCompare} disabled={!canCompare}>
-                <GitCompareArrows size={17} aria-hidden="true" /> Compare revisions
-              </button>
-              {isExample && !fixtureMode && (
-                <a className="home-example" href={example.href}>Try the release example</a>
-              )}
-            </div>
+            {isExample && !fixtureMode && (
+              <a className="home-example" href={example.href}>Try the release example</a>
+            )}
           </div>
         </div>
       </div>
@@ -84,12 +97,7 @@ export function RepositoryHome({ repo, revision, canCompare, onCompare, onOpenGr
               <button key={commit.hash} type="button" onClick={() => onOpenCommit(tip, commit.hash)}>
                 <Icon size={21} aria-hidden="true" />
                 <code>{commit.hash.slice(0, 7)}</code>
-                <span className="home-commit-copy">
-                  <strong>{commit.message.split('\n')[0]}</strong>
-                  {!!commit.parents.length && <small>
-                    {commit.parents.length === 1 ? 'Parent' : 'Parents'} {commit.parents.map((parent) => parent.slice(0, 7)).join(' · ')}
-                  </small>}
-                </span>
+                <span>{commit.message.split('\n')[0]}</span>
                 <ArrowUpRight size={16} aria-hidden="true" />
               </button>
             )

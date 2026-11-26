@@ -1,90 +1,147 @@
 .desk-home {
+  margin-inline: calc(-1 * clamp(16px, 3vw, 44px));
+}
+.home-start {
+  --home-ink: #171412;
+  --home-control: #eea88c;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #e88966;
+  color: var(--home-ink);
+}
+.home-watermark {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  opacity: .29;
+  pointer-events: none;
+  user-select: none;
+  mask-image: linear-gradient(to bottom, #000 12%, #0005 33%, #0005 68%, #000 88%);
+}
+.home-watermark-grid {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: max(145%, 90svh);
+  height: max(155%, 98vw);
   display: grid;
-  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  grid-template-columns: repeat(auto-fill, minmax(clamp(145px, 15vw, 220px), 1fr));
   align-items: center;
+  justify-items: center;
+  transform: translate(-50%, -50%) rotate(-35deg);
+}
+.home-watermark pre {
+  margin: 0;
+  font: 600 clamp(9px, .86vw, 13px)/1.5 var(--mono);
+}
+.home-launch {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: center;
+  min-height: 60svh;
   gap: clamp(24px, 5vw, 72px);
-  min-height: max(460px, calc(100svh - 100px));
-  padding-block: clamp(28px, 6vw, 84px);
+  padding: clamp(42px, 6vw, 88px) clamp(20px, 5vw, 72px);
 }
 .home-launch h1 {
+  align-self: center;
   margin: 0;
-  font-size: clamp(30px, 4.1vw, 64px);
-  font-weight: 800;
-  letter-spacing: -.055em;
-  line-height: 1.06;
+  font-size: clamp(34px, 4.15vw, 67px);
+  font-weight: 720;
+  letter-spacing: -.045em;
+  line-height: 1.04;
 }
+.home-launch h1 em { font-synthesis: style; }
+.home-actions { display: grid; justify-items: start; gap: 16px; min-width: 0; }
 .home-launch p {
   max-width: 38ch;
-  margin: 18px 0 26px;
-  color: var(--desk-muted);
-  font-size: clamp(15px, 1.45vw, 19px);
-  line-height: 1.5;
+  margin: 0;
+  font-size: clamp(17px, 2vw, 25px);
+  line-height: 1.35;
 }
-.home-actions { display: grid; justify-items: start; gap: 12px; min-width: 0; }
 .home-launch form {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 10px;
+  gap: 12px;
   align-items: end;
   width: min(100%, 460px);
 }
-.home-launch label { display: grid; min-width: 0; gap: 5px; color: var(--desk-muted); }
+.home-launch label {
+  display: grid;
+  min-width: 0;
+  gap: 5px;
+}
 .home-launch :is(select, .home-primary, .home-secondary) {
   min-height: 44px;
   padding-inline: 12px;
-  border: 1px solid var(--desk-rule);
-  border-radius: var(--desk-control-radius);
+  border: 1px solid #171412;
+  border-radius: 5px;
   font: inherit;
 }
-.home-launch select { width: 100%; background: var(--desk-sheet); color: var(--desk-ink); }
-.home-other-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px; }
-.home-launch :is(.home-primary, .home-secondary) {
+.home-launch select {
+  width: 100%;
+  background: var(--home-control);
+  color: #171412;
+  color-scheme: light;
+}
+.home-primary,
+.home-secondary {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-weight: 650;
 }
-.home-primary { background: var(--desk-ink); color: var(--desk-sheet); }
-.home-primary:hover:enabled { background: #d8dbdf; }
-.home-secondary:hover:enabled { background: var(--desk-hover); }
+.home-primary {
+  background: #171412;
+  color: #f4ece6;
+}
+.home-primary:hover:enabled { background: #36302c; }
+.home-secondary {
+  background: var(--home-control);
+  color: #171412;
+}
+.home-secondary:hover:enabled { background: #f3b79e; }
 .repo-desk .home-start a.home-example {
-  color: var(--desk-ink);
+  color: var(--home-ink);
+  font-weight: 650;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+.repo-desk .home-start :focus-visible { outline-color: #171412; }
 .home-proof {
-  min-width: 0;
-  align-self: center;
-  border: 1px solid var(--desk-line);
-  border-radius: var(--desk-panel-radius);
-  background: var(--desk-sheet);
+  display: grid;
+  grid-template-columns: minmax(170px, 1fr) minmax(0, 3fr);
+  gap: 18px 36px;
+  padding: clamp(26px, 4vw, 60px) clamp(20px, 7vw, 100px);
 }
-.home-proof-label { padding: 16px 18px; border-bottom: 1px solid var(--desk-line); }
-.home-proof-label h2 { margin: 0 0 4px; font-size: 19px; letter-spacing: -.025em; }
+.home-proof-label h2 {
+  margin: 0 0 5px;
+  font-size: 20px;
+  letter-spacing: -0.025em;
+}
 .home-proof-label span { color: var(--desk-muted); }
-.home-commit-list { min-width: 0; padding-inline: 8px; }
+.home-commit-list { min-width: 0; }
 .home-commit-list button {
   display: grid;
   width: 100%;
-  min-height: 60px;
-  grid-template-columns: 22px auto minmax(0, 1fr) 17px;
+  min-height: 54px;
+  grid-template-columns: 22px auto minmax(0, 1fr) 18px;
   align-items: center;
-  gap: clamp(8px, 1.4vw, 16px);
-  padding: 9px 10px;
+  gap: clamp(8px, 2vw, 26px);
+  padding: 8px 10px;
   text-align: left;
+  border-bottom: 1px solid var(--desk-line);
 }
-.home-commit-list button + button { border-top: 1px solid var(--desk-line); }
 .home-commit-list button:hover { background: var(--desk-hover); }
 .home-commit-list button:active { opacity: .75; }
-.home-commit-list button > svg:first-child { color: var(--desk-accent); }
-.home-commit-list :is(code, small) { color: var(--desk-muted); }
-.home-commit-list p { margin-inline: 10px; }
-.home-commit-copy { display: grid; gap: 3px; overflow-wrap: anywhere; }
-.home-commit-copy strong { font-weight: 600; }
-@media (max-width: 760px) {
-  .desk-home { grid-template-columns: minmax(0, 1fr); gap: 24px; min-height: 0; }
+.home-commit-list code,
+.home-commit-list svg:first-child { color: var(--desk-accent); }
+.home-commit-list span { overflow-wrap: anywhere; font-weight: 600; }
+@media (max-width: 660px) {
+  .home-watermark { mask-image: linear-gradient(to bottom, #000 5%, #0005 22%, #0005 87%, #000 98%); }
+  .home-launch, .home-proof { grid-template-columns: minmax(0, 1fr); }
+  .home-proof { gap: 8px; }
 }
-@media (max-width: 365px) {
+@media (max-width: 400px) {
   .home-launch form { grid-template-columns: minmax(0, 1fr); justify-items: start; }
   .home-launch label { width: 100%; }
 }
