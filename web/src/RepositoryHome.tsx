@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ArrowRight, ArrowUpRight, GitCommitHorizontal, GitMerge } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, GitCommitHorizontal, GitCompareArrows, GitMerge, Network } from 'lucide-react'
 import type { Commit, Results } from '../../shared/types'
 import { GraphRevisionPicker, graphRevisionHash } from './GraphRevisionPicker'
 import { fixtureMode, isExample, service } from './service'
@@ -54,14 +54,13 @@ export function RepositoryHome({ repo, revision, canCompare, onCompare, onOpenGr
         <div className="home-launch">
           <h1>Trace what changed.<br />Visually.</h1>
           <div className="home-actions">
-            <p>Compare two revisions to trace a changed file back to its earlier path and pull request.</p>
             <button className="home-primary" type="button" onClick={onCompare} disabled={!canCompare}>
-              Compare revisions <ArrowRight size={18} aria-hidden="true" />
+              <GitCompareArrows size={19} aria-hidden="true" /> Compare revisions <ArrowRight size={18} aria-hidden="true" />
             </button>
             <form onSubmit={(event) => { event.preventDefault(); if (start) onOpenGraph(start) }}>
               <GraphRevisionPicker refs={repo.refs} revision={start} onChange={setStart} label="Branch or tag" />
               <button className="home-secondary" type="submit" disabled={!start}>
-                Open graph <ArrowRight size={18} aria-hidden="true" />
+                <Network size={19} aria-hidden="true" /> Open graph <ArrowRight size={18} aria-hidden="true" />
               </button>
             </form>
             {isExample && !fixtureMode && (

@@ -245,7 +245,7 @@ export function Replay({
       </div>
       {fixtureMode && (
         <div className="replay-example-note">
-          <p>Sample activity from the payments repository.</p>
+          <span>Sample repository</span>
           <a className="source-link" href={previewUrl().href}>Back to public preview</a>
         </div>
       )}
@@ -267,14 +267,11 @@ export function Replay({
       {page.data && !events.length && (
         <div className="replay-guide">
           <div>
+            <HistoryIcon size={22} aria-hidden="true" />
             <h3>No recorded events yet</h3>
-            <p>Say a force-push replaces a commit. Replay keeps the old and new commit IDs so you can see what disappeared.</p>
           </div>
           <div>
-            <h3>{isExample ? 'See a force-push example' : 'When recording starts'}</h3>
-            <p>{isExample
-              ? 'Try a recorded branch deletion or force-push in the sample repository.'
-              : 'Coverage begins with the first snapshot or push event bitlens receives. Earlier events are outside that coverage.'}</p>
+            {!isExample && <p>Coverage starts at the first observed snapshot or push.</p>}
             {isExample && !fixtureMode && <a className="source-link" href={example.href}>Open Replay example</a>}
           </div>
         </div>
@@ -339,6 +336,7 @@ export function Replay({
                     <span>Before</span>
                     <code>{event.before || 'No pointer recorded'}</code>
                   </div>
+                  <ArrowRight className="replay-direction" size={18} aria-hidden="true" />
                   <div className="pointer">
                     <span>After</span>
                     <code>{event.after || 'No pointer recorded'}</code>

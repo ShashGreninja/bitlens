@@ -1,5 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react'
-import { GitMerge } from 'lucide-react'
+import { FolderTree, GitCompareArrows, GitMerge, History, House, Network, Rewind } from 'lucide-react'
 import type { Results } from '../../shared/types'
 import { RepositorySwitcher } from './RepositorySwitcher'
 import { HelpChat } from './HelpChat'
@@ -14,6 +14,7 @@ export const deskViews = [
   ['replay', 'Replay'],
 ] as const
 export type DeskView = (typeof deskViews)[number][0]
+const viewIcons = { home: House, graph: Network, compare: GitCompareArrows, history: History, tree: FolderTree, replay: Rewind }
 
 export function RepositoryDesk({
   repo,
@@ -49,16 +50,20 @@ export function RepositoryDesk({
           <strong>bitlens</strong>
         </button>
         <nav className="desk-nav" aria-label="Repository views">
-        {deskViews.map(([key, name]) => (
+        {deskViews.map(([key, name]) => {
+          const Icon = viewIcons[key]
+          return (
           <button
             type="button"
             key={key}
             aria-current={view === key ? 'page' : undefined}
             onClick={() => navigate(key)}
           >
-            {name}
+            <Icon size={15} aria-hidden="true" />
+            <span>{name}</span>
           </button>
-        ))}
+          )
+        })}
         </nav>
         <div className="desk-actions">
           <RepositorySwitcher repo={repo} />

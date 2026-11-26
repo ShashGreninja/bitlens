@@ -1,0 +1,49 @@
+.graph-workbench { margin: 24px 0; border: 1px solid var(--desk-line); border-radius: var(--desk-panel-radius); background: var(--desk-sheet); color: var(--desk-ink); overflow: hidden; }
+.workbench-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.graph-workbench > .workbench-heading { padding: 18px 20px; }
+.graph-workbench h2 { font-size: 20px; margin: 0; }
+.graph-workbench h3 { font-size: 17px; margin: 0 0 12px; }
+.graph-workbench h4 { font-size: 16px; margin: 0; }
+.graph-workbench p { font-size: 14px; line-height: 1.55; margin: 8px 0 16px; overflow-wrap: anywhere; }
+.graph-workbench button { min-height: 38px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 8px 12px; border: 1px solid var(--desk-rule); border-radius: var(--desk-control-radius); }
+.graph-workbench button:hover:not(:disabled) { background: var(--desk-hover); }
+.workbench-tabs { display: flex; flex-direction: row; align-items: center; flex-wrap: wrap; gap: 8px; padding: 0 20px 16px; border-bottom: 1px solid var(--desk-line); }
+.workbench-tabs button[aria-pressed=true] { background: var(--desk-ink); color: var(--desk-sheet); }
+.workbench-tabs button[aria-pressed=true]:hover { background: var(--desk-ink); }
+.workbench-content { padding: 20px; }
+.graph-workbench label { display: grid; gap: 8px; font-size: 14px; margin-bottom: 14px; }
+.graph-workbench textarea, .graph-workbench input { width: 100%; max-width: none; background: var(--desk-sheet); color: var(--desk-ink); border: 1px solid var(--desk-rule); border-radius: var(--desk-control-radius); padding: 10px; font: inherit; }
+.graph-workbench textarea { resize: vertical; min-height: 80px; }
+.graph-workbench pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 13px; }
+.workbench-actions, .workbench-confirm { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.workbench-review { padding: 18px 0; border-top: 1px solid var(--desk-line); }
+.workbench-review:first-of-type { margin-top: 20px; }
+.workbench-run { display: flex; align-items: flex-end; gap: 14px; margin: 20px 0 28px; flex-wrap: wrap; }
+.workbench-run label { flex: 1 1 260px; margin: 0; }
+.workbench-runs { list-style: none; padding: 0; }
+.workbench-runs li { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid var(--desk-line); padding: 14px 0; }
+.graph-workbench > .workbench-note, .graph-workbench > [role=alert], .graph-workbench > [role=status] { margin: 16px 20px; }
+.workbench-note { padding: 12px; background: var(--desk-hover); }
+.graph-workbench .workbench-freshness { padding: 0 20px 12px; font-size: 13px; }
+.graph-workbench details { margin-top: 24px; }
+.graph-workbench summary { cursor: pointer; font-weight: 600; padding: 10px 0; }
+.workbench-title, .workbench-pr-meta, .workbench-pr-meta > span, .workbench-status,
+.graph-workbench .workbench-note, .graph-workbench .workbench-freshness {
+  display: flex; align-items: center; gap: 8px;
+}
+.workbench-title, .workbench-pr-meta { flex-wrap: wrap; }
+.workbench-title code { color: var(--desk-accent); }
+.workbench-pr-meta { gap: 8px 16px; margin-block: 12px; color: var(--desk-muted); }
+.workbench-status { color: var(--desk-muted); text-transform: capitalize; }
+.workbench-status::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.workbench-status[data-state='SUCCESSFUL'], .workbench-status[data-state='OPEN'] { color: #a4dfc4; }
+.workbench-status[data-state='FAILED'], .workbench-status[data-state='ERROR'] { color: var(--desk-accent); }
+.workbench-empty { display: flex; align-items: center; gap: 12px; padding-block: 12px; color: var(--desk-muted); }
+.workbench-loading { padding-inline: 20px; }
+.workbench-runs small { display: block; color: var(--desk-muted); }
+.workbench-note svg, .revision-track svg { flex: none; }
+.revision-track { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; width: fit-content; margin-block: 0 18px; color: var(--desk-muted); }
+.revision-track > span { display: inline-flex; align-items: center; gap: 7px; background: var(--desk-hover); padding: 7px 10px; border-radius: var(--desk-control-radius); }
+.revision-track code { color: var(--desk-ink); }
+.revision-track > span:last-child svg { color: var(--desk-accent); }
+@media (max-width: 600px) { .workbench-content, .graph-workbench > .workbench-heading { padding: 16px; } .workbench-tabs { padding-inline: 16px; } .workbench-runs li { align-items: flex-start; flex-direction: column; } }

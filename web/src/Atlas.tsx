@@ -13,6 +13,9 @@ import {
   ArrowUpRight,
   Pin,
   RotateCcw,
+  GitCompareArrows,
+  Workflow,
+  Mouse,
 } from 'lucide-react'
 import type { Commit, Results } from '../../shared/types'
 import {
@@ -28,6 +31,7 @@ import { CommitLedger } from './CommitLedger'
 import { BranchComparison } from './BranchComparison'
 import { GraphRevisionPicker, graphRevisionHash } from './GraphRevisionPicker'
 import { pathToAncestor, tracePair } from '../../shared/ancestry'
+import { GraphWorkbench } from './GraphWorkbench'
 
 import { useMapCamera, type Point } from './useMapCamera'
 const W = 244,
@@ -660,6 +664,7 @@ function Canvas({
                     <pre>{focus.message}</pre>
                   </details>
                 )}
+                <div className="atlas-commit-actions">
                 <button
                   className="atlas-inspect-changes"
                   onClick={() =>
@@ -670,8 +675,14 @@ function Canvas({
                     })
                   }
                 >
-                  Open in Compare <ChevronRight size={15} />
+                  <GitCompareArrows size={16} aria-hidden="true" /> Compare
                 </button>
+                <button onClick={() => {
+                  const workbench = document.getElementById('commit-workbench')
+                  workbench?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' })
+                  workbench?.focus({ preventScroll: true })
+                }}><Workflow size={16} aria-hidden="true" /> Workbench</button>
+                </div>
                 <div className="pin-actions">
                   <button
                     aria-pressed={pinned.base === focus.hash}
@@ -784,12 +795,13 @@ function Canvas({
           <span>
             {layout.length} visible commits · {records.size} loaded
           </span>
-          <span id="graph-gestures">
-            Drag the background to pan. Scroll to zoom. Dashed edges mark merge
-            parents.
+          <span id="graph-gestures" className="atlas-legend">
+            <span><Mouse size={14} aria-hidden="true" /> Drag to pan · Scroll to zoom</span>
+            <span><i aria-hidden="true" /> Merge parent</span>
           </span>
         </footer>
       </div>
+      {focus && <GraphWorkbench key={focus.hash} commit={focus} repo={repo} investigate={investigate} />}
       <CommitLedger
         commits={layout.map((node) => node.c)}
         selected={selected}

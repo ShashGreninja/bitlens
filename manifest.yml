@@ -26,6 +26,9 @@ permissions:
   scopes:
     - read:repository:bitbucket
     - read:pullrequest:bitbucket
+    - write:pullrequest:bitbucket
+    - read:pipeline:bitbucket
+    - write:pipeline:bitbucket
     - storage:app
   content:
     styles:

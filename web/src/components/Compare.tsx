@@ -155,6 +155,12 @@ export function Compare({
             {comparison.data.next ? '+' : ''}
           </span>
           <span className="line-stats">
+            {added + removed > 0 && (
+              <span className="diff-balance" aria-hidden="true">
+                <span style={{ flexGrow: added }} />
+                <span style={{ flexGrow: removed }} />
+              </span>
+            )}
             <b>+{added}</b>
             <i>−{removed}</i>
           </span>
@@ -171,10 +177,7 @@ export function Compare({
         />
       )}
       {!changes.length && !comparison.data.next ? (
-        <Empty
-          title="No changed files"
-          text="These revisions have the same file contents. Choose another baseline or target to compare."
-        />
+        <Empty title="No changed files" />
       ) : (
         <Dock className="change-workbench" label="Compare" split={28}>
           <aside className="file-panel">

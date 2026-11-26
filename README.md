@@ -28,6 +28,33 @@ npm run --silent bitlens -- tree master --repo atlassian/atlassian-connect-expre
 
 Use `--repo` from any directory when calling the script directly with `tsx` from this checkout. If omitted, the CLI looks for the Bitbucket `origin` of the current directory, or the directory npm was invoked from. For authenticated requests, set `BITBUCKET_TOKEN` to a read-scoped Bitbucket bearer token. Commands are read only and return the first page. View recorded Replay events in the installed Forge app.
 
+## Graph workflows
+
+Select a graph commit and open **Commit workbench** below the map.
+
+- **Review** loads related PRs, opens exact revisions in Compare, and submits comments, approvals, or requests for changes after confirmation. Mark a revision reviewed locally to compare later changes against that browser bookmark. Fork PR comparisons open in Bitbucket.
+- **Pipelines** shows runs for the selected commit. Start the default pipeline or enter a custom pipeline name from that revision's `bitbucket-pipelines.yml`. Stop active runs, or open Bitbucket for logs and deployment controls. A custom workflow can run a coding agent already configured by the repository. BitLens does not provision agents or manage their credentials.
+- **Agent handoff** prepares a Markdown brief or JSON snapshot with a task, full commit hashes, changed paths, and an investigation link. It explicitly labels partial file lists. No file contents or credentials are exported. Share repository metadata only with agents you trust.
+
+The public preview supports handoff export but does not simulate live PRs or pipeline writes. Hosted operations use `asUser()` and require repository access. Deploy the updated manifest and upgrade the installation to grant `write:pullrequest:bitbucket`, `read:pipeline:bitbucket`, and `write:pipeline:bitbucket` before using these features. Review heads are checked immediately before writing, but Bitbucket does not provide an atomic revision-conditioned review operation here. A concurrent push after that check remains possible. Inspect the PR after reviewing. An unknown write outcome is never automatically retried; check Bitbucket before acknowledging and trying again.
+
+### Local MCP connection
+
+Download a context JSON file from Agent handoff. In an MCP client's stdio server settings, configure `node` with two arguments: the absolute path to this checkout's `scripts/agent-mcp.mjs`, and the absolute path to the downloaded JSON. Paths are passed as arguments, not shell commands. No installation or token is needed for this adapter.
+
+```json
+{
+  "mcpServers": {
+    "bitlens": {
+      "command": "node",
+      "args": ["/absolute/path/to/bitlens/scripts/agent-mcp.mjs", "/absolute/path/to/bitlens-context.json"]
+    }
+  }
+}
+```
+
+The adapter implements the MCP 2025-11-25 stdio handshake (also negotiates earlier supported revisions). `bitlens_context` reads the task and pinned revision. `bitlens_changes` reads exported changed paths and their completeness flag. Both tools are read-only. This is an exported snapshot, with no live repository connection, arbitrary file access, shell execution, or agent lifecycle controls. Restart the adapter with a fresh export to change context. Client-specific configuration formats may differ.
+
 ## Configure the help provider
 
 Open Help or the bottom right avatar to ask about BitLens. The installed app uses Atlassian Forge LLMs by default. The model receives a product guide, the current view name, and up to four previous turns. The standalone preview and failed model requests use the built-in guide.

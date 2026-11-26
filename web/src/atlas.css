@@ -338,6 +338,11 @@
 .atlas-inspector .atlas-inspect-changes:hover {
   background: #304e6a;
 }
+.atlas-commit-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.atlas-inspector .atlas-commit-actions button { width: auto; flex: 1; justify-content: center; border: 1px solid var(--desk-rule); border-radius: var(--desk-control-radius); padding-inline: 10px; }
+.atlas-legend, .atlas-legend > span { display: inline-flex; align-items: center; gap: 7px; }
+.atlas-legend { flex-wrap: wrap; gap: 8px 18px; }
+.atlas-legend i { width: 16px; border-top: 2px dashed currentColor; }
 .atlas-inspector pre {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
