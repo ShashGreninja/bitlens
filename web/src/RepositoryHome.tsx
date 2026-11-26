@@ -53,19 +53,22 @@ export function RepositoryHome({ repo, revision, canCompare, onCompare, onOpenGr
       <div className="home-start">
         <div className="home-launch">
           <h1>Trace what changed.<br />Visually.</h1>
+          <p>Follow Bitbucket commits, compare changes, and retrace branch moves.</p>
           <div className="home-actions">
-            <button className="home-primary" type="button" onClick={onCompare} disabled={!canCompare}>
-              <GitCompareArrows size={19} aria-hidden="true" /> Compare revisions <ArrowRight size={18} aria-hidden="true" />
-            </button>
             <form onSubmit={(event) => { event.preventDefault(); if (start) onOpenGraph(start) }}>
               <GraphRevisionPicker refs={repo.refs} revision={start} onChange={setStart} label="Branch or tag" />
-              <button className="home-secondary" type="submit" disabled={!start}>
+              <button className="home-primary" type="submit" disabled={!start}>
                 <Network size={19} aria-hidden="true" /> Open graph <ArrowRight size={18} aria-hidden="true" />
               </button>
             </form>
-            {isExample && !fixtureMode && (
-              <a className="home-example" href={example.href}>Try the release example</a>
-            )}
+            <div className="home-other-actions">
+              <button className="home-secondary" type="button" onClick={onCompare} disabled={!canCompare}>
+                <GitCompareArrows size={17} aria-hidden="true" /> Compare revisions
+              </button>
+              {isExample && !fixtureMode && (
+                <a className="home-example" href={example.href}>Try the release example</a>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -81,7 +84,12 @@ export function RepositoryHome({ repo, revision, canCompare, onCompare, onOpenGr
               <button key={commit.hash} type="button" onClick={() => onOpenCommit(tip, commit.hash)}>
                 <Icon size={21} aria-hidden="true" />
                 <code>{commit.hash.slice(0, 7)}</code>
-                <span>{commit.message.split('\n')[0]}</span>
+                <span className="home-commit-copy">
+                  <strong>{commit.message.split('\n')[0]}</strong>
+                  {!!commit.parents.length && <small>
+                    {commit.parents.length === 1 ? 'Parent' : 'Parents'} {commit.parents.map((parent) => parent.slice(0, 7)).join(' · ')}
+                  </small>}
+                </span>
                 <ArrowUpRight size={16} aria-hidden="true" />
               </button>
             )

@@ -229,7 +229,6 @@
 .desk-content > [hidden] {
   display: none;
 }
-.repo-desk dialog[open],
 .repo-desk .picker,
 .repo-desk .atlas-results {
   animation: desk-arrive var(--desk-motion) both;
@@ -243,6 +242,19 @@
 @keyframes desk-arrive {
   from { opacity: 0.5; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
+}
+.bitlens-dialog[open] { animation: bitlens-modal-in 240ms cubic-bezier(.2,.75,.25,1) both; }
+.bitlens-dialog[open]::backdrop { animation: bitlens-backdrop-in 240ms ease both; }
+@keyframes bitlens-modal-in {
+  from { opacity: 0; transform: translateY(10px) scale(.985); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes bitlens-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 220ms; }
+@media (prefers-reduced-motion: reduce) {
+  .bitlens-dialog[open], .bitlens-dialog[open]::backdrop,
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none !important; }
 }
 @media (prefers-reduced-motion: reduce) {
   .repo-desk *, .repo-desk *::before, .repo-desk *::after {
@@ -275,7 +287,7 @@
 }
 .desk-workspace .main-content > .hero {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 10px;
@@ -570,4 +582,35 @@
   .desk-actions { grid-area: 1 / 2; justify-self: end; }
   .desk-nav { grid-column: 1 / -1; flex-wrap: wrap; gap: 0 13px; }
   .desk-switch { max-width: min(48vw, 235px); }
+}
+
+/* The browser gutter is reserved on short and long tabs so the shell stays put. */
+html:has(.repo-desk) {
+  background: var(--desk-ground);
+  color-scheme: dark;
+  scrollbar-gutter: stable;
+}
+.desk-workspace {
+  --desk-accent: #a7c5db;
+}
+.repo-desk .desk-workspace a,
+.desk-workspace .text-button,
+.desk-workspace .source-link { color: var(--desk-ink); }
+.desk-workspace .source-link { text-underline-offset: 3px; }
+.desk-workspace .main-content { margin: 0; padding: 0; }
+.repo-desk .desk-page-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin: 0;
+  padding: 26px 0 20px;
+  min-height: 88px;
+}
+.repo-desk .desk-page-heading h1 {
+  margin: 0;
+  font-size: 26px;
+  line-height: 38px;
+  letter-spacing: -.035em;
 }

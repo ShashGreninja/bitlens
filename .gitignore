@@ -3,5 +3,6 @@ web/dist/
 web/dist-example/
 playwright-report/
 test-results/
+.taste-skill/
 .env
 .env.local

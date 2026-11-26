@@ -416,10 +416,10 @@ function Workspace({
           </header>
         )}
         <div className="main-content">
-          <section className="hero">
+          <section className={embedded ? 'hero desk-page-heading' : 'hero'}>
             <div className="hero-copy">
               <h1>{title}</h1>
-              {(!embedded || current === 'replay') && <p>
+              {!embedded && <p>
                 {fixtureMode &&
                 current === 'compare' &&
                 selection.base === 'v1.4' &&

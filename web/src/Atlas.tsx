@@ -66,21 +66,19 @@ export default function Atlas({
     base: initial?.pinBase,
     target: initial?.pinTarget,
   })
-  const [stamp, setStamp] = useState('')
   const [previewReady, setPreviewReady] = useState(!isExample)
   useEffect(() => {
     if (import.meta.env.MODE === 'example')
       import('./publicHistory').then((m) => {
         if (m.snapshotRepository === `${repo.workspace}/${repo.repo}`) {
           setArchive(m.archive)
-          setStamp(m.captured)
         }
         setPreviewReady(true)
       })
   }, [repo.workspace, repo.repo])
   return (
     <section className="atlas">
-      <div className="atlas-title">
+      <div className="atlas-title desk-page-heading">
         <div>
           <h1>Commit graph</h1>
         </div>
@@ -106,7 +104,7 @@ export default function Atlas({
       {tip && previewReady ? (
         <Canvas
           key={tip + line}
-          {...{ repo, tip, line, archive, stamp, investigate }}
+          {...{ repo, tip, line, archive, investigate }}
           initialCommit={initial?.target === tip ? initial.commit : undefined}
           pins={pinned}
           setPinned={setPinned}
@@ -127,7 +125,6 @@ function Canvas({
   tip,
   line,
   archive,
-  stamp,
   initialCommit,
   pins: pinned,
   setPinned,
@@ -137,7 +134,6 @@ function Canvas({
   tip: string
   line: boolean
   archive?: Map<string, Commit>
-  stamp: string
   initialCommit?: string
   pins: { base: string | undefined; target: string | undefined }
   setPinned: React.Dispatch<
@@ -822,23 +818,6 @@ function Canvas({
           {error} <button onClick={() => void openRoot(root)}>Retry</button>
         </p>
       )}
-      <p className="atlas-source">
-        {stamp
-          ? 'Public Bitbucket snapshot · ' + stamp
-          : isExample
-            ? 'Public Bitbucket repository'
-            : 'Connected Bitbucket repository'}{' '}
-        ·{' '}
-        <a
-          href={repo.webUrl}
-          onClick={(e) => {
-            e.preventDefault()
-            openSource(repo.webUrl).catch((err) => setError(errorText(err)))
-          }}
-        >
-          {repo.workspace}/{repo.repo}
-        </a>
-      </p>
     </>
   )
 }

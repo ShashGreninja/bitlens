@@ -5,10 +5,48 @@ const tag = (name: string) =>
   records.refs.find((ref) => ref.name === name)!.hash
 const path = 'services/payments/config.yml'
 
+test('tab headings and shared controls stay fixed, and chat keeps the active view and conversation', async ({ page }) => {
+  await page.goto('/?fixture=1&walkthrough=release')
+  const nav = page.getByRole('navigation', { name: 'Repository views' })
+  const chatButton = page.getByRole('button', { name: 'Chat with BitLens' })
+  const heading = page.getByRole('heading', { level: 1 })
+  let anchor
+  for (const name of ['Graph', 'Compare', 'File history', 'Source', 'Replay']) {
+    await nav.getByRole('button', { name, exact: true }).click()
+    await expect(heading).toBeVisible()
+    const { x, y } = (await heading.boundingBox())!
+    const position = { x, y, nav: await nav.boundingBox(), chat: await chatButton.boundingBox() }
+    if (anchor) expect(position).toEqual(anchor)
+    else anchor = position
+  }
+
+  const requests: unknown[] = []
+  await page.route('**/__bitlens/help', async (route) => {
+    requests.push(route.request().postDataJSON())
+    await route.fulfill({ json: { answer: 'Use Replay to compare the two recorded pointers.' } })
+  })
+  await chatButton.click()
+  const drawer = page.getByRole('dialog', { name: 'Ask bitlens' })
+  await expect(drawer).toHaveClass(/bitlens-drawer/)
+  const input = drawer.getByRole('textbox', { name: 'Ask how to use bitlens' })
+  for (const [index, question] of ['Where do I see the old pointer?', 'Can I compare it?'].entries()) {
+    await input.fill(question)
+    await drawer.getByRole('button', { name: 'Send question' }).click()
+    await expect(drawer.getByRole('log').getByText('AI response')).toHaveCount(index + 1)
+    await expect(drawer.getByRole('log').getByText(question, { exact: true })).toBeVisible()
+  }
+  await expect.poll(() => requests).toEqual([
+    { view: 'replay', question: 'Where do I see the old pointer?', history: [] },
+    { view: 'replay', question: 'Can I compare it?', history: [{ question: 'Where do I see the old pointer?', answer: 'Use Replay to compare the two recorded pointers.' }] },
+  ])
+  await page.keyboard.press('Escape')
+  await expect(drawer).toBeHidden()
+})
+
 test('home actions stay readable and the workspace can be rearranged', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Trace what changed\.\s*Visually\./)
-  await expect(page.getByRole('link', { name: 'Try the release example' })).toHaveCSS('color', 'rgb(23, 20, 18)')
+  await expect(page.getByRole('link', { name: 'Try the release example' })).toHaveCSS('color', 'rgb(244, 244, 245)')
   for (const width of [1440, 768, 390]) {
     await page.setViewportSize({ width, height: 900 })
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)

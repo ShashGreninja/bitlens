@@ -98,10 +98,12 @@ export function Dialog({
   title,
   children,
   close,
+  variant = 'modal',
 }: {
   title: string
   children: ReactNode
   close: () => void
+  variant?: 'modal' | 'drawer'
 }) {
   const ref = useRef<HTMLDialogElement>(null)
   useEffect(() => {
@@ -112,6 +114,7 @@ export function Dialog({
   return (
     <dialog
       ref={ref}
+      className={variant === 'drawer' ? 'bitlens-dialog bitlens-drawer' : 'bitlens-dialog'}
       onCancel={(event) => {
         event.preventDefault()
         close()
