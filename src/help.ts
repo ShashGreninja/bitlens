@@ -1,33 +1,24 @@
-import { chat, type Message } from '@forge/llm'
-import { helpSystemPrompt, helpViews, type HelpTurn } from '../shared/help'
+import { fetch as forgeFetch } from '@forge/api'
+import { chat } from '@forge/llm'
+import { helpConversation, helpMessages, openAIHelp } from './helpProvider'
 
 export async function answerHelp(question: unknown, view: unknown, previous: unknown): Promise<string | null> {
-  if (typeof question !== 'string' || !question.trim() || question.length > 500)
-    throw new Error('Enter a question of up to 500 characters.')
-  const activeView = typeof view === 'string' && Object.hasOwn(helpViews, view)
-    ? helpViews[view as keyof typeof helpViews]
-    : undefined
-  const history: HelpTurn[] = Array.isArray(previous)
-    ? previous.slice(-4).flatMap((turn) =>
-        turn && typeof turn.question === 'string' && typeof turn.answer === 'string'
-          ? [{ question: turn.question.slice(0, 500), answer: turn.answer.slice(0, 1500) }]
-          : [],
-      )
-    : []
-  const system = helpSystemPrompt + (activeView ? '\nCurrent bitlens view: ' + activeView : '')
+  const conversation = helpConversation(question, view, previous)
+  const key = process.env.BITLENS_OPENAI_API_KEY
+  if (key) return openAIHelp(conversation, key, process.env.BITLENS_OPENAI_MODEL, (url, init) =>
+    forgeFetch(url, {
+      method: init.method,
+      headers: init.headers as Record<string, string>,
+      body: String(init.body),
+      redirect: 'error',
+      signal: init.signal ?? undefined,
+    }),
+  )
   const endpoint = process.env.BITLENS_HELP_URL
   if (!endpoint) {
-    const messages: Message[] = [
-      { role: 'system', content: system },
-      ...history.flatMap<Message>(({ question, answer }) => [
-        { role: 'user', content: question },
-        { role: 'assistant', content: answer },
-      ]),
-      { role: 'user', content: question.trim() },
-    ]
     const response = await chat({
       model: 'claude-haiku-4-5-20251001',
-      messages,
+      messages: helpMessages(conversation),
       max_completion_tokens: 450,
     })
     const content = response.choices[0]?.message.content
@@ -46,7 +37,7 @@ export async function answerHelp(question: unknown, view: unknown, previous: unk
       'Content-Type': 'application/json',
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
-    body: JSON.stringify({ system, question: question.trim(), history }),
+    body: JSON.stringify(conversation),
   })
   if (!response.ok) throw new Error('The help provider is unavailable.')
   const data: unknown = await response.json()

@@ -23,6 +23,10 @@ resources:
   - key: history-ui
     path: web/dist
 permissions:
+  external:
+    fetch:
+      backend:
+        - remote: openai-help
   scopes:
     - read:repository:bitbucket
     - read:pullrequest:bitbucket
@@ -33,6 +37,11 @@ permissions:
   content:
     styles:
       - unsafe-inline
+remotes:
+  - key: openai-help
+    baseUrl: https://api.openai.com
+    operations:
+      - fetch
 app:
   # Replace this placeholder with your own app ID using forge register.
   id: ari:cloud:ecosystem::app/00000000-0000-4000-8000-000000000000

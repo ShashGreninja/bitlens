@@ -57,11 +57,15 @@ The adapter implements the MCP 2025-11-25 stdio handshake (also negotiates earli
 
 ## Configure the help provider
 
-Open Help or the bottom right avatar to ask about BitLens. The installed app uses Atlassian Forge LLMs by default. The model receives a product guide, the current view name, and up to four previous turns. The standalone preview and failed model requests use the built-in guide.
+Open **Help** or the chat bubble to ask about BitLens. The side panel sends the model a product guide, the current view name, and up to four earlier model replies with their questions. Answers from the built-in guide are labeled separately.
+
+To use OpenAI in local development or the local preview, set `BITLENS_OPENAI_API_KEY` in the server environment or in the project's ignored `.env.local`, then restart the server. The default model is `gpt-4.1-mini`. Set `BITLENS_OPENAI_MODEL` to override it. The key stays on the server. Never give it a `VITE_` prefix. Static previews without this server use the built-in guide.
+
+For Forge, set the key as an encrypted variable in the target environment using `forge variables set --encrypt BITLENS_OPENAI_API_KEY`, then deploy. Upgrade existing installations to grant the new OpenAI egress permission. Without an explicit provider, the installed app uses the Forge LLM module.
 
 Deploy the `llm` module with the app. For existing installations, an administrator must approve the updated major version. [Forge LLM module](https://developer.atlassian.com/platform/forge/manifest-reference/modules/llm/)
 
-To use your own provider instead, allow its HTTPS origin in the manifest's backend fetch permissions, set `BITLENS_HELP_URL`, and optionally set `BITLENS_HELP_TOKEN` as an encrypted environment variable. The endpoint accepts a JSON POST with `{ "system": "...", "question": "...", "history": [] }` and returns `{ "answer": "..." }`. Keep provider credentials server-side.
+To use a custom provider with Forge, leave `BITLENS_OPENAI_API_KEY` unset, allow the provider's HTTPS origin in the manifest's backend fetch permissions, and set `BITLENS_HELP_URL`. If it requires authentication, set `BITLENS_HELP_TOKEN` as an encrypted environment variable. The endpoint accepts a JSON POST with `{ "system": "...", "question": "...", "history": [] }` and returns `{ "answer": "..." }`.
 
 ## Build and test
 
